@@ -10,6 +10,7 @@ Header
 	position: relative;
 }
 
+
 #icon-yelp {
 	background: url('../images/yelp-logo-transparent-icon.png') no-repeat 0 0 transparent;
 	float: left;
@@ -39,7 +40,7 @@ Layout
 .premium-label {
 	position: absolute;
 	top: 16px;
-	left: 370px;
+	right: 0;
 }
 
 .notice {
@@ -95,25 +96,16 @@ Layout
  Premium License Metabox
  ----------------------------------------*/
 
-#yelp-widget-pro-premium .code, #yelp-widget-pro-premium .wrap #icon-options-general, #icon-options-general + h2 {
-	display: none !important;
+#yelp-licence {
+	overflow: hidden;
 }
 
-#yelp-widget-pro-premium .wrap p:first-of-type::after {
-	content: ' http://wordimpress.com';
+.licence-status {
+	width:100% !important;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; /* Firefox */
 }
 
-#yelp-widget-pro-premium .controls {
-	width: 98%;
-}
-
-#yelp-widget-pro-premium input[type="text"] {
-	width: 98%;
-}
-
-.license-response {
-	display: none;
-}
 
 /*----------------------------------------
  Sidebar Sortables
@@ -186,12 +178,6 @@ Labels
 .label-success {
 	border-color: #5AAD34;
 	background-color: #78CD51;
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, hsl(101, 54%, 71%)), color-stop(100%, hsl(101, 55%, 56%)));
-	background-image: -webkit-linear-gradient(top, hsl(101, 54%, 71%), hsl(101, 55%, 56%));
-	background-image: -moz-linear-gradient(top, hsl(101, 54%, 71%), hsl(101, 55%, 56%));
-	background-image: -ms-linear-gradient(top, hsl(101, 54%, 71%), hsl(101, 55%, 56%));
-	background-image: -o-linear-gradient(top, hsl(101, 54%, 71%), hsl(101, 55%, 56%));
-	background-image: linear-gradient(top, hsl(101, 54%, 71%), hsl(101, 55%, 56%));
 }
 
 /*----------------------------------------

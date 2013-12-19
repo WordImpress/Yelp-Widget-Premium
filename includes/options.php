@@ -10,6 +10,27 @@ add_action( 'admin_init', 'yelp_widget_init' );
 add_action( 'admin_menu', 'yelp_widget_add_options_page' );
 
 
+/**
+ * WordImpress Licencing
+ */
+require_once( YELP_WIDGET_PRO_PATH . '/licence/licence.php' );
+//Licence Args
+$licence_args = array(
+
+	'version'                       => '1.7', //Base URL for Website container WooCommerce API
+	'wordimpress_api_base'          => 'http://wordimpress.com/', //Base URL for Website container WooCommerce API
+	'wordimpress_user_account_page' => 'http://wordimpress.com/my-account/', //used to query API
+	'product_id'                    => 'Yelp Widget Pro', //name of product; used to target specific product in WooCommerce
+	'settings_page'                 => 'settings_page_yelp_widget', //used to enqueue JS only for that page
+	'settings_options'              => get_option( 'yelp_widget_settings' ), //plugin options settings
+	'transient_timeout'             => 60 * 60 * 12, //used to perform plugin update checks
+	'textdomain'                    => 'ywp', //used for translations
+	'pluginbase'                    => YELP_PLUGIN_NAME_PLUGIN, //used for updates API
+);
+
+$licencing = new WordImpress_Licensing( $licence_args );
+
+
 // Delete options when uninstalled
 function yelp_widget_uninstall() {
 	delete_option( 'yelp_widget_settings' );
@@ -325,15 +346,18 @@ function yelp_widget_options_form() {
 	<!-- /.postbox-container -->
 </form>
 
-<?php
-/**
- * Output Licensing Fields
- */
-$licencing->licence_fields(); ?>
-
 
 <div class="alignright" style="width:24%">
 	<div id="sidebar-sortables" class="meta-box-sortables ui-sortable">
+
+		<div id="yelp-licence" class="postbox">
+			<?php
+			/**
+			 * Output Licensing Fields
+			 */
+			global $licencing;
+			$licencing->licence_fields(); ?>
+		</div>
 
 		<div id="yelp-widget-pro-support" class="postbox">
 			<div class="handlediv" title="Click to toggle"><br></div>
