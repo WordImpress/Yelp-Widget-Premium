@@ -11,7 +11,7 @@ License: GPLv2
 
 
 define('YELP_PLUGIN_NAME', 'yelp-widget-pro');
-define('YELP_PLUGIN_NAME_PLUGIN', 'yelp-widget-pro/yelp-widget-pro.php');
+define('YELP_PLUGIN_NAME_PLUGIN', plugin_basename( __FILE__ ));
 define('YELP_WIDGET_PRO_PATH', WP_PLUGIN_DIR . '/' . YELP_PLUGIN_NAME);
 define('YELP_WIDGET_PRO_URL', WP_PLUGIN_URL . '/' . YELP_PLUGIN_NAME);
 define('YELP_WIDGET_DEBUG', true);
@@ -31,13 +31,27 @@ if (!class_exists('OAuthToken', false)) {
     require_once (dirname(__FILE__) . '/lib/oauth.php');
 }
 
+
 /**
- * Licensing
+ * WordImpress Licencing
  */
-$licenseFuncs = include(dirname(__FILE__) . '/lib/license.php');
-if (file_exists($licenseFuncs)) {
-    echo $licenseFuncs;
-}
+require_once(dirname(__FILE__) . '/licence/licence.php');
+//Licence Args
+$licence_args = array(
+
+	'version'                       => '1.6', //Base URL for Website container WooCommerce API
+	'wordimpress_api_base'          => 'http://wordimpress.com/', //Base URL for Website container WooCommerce API
+	'wordimpress_user_account_page' => 'http://wordimpress.com/my-account/', //used to query API
+	'product_id'                    => 'Yelp Widget Pro', //name of product; used to target specific product in WooCommerce
+	'settings_page'                 => 'yelp_widget', //used to enqueue JS only for that page
+	'settings_options'              => get_option( 'yelp_widget_settings' ), //plugin options settings
+	'transient_timeout'             => 60 * 60 * 12, //used to perform plugin update checks
+	'textdomain'                    => 'ywp', //used for translations
+	'pluginbase'                    => YELP_PLUGIN_NAME_PLUGIN, //used for updates API
+);
+
+$licencing = new WordImpress_Licensing( $licence_args );
+
 
 /**
  * Logic to check for updated version of Yelp Widget Pro Premium

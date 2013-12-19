@@ -325,18 +325,16 @@ function yelp_widget_options_form() {
 	<!-- /.postbox-container -->
 </form>
 
+<?php
+/**
+ * Output Licensing Fields
+ */
+$licencing->licence_fields(); ?>
+
 
 <div class="alignright" style="width:24%">
 	<div id="sidebar-sortables" class="meta-box-sortables ui-sortable">
-		<?php
-		/**
-		 * Get License Meta Box
-		 */
-		$licenseMetabox = YELP_WIDGET_PRO_PATH . '/lib/license-metabox.php';
-		$theme = wp_get_theme();
-		if ( file_exists( $licenseMetabox ) && $theme["Name"] !== 'Delicias' ) {
-			include( $licenseMetabox );
-		} ?>
+
 		<div id="yelp-widget-pro-support" class="postbox">
 			<div class="handlediv" title="Click to toggle"><br></div>
 			<h3 class="hndle"><span><?php _e( 'Need Support?', 'ywp' ); ?></span></h3>
