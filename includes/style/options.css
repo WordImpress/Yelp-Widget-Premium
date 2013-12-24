@@ -96,14 +96,28 @@ Layout
  Premium License Metabox
  ----------------------------------------*/
 
-#yelp-licence {
-	overflow: hidden;
+.edd-wordimpress-license-wrap {
+	padding: 15px;
 }
 
-.licence-status {
-	width:100% !important;
-	box-sizing:border-box;
-	-moz-box-sizing:border-box; /* Firefox */
+.edd-wordimpress-license-wrap h2 {
+	font-size: 17px;
+	padding:0;
+}
+
+.edd-wordimpress-license-wrap .alert {
+	max-width:100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.edd-wordimpress-license-wrap .button-secondary {
+	display: block;
+	margin: 10px 0 0;
+}
+
+.edd-wordimpress-license-wrap .licence-input {
+	max-width: 100%;
 }
 
 
