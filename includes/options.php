@@ -19,7 +19,7 @@ if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 
 //Licence Args
 // this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
-define( 'WORDIMPRESS_STORE_URL', 'http://wordimpress.dev' );
+define( 'WORDIMPRESS_STORE_URL', 'http://wordimpress.com' );
 
 // the name of your product. This should match the download name in EDD exactly
 define( 'WORDIMPRESS_ITEM_NAME', 'Yelp Widget Pro' );
@@ -42,7 +42,7 @@ function edd_sl_wordimpress_updater() {
 
 	// setup the updater
 	$edd_updater = new EDD_SL_Plugin_Updater( WORDIMPRESS_STORE_URL, YELP_PLUGIN_NAME_PLUGIN, array(
-			'version'   => '1.6', // current version number
+			'version'   => '1.7', // current version number
 			'license'   => $licence_key, // license key (used get_option above to retrieve from DB)
 			'item_name' => WORDIMPRESS_ITEM_NAME, // name of this plugin
 			'author'    => 'Devin Walker' // author of this plugin
