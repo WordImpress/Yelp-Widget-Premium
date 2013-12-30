@@ -18,7 +18,7 @@ if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 }
 
 
-global $licencing, $store_url, $item_name, $yelp_plugin_meta;
+global $ywplicencing, $store_url, $item_name, $yelp_plugin_meta;
 $store_url = 'http://wordimpress.com';
 $item_name = 'Yelp Widget Pro';
 
@@ -33,7 +33,7 @@ $licence_args = array(
 	'licence_key_status'  => 'edd_yelp_license_key_status', //Name of License Option in DB
 );
 
-$licencing = new PluginYelpWidgetPro\WordImpress_Licensing( $licence_args );
+$ywplicencing = new PluginYelpWidgetPro\WordImpress_Licensing( $licence_args );
 
 
 /**
@@ -382,9 +382,9 @@ function yelp_widget_options_form() {
 			/**
 			 * Output Licensing Fields
 			 */
-			global $licencing;
+			global $ywplicencing;
 			if ( class_exists( 'PluginYelpWidgetPro\WordImpress_Licensing' ) ) {
-				$licencing->edd_wordimpress_license_page();
+				$ywplicencing->edd_wordimpress_license_page();
 			}
 			?>
 		</div>
