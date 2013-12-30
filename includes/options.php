@@ -44,7 +44,7 @@ add_action( 'admin_init', 'edd_sl_wordimpress_updater' );
 function edd_sl_wordimpress_updater() {
 	global $store_url, $item_name;
 	$yelp_plugin_meta  = get_plugin_data( YELP_WIDGET_PRO_PATH.'/'.YELP_PLUGIN_NAME.'.php', false );
-	$licence_key = trim( get_option( 'ywp_licence_setting' ) );
+	$licence_key = trim( get_option( 'edd_yelp_license_key' ) );
 
 	// setup the upvdater
 	$edd_updater = new EDD_SL_Plugin_Updater( $store_url, YELP_PLUGIN_NAME_PLUGIN, array(
