@@ -3,48 +3,54 @@
  *  Admin options page. Creates a page to set your OAuth settings for the Yelp API v2.
  *
  */
-
 register_activation_hook( __FILE__, 'yelp_widget_activate' );
 register_uninstall_hook( __FILE__, 'yelp_widget_uninstall' );
 add_action( 'admin_init', 'yelp_widget_init' );
 add_action( 'admin_menu', 'yelp_widget_add_options_page' );
 
+
+include_once( YELP_WIDGET_PRO_PATH . '/licence/licence.php' );
+
 // Include Licensing
 if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 	// load our custom updater
-	include( YELP_WIDGET_PRO_PATH . '/licence/licence.php' );
-	include( YELP_WIDGET_PRO_PATH . '/licence/classes/EDD_SL_Plugin_Updater.php' );
+	include_once( YELP_WIDGET_PRO_PATH . '/licence/classes/EDD_SL_Plugin_Updater.php' );
 }
 
 
-//Licence Args
-// this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
-define( 'WORDIMPRESS_STORE_URL', 'http://wordimpress.com' );
-
-// the name of your product. This should match the download name in EDD exactly
-define( 'WORDIMPRESS_ITEM_NAME', 'Yelp Widget Pro' );
+global $licencing, $store_url, $item_name, $yelp_plugin_meta;
+$store_url = 'http://wordimpress.com';
+$item_name = 'Yelp Widget Pro';
 
 //Licence Args
 $licence_args = array(
 	'plugin_basename'     => YELP_PLUGIN_NAME_PLUGIN, //Name of License Option in DB
+	'store_url'           => $store_url, //URL of license API
+	'item_name'           => $item_name, //Name of License Option in DB
 	'settings_page'       => 'settings_page_yelp_widget', //Name of License Option in DB
 	'licence_key_setting' => 'ywp_licence_setting', //Name of License Option in DB
 	'licence_key_option'  => 'edd_yelp_license_key', //Name of License Option in DB
 	'licence_key_status'  => 'edd_yelp_license_key_status', //Name of License Option in DB
 );
 
-$licencing = new WordImpress_Licensing( $licence_args );
+$licencing = new PluginYelpWidgetPro\WordImpress_Licensing( $licence_args );
+
+
+/**
+ * Licensing
+ */
 add_action( 'admin_init', 'edd_sl_wordimpress_updater' );
 
 function edd_sl_wordimpress_updater() {
-
+	global $store_url, $item_name;
+	$yelp_plugin_meta  = get_plugin_data( YELP_WIDGET_PRO_PATH.'/'.YELP_PLUGIN_NAME.'.php', false );
 	$licence_key = trim( get_option( 'ywp_licence_setting' ) );
 
-	// setup the updater
-	$edd_updater = new EDD_SL_Plugin_Updater( WORDIMPRESS_STORE_URL, YELP_PLUGIN_NAME_PLUGIN, array(
-			'version'   => '1.7', // current version number
+	// setup the upvdater
+	$edd_updater = new EDD_SL_Plugin_Updater( $store_url, YELP_PLUGIN_NAME_PLUGIN, array(
+			'version'   => $yelp_plugin_meta["Version"], // current version number
 			'license'   => $licence_key, // license key (used get_option above to retrieve from DB)
-			'item_name' => WORDIMPRESS_ITEM_NAME, // name of this plugin
+			'item_name' => $item_name, // name of this plugin
 			'author'    => 'Devin Walker' // author of this plugin
 		)
 	);
@@ -377,7 +383,7 @@ function yelp_widget_options_form() {
 			 * Output Licensing Fields
 			 */
 			global $licencing;
-			if ( class_exists( 'WordImpress_Licensing' ) ) {
+			if ( class_exists( 'PluginYelpWidgetPro\WordImpress_Licensing' ) ) {
 				$licencing->edd_wordimpress_license_page();
 			}
 			?>
