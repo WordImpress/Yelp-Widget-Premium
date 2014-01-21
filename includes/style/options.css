@@ -10,7 +10,6 @@ Header
 	position: relative;
 }
 
-
 #icon-yelp {
 	background: url('../images/yelp-logo-transparent-icon.png') no-repeat 0 0 transparent;
 	float: left;
@@ -53,6 +52,10 @@ Layout
 	margin-bottom: 10px;
 }
 
+.control-group:last-of-type {
+	margin-bottom:0;
+}
+
 .control-label {
 	clear: left;
 	width: 200px;
@@ -65,7 +68,11 @@ Layout
 }
 
 .settings_page_yelp_widget input[type="text"] {
-	width: 250px;
+	width: 100%;
+}
+
+.settings_page_yelp_widget #api-options input[type="text"] {
+width: 280px;
 }
 
 .settings_page_yelp_widget input.button-primary {
@@ -102,11 +109,11 @@ Layout
 
 .edd-wordimpress-license-wrap h2 {
 	font-size: 17px;
-	padding:0;
+	padding: 0;
 }
 
 .edd-wordimpress-license-wrap .alert {
-	max-width:100%;
+	max-width: 100%;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 }
@@ -119,7 +126,6 @@ Layout
 .edd-wordimpress-license-wrap .licence-input {
 	max-width: 100%;
 }
-
 
 /*----------------------------------------
  Sidebar Sortables
@@ -193,6 +199,17 @@ Labels
 	border-color: #5AAD34;
 	background-color: #78CD51;
 }
+
+
+.wordimpress-link {
+	background: url('../images/wordimpress-logo.png') no-repeat center center transparent;
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	height: 75px;
+	width: 190px;
+}
+
 
 /*----------------------------------------
 Tipsy
@@ -329,4 +346,15 @@ Tipsy
 	border-left: none;
 	border-top-color: transparent;
 	border-bottom-color: transparent;
+}
+
+/* Social Media */
+
+.social-items-wrap > div {
+	display: inline-block;
+}
+
+.google-plus {
+	margin-left: 20px;
+	display: inline;
 }

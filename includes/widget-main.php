@@ -48,24 +48,32 @@ class Yelp_Widget extends WP_Widget {
 
 		wp_localize_script( 'google_maps_api', 'ywpParams', $params );
 
-
-		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps.min.js', dirname( __FILE__ ) );
-
+		//Yelp Widget Pro JS
+		if ( YELP_WIDGET_DEBUG == true ) {
+			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps.js', dirname( __FILE__ ) );
+		} else {
+			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps.min.js', dirname( __FILE__ ) );
+		}
 		wp_register_script( 'yelp-widget-js', $mapJSurl, array( 'jquery' ) );
 		wp_enqueue_script( 'yelp-widget-js' );
 
-		//Yelp Widget Pro JS
 
 		//Yelp Widget Pro CSS
 		$cssOption = get_option( 'yelp_widget_settings' );
 		if ( ! isset( $cssOption["yelp_widget_disable_css"] ) || $cssOption["yelp_widget_disable_css"] == 0 ) {
 
-			$cssURL = plugins_url( '/includes/style/yelp.min.css', dirname( __FILE__ ) );
+			//Determine which version of the CSS to dish out
+			if ( YELP_WIDGET_DEBUG == true ) {
+				$cssURL = plugins_url( '/includes/style/yelp.css', dirname( __FILE__ ) );
+			} else {
+				$cssURL = plugins_url( '/includes/style/yelp.min.css', dirname( __FILE__ ) );
+			}
+
+			//Register and enqueue the styles
 			wp_register_style( 'yelp-widget-css', $cssURL );
 			wp_enqueue_style( 'yelp-widget-css' );
 
 		}
-
 
 	}
 
@@ -96,16 +104,16 @@ class Yelp_Widget extends WP_Widget {
 		$yelp_widget_token        = $options['yelp_widget_token'];
 		$yelp_widget_token_secret = $options['yelp_widget_token_secret'];
 
-		$token = new OAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
+		$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
 
 		// Consumer object built using the OAuth library
 		$yelp_widget_consumer_key    = $options['yelp_widget_consumer_key'];
 		$yelp_widget_consumer_secret = $options['yelp_widget_consumer_secret'];
 
-		$consumer = new OAuthConsumer( $yelp_widget_consumer_key, $yelp_widget_consumer_secret );
+		$consumer = new YWPOAuthConsumer( $yelp_widget_consumer_key, $yelp_widget_consumer_secret );
 
 		// Yelp uses HMAC SHA1 encoding
-		$signature_method = new OAuthSignatureMethod_HMAC_SHA1();
+		$signature_method = new YWPOAuthSignatureMethod_HMAC_SHA1();
 
 		//Yelp Widget Options
 		$title             = empty( $instance['title'] ) ? '' : apply_filters( 'widget_title', $instance['title'] );
@@ -114,6 +122,7 @@ class Yelp_Widget extends WP_Widget {
 		$id                = empty( $instance['id'] ) ? '' : $instance['id'];
 		$location          = empty( $instance['location'] ) ? '' : $instance['location'];
 		$address           = empty( $instance['display_address'] ) ? '' : $instance['display_address'];
+		$phone             = empty( $instance['display_phone'] ) ? '' : $instance['display_phone'];
 		$displayBizInfo    = empty( $instance['disable_business_info'] ) ? '' : $instance['disable_business_info'];
 		$limit             = empty( $instance['limit'] ) ? '' : $instance['limit'];
 		$profileImgSize    = empty( $instance['profile_img_size'] ) ? '' : $instance['profile_img_size'];
@@ -160,7 +169,7 @@ class Yelp_Widget extends WP_Widget {
 		unset( $urlparams['method'] );
 
 		// Build OAuth Request using the OAuth PHP library. Uses the consumer and token object created above.
-		$oauthrequest = OAuthRequest::from_consumer_and_token( $consumer, $token, 'GET', $unsigned_url, $urlparams );
+		$oauthrequest = YWPOAuthRequest::from_consumer_and_token( $consumer, $token, 'GET', $unsigned_url, $urlparams );
 
 		// Sign the request
 		$oauthrequest->sign_request( $signature_method, $consumer, $token );
@@ -309,6 +318,7 @@ class Yelp_Widget extends WP_Widget {
 		$instance['id']                    = strip_tags( $new_instance['id'] );
 		$instance['location']              = strip_tags( $new_instance['location'] );
 		$instance['display_address']       = strip_tags( $new_instance['display_address'] );
+		$instance['display_phone']         = strip_tags( $new_instance['display_phone'] );
 		$instance['disable_business_info'] = strip_tags( $new_instance['disable_business_info'] );
 		$instance['limit']                 = strip_tags( $new_instance['limit'] );
 		$instance['profile_img_size']      = strip_tags( $new_instance['profile_img_size'] );
@@ -337,29 +347,30 @@ class Yelp_Widget extends WP_Widget {
 	 */
 	function form( $instance ) {
 
-		$title             = esc_attr( $instance['title'] );
-		$displayOption     = esc_attr( $instance['display_option'] );
-		$term              = esc_attr( $instance['term'] );
-		$id                = esc_attr( $instance['id'] );
-		$location          = esc_attr( $instance['location'] );
-		$address           = esc_attr( $instance['display_address'] );
-		$displayBizInfo    = esc_attr( $instance['disable_business_info'] );
-		$limit             = esc_attr( $instance['limit'] );
-		$profileImgSize    = esc_attr( $instance['profile_img_size'] );
-		$sort              = esc_attr( $instance['sort'] );
-		$reviewsOption     = esc_attr( $instance['display_reviews'] );
-		$reviewFilter      = esc_attr( $instance['review_filter'] );
-		$hideRating        = esc_attr( $instance['hide_rating'] );
-		$hideReadMore      = esc_attr( $instance['hide_read_more'] );
-		$customReadMore    = esc_attr( $instance['custom_read_more'] );
-		$reviewsImgSize    = esc_attr( $instance['review_avatar_size'] );
-		$displayGoogleMap  = esc_attr( $instance['display_google_map'] );
-		$googleMapPosition = esc_attr( $instance['google_map_position'] );
-		$disableMapScroll  = esc_attr( $instance['disable_map_scroll'] );
-		$titleOutput       = esc_attr( $instance['disable_title_output'] );
-		$targetBlank       = esc_attr( $instance['target_blank'] );
-		$noFollow          = esc_attr( $instance['no_follow'] );
-		$cache             = esc_attr( $instance['cache'] );
+		$title             = ! isset( $instance['title'] ) ? '' : esc_attr( $instance['title'] );
+		$displayOption     = ! isset( $instance['display_option'] ) ? '' : esc_attr( $instance['display_option'] );
+		$term              = ! isset( $instance['term'] ) ? '' : esc_attr( $instance['term'] );
+		$id                = ! isset( $instance['id'] ) ? '' : esc_attr( $instance['id'] );
+		$location          = ! isset( $instance['location'] ) ? '' : esc_attr( $instance['location'] );
+		$address           = ! isset( $instance['display_address'] ) ? '' : esc_attr( $instance['display_address'] );
+		$phone             = ! isset( $instance['display_phone'] ) ? '' : esc_attr( $instance['display_phone'] );
+		$displayBizInfo    = ! isset( $instance['disable_business_info'] ) ? '' : esc_attr( $instance['disable_business_info'] );
+		$limit             = ! isset( $instance['limit'] ) ? '' : esc_attr( $instance['limit'] );
+		$profileImgSize    = ! isset( $instance['profile_img_size'] ) ? '' : esc_attr( $instance['profile_img_size'] );
+		$sort              = ! isset( $instance['sort'] ) ? '' : esc_attr( $instance['sort'] );
+		$reviewsOption     = ! isset( $instance['display_reviews'] ) ? '' : esc_attr( $instance['display_reviews'] );
+		$reviewFilter      = ! isset( $instance['review_filter'] ) ? '' : esc_attr( $instance['review_filter'] );
+		$hideRating        = ! isset( $instance['hide_rating'] ) ? '' : esc_attr( $instance['hide_rating'] );
+		$hideReadMore      = ! isset( $instance['hide_read_more'] ) ? '' : esc_attr( $instance['hide_read_more'] );
+		$customReadMore    = ! isset( $instance['custom_read_more'] ) ? '' : esc_attr( $instance['custom_read_more'] );
+		$reviewsImgSize    = ! isset( $instance['review_avatar_size'] ) ? '' : esc_attr( $instance['review_avatar_size'] );
+		$displayGoogleMap  = ! isset( $instance['display_google_map'] ) ? '' : esc_attr( $instance['display_google_map'] );
+		$googleMapPosition = ! isset( $instance['google_map_position'] ) ? '' : esc_attr( $instance['google_map_position'] );
+		$disableMapScroll  = ! isset( $instance['disable_map_scroll'] ) ? '' : esc_attr( $instance['disable_map_scroll'] );
+		$titleOutput       = ! isset( $instance['disable_title_output'] ) ? '' : esc_attr( $instance['disable_title_output'] );
+		$targetBlank       = ! isset( $instance['target_blank'] ) ? '' : esc_attr( $instance['target_blank'] );
+		$noFollow          = ! isset( $instance['no_follow'] ) ? '' : esc_attr( $instance['no_follow'] );
+		$cache             = ! isset( $instance['cache'] ) ? '' : esc_attr( $instance['cache'] );
 
 		/**
 		 * @var: Get API Option: either Search or Business

@@ -43,8 +43,8 @@ add_action( 'admin_init', 'edd_sl_wordimpress_updater' );
 
 function edd_sl_wordimpress_updater() {
 	global $store_url, $item_name;
-	$yelp_plugin_meta  = get_plugin_data( YELP_WIDGET_PRO_PATH.'/'.YELP_PLUGIN_NAME.'.php', false );
-	$licence_key = trim( get_option( 'edd_yelp_license_key' ) );
+	$yelp_plugin_meta = get_plugin_data( YELP_WIDGET_PRO_PATH . '/' . YELP_PLUGIN_NAME . '.php', false );
+	$licence_key      = trim( get_option( 'edd_yelp_license_key' ) );
 
 	// setup the upvdater
 	$edd_updater = new EDD_SL_Plugin_Updater( $store_url, YELP_PLUGIN_NAME_PLUGIN, array(
@@ -95,13 +95,11 @@ function yelp_options_scripts() {
 	if ( YELP_WIDGET_DEBUG == true ) {
 		wp_register_style( 'yelp_widget_options_css', plugins_url( 'includes/style/options.css', dirname( __FILE__ ) ) );
 		wp_enqueue_script( 'yelp_widget_options_js', plugins_url( 'includes/js/options.js', dirname( __FILE__ ) ) );
-		wp_enqueue_script( 'yelp_widget_options_js', plugins_url( 'includes/js/options.js', dirname( __FILE__ ) ) );
 		wp_enqueue_style( 'yelp_widget_options_css' );
 	} //serve up minified files
 	else {
 
 		wp_register_style( 'yelp_widget_options_css', plugins_url( 'includes/style/options.min.css', dirname( __FILE__ ) ) );
-		wp_enqueue_script( 'yelp_widget_options_js', plugins_url( 'includes/js/options.min.js', dirname( __FILE__ ) ) );
 		wp_enqueue_script( 'yelp_widget_options_js', plugins_url( 'includes/js/options.min.js', dirname( __FILE__ ) ) );
 		wp_enqueue_style( 'yelp_widget_options_css' );
 
@@ -112,8 +110,19 @@ function yelp_options_scripts() {
 //Load Widget JS Script ONLY on Widget page
 function yelp_widget_scripts( $hook ) {
 	if ( $hook == 'widgets.php' ) {
-		wp_enqueue_script( 'yelp_widget_admin_scripts', plugins_url( 'includes/js/admin-widget.min.js', dirname( __FILE__ ) ) );
-		wp_enqueue_style( 'yelp_widget_admin_css', plugins_url( 'includes/style/admin-widget.min.css', dirname( __FILE__ ) ) );
+
+		if ( YELP_WIDGET_DEBUG == true ) {
+
+			wp_enqueue_script( 'yelp_widget_admin_scripts', plugins_url( 'includes/js/admin-widget.js', dirname( __FILE__ ) ) );
+			wp_enqueue_style( 'yelp_widget_admin_css', plugins_url( 'includes/style/admin-widget.css', dirname( __FILE__ ) ) );
+
+		} else {
+
+			wp_enqueue_script( 'yelp_widget_admin_scripts', plugins_url( 'includes/js/admin-widget.min.js', dirname( __FILE__ ) ) );
+			wp_enqueue_style( 'yelp_widget_admin_css', plugins_url( 'includes/style/admin-widget.min.css', dirname( __FILE__ ) ) );
+
+		}
+
 	} else {
 		return;
 	}
@@ -223,7 +232,7 @@ function yelp_widget_options_form() {
 				<h3 class="hndle"><span><?php _e( 'Yelp Widget Pro Setup Instructions', 'ywp' ); ?></span></h3>
 
 				<div class="inside">
-					<p><?php _e( 'Thank you for choosing Yelp Widget Pro Premium! <strong>To start using Yelp Widget Pro you must have a valid Yelp API key</strong>.  Don\'t worry, it\'s <em>free</em> and very easy to get one! <strong>Having trouble?</strong> Check out the <a href="http://wordimpress.com/how-to-request-a-yelp-api-key/" target="_blank" class="new-window">How to Request a Yelp API Key</a> screencast.', 'ywp' ); ?></p>
+					<p><?php _e( 'Thank you for choosing Yelp Widget Pro Premium! <strong>To start using Yelp Widget Pro you must have a valid Yelp API key</strong>.  Don\'t worry, it\'s <em>free</em> and very easy to get one! <strong>Having trouble?</strong> Check out the <a href="http://wordimpress.com/docs/yelp-widget-pro/#how-to-request-a-yelp-api-key" target="_blank" class="new-window">How to Request a Yelp API Key</a> screencast.', 'ywp' ); ?></p>
 
 					<p><strong><?php _e( 'Yelp Widget Pro Activation Instructions:', 'ywp' ); ?></strong></p>
 
@@ -234,10 +243,12 @@ function yelp_widget_options_form() {
 						<li><?php _e( 'Click update to activate and begin using Yelp Widget Pro', 'ywp' ); ?></li>
 					</ol>
 
-					<div class="adminFacebook">
-						<p>
-							<strong><?php _e( 'Like this plugin?  Give it a like on Facebook:', 'ywp' ); ?></strong>
-						</p>
+					<p>
+						<strong><?php _e( 'Like this plugin?  Give it a like on Facebook:', 'ywp' ); ?></strong>
+					</p>
+
+					<div class="social-items-wrap">
+
 						<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FWordImpress%2F353658958080509&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=220596284639969" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
 						<a href="https://twitter.com/wordimpress" class="twitter-follow-button" data-show-count="false">Follow @wordimpress</a>
 						<script>!function (d, s, id) {
@@ -401,7 +412,7 @@ function yelp_widget_options_form() {
 
 				<ul>
 					<li>
-						<a href="http://yelpwidgetpro.wordimpress.com/documentation/" class="new-window"><?php _e( 'Documentation', 'ywp' ); ?></a>
+						<a href="http://wordimpress.com/docs/yelp-widget-pro/" class="new-window"><?php _e( 'Documentation', 'ywp' ); ?></a>
 					</li>
 					<li>
 						<a href="http://yelpwidgetpro.wordimpress.com/" class="new-window"><?php _e( 'Demo Site', 'ywp' ); ?></a>
@@ -415,6 +426,8 @@ function yelp_widget_options_form() {
 			<!-- /.inside -->
 		</div>
 		<!-- /.yelp-widget-pro-support -->
+
+		<a href="http://wordimpress.com/" class="wordimpress-link" target="_blank"></a>
 
 	</div>
 	<!-- /.sidebar-sortables -->

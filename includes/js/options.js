@@ -2,20 +2,18 @@
  * @DESC: Controls Yelp Widget Pro options panel
  */
 
-(function ($) {
+jQuery(function () {
 
+	//Tooltips for admins
+	jQuery('.tooltip-info').tipsy({
+		fade    : true,
+		html    : true,
+		gravity : 's',
+		delayOut: 1000,
+		delayIn : 500
+	});
 
-//Tooltips for admins
-//	jQuery('.tooltip-info').tipsy({
-//		fade    : true,
-//		html    : true,
-//		gravity : 's',
-//		delayOut: 1000,
-//		delayIn : 500
-//	});
-
-
-})(jQuery);
+});
 
 
 // tipsy, facebook style tooltips for jquery
