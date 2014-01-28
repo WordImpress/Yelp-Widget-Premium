@@ -41,12 +41,7 @@ class Yelp_Widget extends WP_Widget {
 		);
 
 		//Load Google Maps API
-		wp_enqueue_script(
-			'google_maps_api',
-			'https://maps.googleapis.com/maps/api/js?sensor=false'
-		);
-
-		wp_localize_script( 'google_maps_api', 'ywpParams', $params );
+		wp_enqueue_script( 'google_maps_api', 'https://maps.googleapis.com/maps/api/js?sensor=false' );
 
 		//Yelp Widget Pro JS
 		if ( YELP_WIDGET_DEBUG == true ) {
@@ -54,8 +49,10 @@ class Yelp_Widget extends WP_Widget {
 		} else {
 			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps.min.js', dirname( __FILE__ ) );
 		}
-		wp_register_script( 'yelp-widget-js', $mapJSurl, array( 'jquery' ) );
-		wp_enqueue_script( 'yelp-widget-js' );
+		wp_register_script( 'yelp_widget_js', $mapJSurl, array( 'jquery' ) );
+		wp_enqueue_script( 'yelp_widget_js' );
+		wp_localize_script( 'yelp_widget_js', 'ywpParams', $params );
+
 
 
 		//Yelp Widget Pro CSS

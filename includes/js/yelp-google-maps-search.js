@@ -643,7 +643,7 @@ function geocodeAddress(address, index, map, biz) {
 	}, function (results, status) {
 		if (status === google.maps.GeocoderStatus.OK) {
 
-			createSearchMarker(biz, new google.maps.LatLng(results[0].geometry.location.ob, results[0].geometry.location.pb), index, map);
+			createSearchMarker(biz, new google.maps.LatLng(results[0].geometry.location.d, results[0].geometry.location.e), index, map);
 
 		} else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
 			setTimeout(function () {

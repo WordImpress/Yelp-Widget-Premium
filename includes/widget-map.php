@@ -40,18 +40,22 @@ class Yelp_Widget_Map extends WP_Widget {
 
 
 		//Load Google Maps API
-		wp_enqueue_script(
-			'google_maps_api',
-			'https://maps.googleapis.com/maps/api/js?sensor=false'
-		);
+		wp_enqueue_script('google_maps_api', 'https://maps.googleapis.com/maps/api/js?sensor=false');
+
+		if(YELP_WIDGET_DEBUG == true) {
+			$cssURL = plugins_url( '/includes/style/yelp-map-search.css', dirname( __FILE__ ) );
+			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search.js', dirname( __FILE__ ) );
+		} else {
+			$cssURL = plugins_url( '/includes/style/yelp-map-search.min.css', dirname( __FILE__ ) );
+			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search.min.js', dirname( __FILE__ ) );
+		}
+
 
 		//CSS
-		$cssURL = plugins_url( '/includes/style/yelp-map-search.min.css', dirname( __FILE__ ) );
 		wp_register_style( 'yelp-map-widget-css', $cssURL );
 		wp_enqueue_style( 'yelp-map-widget-css' );
 
 		//Map jS
-		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search.js', dirname( __FILE__ ) );
 
 		wp_register_script( 'yelp_widget_map_js', $mapJSurl, array( 'jquery' ) );
 		wp_enqueue_script( 'yelp_widget_map_js' );
