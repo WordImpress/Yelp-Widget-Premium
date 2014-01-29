@@ -30,7 +30,7 @@ $licence_args = array(
 	'settings_page'       => 'settings_page_yelp_widget', //Name of License Option in DB
 	'licence_key_setting' => 'ywp_licence_setting', //Name of License Option in DB
 	'licence_key_option'  => 'edd_yelp_license_key', //Name of License Option in DB
-	'licence_key_status'  => 'edd_yelp_license_key_status', //Name of License Option in DB
+	'licence_key_status'  => 'edd_yelp_license_status', //Name of License Option in DB
 );
 
 $ywplicencing = new PluginYelpWidgetPro\WordImpress_Licensing( $licence_args );
@@ -44,9 +44,10 @@ add_action( 'admin_init', 'edd_sl_wordimpress_updater' );
 function edd_sl_wordimpress_updater() {
 	global $store_url, $item_name;
 	$yelp_plugin_meta = get_plugin_data( YELP_WIDGET_PRO_PATH . '/' . YELP_PLUGIN_NAME . '.php', false );
-	$licence_key      = trim( get_option( 'edd_yelp_license_key' ) );
+	$options          = get_option( 'edd_yelp_license_key' );
+	$licence_key = ! empty( $options['license_key'] ) ? trim( $options['license_key'] ) : '';
 
-	// setup the upvdater
+	// setup the updater
 	$edd_updater = new EDD_SL_Plugin_Updater( $store_url, YELP_PLUGIN_NAME_PLUGIN, array(
 			'version'   => $yelp_plugin_meta["Version"], // current version number
 			'license'   => $licence_key, // license key (used get_option above to retrieve from DB)
