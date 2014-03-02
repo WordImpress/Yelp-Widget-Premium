@@ -53,7 +53,7 @@ Layout
 }
 
 .control-group:last-of-type {
-	margin-bottom:0;
+	margin-bottom: 0;
 }
 
 .control-label {
@@ -61,6 +61,20 @@ Layout
 	width: 200px;
 	display: inline-block;
 	vertical-align: top;
+}
+
+#yelp-widget-options .control-label {
+	width: 280px;
+}
+
+#yelp-widget-options .control-group {
+	border-bottom: 1px solid #eee;
+	padding: 0 0 10px;
+}
+
+#yelp-widget-options .control-group:last-of-type {
+	border-bottom: none;
+	padding: 0;
 }
 
 .controls {
@@ -72,7 +86,7 @@ Layout
 }
 
 .settings_page_yelp_widget #api-options input[type="text"] {
-width: 280px;
+	width: 280px;
 }
 
 .settings_page_yelp_widget input.button-primary {
@@ -200,7 +214,6 @@ Labels
 	background-color: #78CD51;
 }
 
-
 .wordimpress-link {
 	background: url('../images/wordimpress-logo.png') no-repeat center center transparent;
 	display: block;
@@ -209,7 +222,6 @@ Labels
 	height: 75px;
 	width: 190px;
 }
-
 
 /*----------------------------------------
 Tipsy

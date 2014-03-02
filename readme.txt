@@ -3,8 +3,8 @@ Contributors: dlocc
 Donate link: http://imdev.in/
 Tags: yelp, yelp widget, yelp shortcode, yelp api, yelp business listings, yelp reviews, yelp widget pro
 Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 1.8.2
+Tested up to: 3.8.1
+Stable tag: 1.8.3
 
 Yelp Widget Pro makes it easy for you to add business listings to your website or blog via an easy-to-use and intuitive widget.
 
@@ -70,6 +70,13 @@ Some themes may have very small sidebars and CSS styles that conflict or alter t
 4. How the widget looks in a website sidebar
 
 == Changelog ==
+
+= 1.8.3 =
+* Improved: CSS updates for Google Maps infomarker windows. Tested cross-browser for compatibility.
+* New: Option to toggle on or off Google Maps API script; this is useful for some themes that may already include the necessary scripts
+* Fix: Issue with Google Maps longitude and latitude calculation geocoding
+* Updated: Removed namespace from licensing so now plugin does NOT require PHP 5.3+
+* Updated: Minor improvements and testing to licensing activation and auto updates
 
 = 1.8.2 =
 * Licensing improvements: The licensing activation now is much more reliable and provides more information to the user about their license key status

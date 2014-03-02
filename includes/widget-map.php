@@ -31,6 +31,9 @@ class Yelp_Widget_Map extends WP_Widget {
 	 *  Adds Yelp Widget Pro Google Maps Widget Scripts
 	 */
 	public function add_yelp_widget_map_frontend_scripts() {
+
+		$suffix = defined( 'YELP_WIDGET_DEBUG' ) && YELP_WIDGET_DEBUG ? '' : '.min';
+
 		/* Get our options */
 		$options                     = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists
 		$yelp_widget_consumer_key    = $options['yelp_widget_consumer_key'];
@@ -40,15 +43,13 @@ class Yelp_Widget_Map extends WP_Widget {
 
 
 		//Load Google Maps API
-		wp_enqueue_script('google_maps_api', 'https://maps.googleapis.com/maps/api/js?sensor=false');
-
-		if(YELP_WIDGET_DEBUG == true) {
-			$cssURL = plugins_url( '/includes/style/yelp-map-search.css', dirname( __FILE__ ) );
-			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search.js', dirname( __FILE__ ) );
-		} else {
-			$cssURL = plugins_url( '/includes/style/yelp-map-search.min.css', dirname( __FILE__ ) );
-			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search.min.js', dirname( __FILE__ ) );
+		if ( ! isset( $options["yelp_widget_disable_gmap"] ) || $options["yelp_widget_disable_gmap"] == 0 ) {
+			wp_enqueue_script( 'google_maps_api', 'https://maps.googleapis.com/maps/api/js?sensor=false' );
 		}
+
+
+		$cssURL   = plugins_url( '/includes/style/yelp-map-search' . $suffix . '.css', dirname( __FILE__ ) );
+		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search' . $suffix . '.js', dirname( __FILE__ ) );
 
 
 		//CSS
@@ -89,7 +90,6 @@ class Yelp_Widget_Map extends WP_Widget {
 		if ( $args ) {
 			extract( $args );
 		}
-
 
 		/* Get our options */
 		$location = $instance['map_location'];

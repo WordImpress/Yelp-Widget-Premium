@@ -35,36 +35,33 @@ class Yelp_Widget extends WP_Widget {
 
 	public function add_yelp_widget_frontend_scripts() {
 
+		$settings = get_option( 'yelp_widget_settings' );
+		$suffix   = defined( 'YELP_WIDGET_DEBUG' ) && YELP_WIDGET_DEBUG ? '' : '.min';
+
+
 		$params = array(
 			'ywpPath' => YELP_WIDGET_PRO_PATH,
 			'ywpURL'  => YELP_WIDGET_PRO_URL,
 		);
 
-		//Load Google Maps API
-		wp_enqueue_script( 'google_maps_api', 'https://maps.googleapis.com/maps/api/js?sensor=false' );
+		//Load Google Maps API only if option to disable is NOT set
+		if ( ! isset( $settings["yelp_widget_disable_gmap"] ) || $settings["yelp_widget_disable_gmap"] == 0 ) {
+			wp_enqueue_script( 'google_maps_api', 'https://maps.googleapis.com/maps/api/js?sensor=false' );
+		}
 
 		//Yelp Widget Pro JS
-		if ( YELP_WIDGET_DEBUG == true ) {
-			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps.js', dirname( __FILE__ ) );
-		} else {
-			$mapJSurl = plugins_url( '/includes/js/yelp-google-maps.min.js', dirname( __FILE__ ) );
-		}
+		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps' . $suffix . '.js', dirname( __FILE__ ) );
+
 		wp_register_script( 'yelp_widget_js', $mapJSurl, array( 'jquery' ) );
 		wp_enqueue_script( 'yelp_widget_js' );
 		wp_localize_script( 'yelp_widget_js', 'ywpParams', $params );
 
 
-
 		//Yelp Widget Pro CSS
-		$cssOption = get_option( 'yelp_widget_settings' );
-		if ( ! isset( $cssOption["yelp_widget_disable_css"] ) || $cssOption["yelp_widget_disable_css"] == 0 ) {
+		if ( ! isset( $settings["yelp_widget_disable_css"] ) || $settings["yelp_widget_disable_css"] == 0 ) {
 
 			//Determine which version of the CSS to dish out
-			if ( YELP_WIDGET_DEBUG == true ) {
-				$cssURL = plugins_url( '/includes/style/yelp.css', dirname( __FILE__ ) );
-			} else {
-				$cssURL = plugins_url( '/includes/style/yelp.min.css', dirname( __FILE__ ) );
-			}
+			$cssURL = plugins_url( '/includes/style/yelp' . $suffix . '.css', dirname( __FILE__ ) );
 
 			//Register and enqueue the styles
 			wp_register_style( 'yelp-widget-css', $cssURL );

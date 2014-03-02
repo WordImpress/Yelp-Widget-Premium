@@ -480,7 +480,9 @@ var auth = {
 var map;
 var icon;
 var markersArray = [];
-
+var infowindow = new google.maps.InfoWindow({
+	maxWidth: 160 //max-width for containers  https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple-max
+});
 
 jQuery.noConflict();
 
@@ -491,7 +493,8 @@ jQuery.noConflict();
 		//Default Term
 
 		var $ywpSearchMaps = $('.yelp-map');
-		infowindow = new google.maps.InfoWindow();
+		var infowindow;
+
 		/*
 		 * Loop through maps and initialize
 		 */
@@ -500,7 +503,6 @@ jQuery.noConflict();
 
 			var ywpSearchMapsParent = $ywpSearchMaps.parent().parent();
 			var defaultTerm = $(ywpSearchMapsParent).find('.yelp-search-term').attr('placeholder');
-			var infowindow;
 			var mapBounds = null;
 			var location = ywpSearchMapsParent.attr('data-map-location');
 
@@ -520,11 +522,10 @@ jQuery.noConflict();
 						center   : new google.maps.LatLng(myLatitude, myLongitude),
 						mapTypeId: google.maps.MapTypeId.ROADMAP
 					};
-					infowindow = new google.maps.InfoWindow({
-						maxWidth: 400 //max-width for containers  https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple-max
-					});
+
 
 					map = new google.maps.Map($ywpSearchMaps[index], mapOptions);
+
 					//When Search Button is Clicked
 					$('.yelp-search-form').on('submit', function (e) {
 						e.preventDefault();
@@ -532,7 +533,6 @@ jQuery.noConflict();
 						yelpMapDataInit(newTerm, location, map);
 
 					});
-
 
 					//Initiate Map Data on Load
 					yelpMapDataInit(defaultTerm, location, map);
@@ -693,9 +693,9 @@ function generateSearchInfoWindowHtml(biz) {
 	var text = '<div class="marker">';
 	// image and rating
 	if (typeof biz.image_url !== 'undefined') {
-		text += '<img class="businessimage" src="' + biz.image_url + '"/>';
+		text += '<img class="businessimage" src="' + biz.image_url + '" width="60" height="60" />';
 	} else {
-		text += '<img class="businessimage" src="' + ywpMapParams.ywpURL + '/includes/images/blank-biz.png"/>';
+		text += '<img class="businessimage" src="' + ywpMapParams.ywpURL + '/includes/images/blank-biz.png" width="60" height="60" />';
 	}
 
 	// div start
@@ -704,7 +704,7 @@ function generateSearchInfoWindowHtml(biz) {
 	text += '<div class="ywp-business-info">';
 
 	// name/url
-	text += '<a href="' + biz.url + '" target="_blank" class="ywp-map-biz-name">' + biz.name + '</a><br/>';
+	text += '<a href="' + biz.url + '" target="_blank" class="marker-business-name">' + biz.name + '</a>';
 	// stars
 	text += '<img class="ratingsimage" src="' + biz.rating_img_url_small + '"/>&nbsp;based&nbsp;on&nbsp;';
 	// reviews
@@ -733,7 +733,7 @@ function generateSearchInfoWindowHtml(biz) {
 	}
 
 	// Read the reviews
-	text += '<br/><a href="' + biz.url + '" target="_blank">Read the reviews »</a><br/>';
+	text += '<br/><a href="' + biz.url + '" target="_blank" class="marker-business-name">Read the reviews »</a><br/>';
 	// div end
 	text += '</div></div>';
 

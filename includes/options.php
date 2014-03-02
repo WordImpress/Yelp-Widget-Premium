@@ -33,7 +33,7 @@ $licence_args = array(
 	'licence_key_status'  => 'edd_yelp_license_status', //Name of License Option in DB
 );
 
-$ywplicencing = new PluginYelpWidgetPro\WordImpress_Licensing( $licence_args );
+$ywplicencing = new Yelp_Widget_Pro_Licensing( $licence_args );
 
 
 /**
@@ -57,7 +57,6 @@ function edd_sl_wordimpress_updater() {
 	);
 
 }
-
 
 // Delete options when uninstalled
 function yelp_widget_uninstall() {
@@ -368,6 +367,17 @@ function yelp_widget_options_form() {
 						</div>
 					</div>
 					<!--/.control-group -->
+					<div class="control-group">
+						<div class="control-label">
+							<label for="yelp_widget_disable_gmap"><?php _e( 'Disable Plugin Google Maps JS Output:', 'ywp' ); ?>
+								<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'If your theme already includes Google Maps API JavaScript file it may be unnecessary to include it twice.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
+						</div>
+						<div class="controls">
+							<input type="checkbox" id="yelp_widget_disable_gmap" name="yelp_widget_settings[yelp_widget_disable_gmap]" value="1" <?php $disableGMAP = ( ! empty( $options['yelp_widget_disable_gmap'] ) ? $options['yelp_widget_disable_gmap'] : '' );
+							checked( 1, $disableGMAP ); ?> />
+						</div>
+					</div>
+					<!--/.control-group -->
 
 				</div>
 				<!-- /.inside -->
@@ -395,7 +405,7 @@ function yelp_widget_options_form() {
 			 * Output Licensing Fields
 			 */
 			global $ywplicencing;
-			if ( class_exists( 'PluginYelpWidgetPro\WordImpress_Licensing' ) ) {
+			if ( class_exists( 'Yelp_Widget_Pro_Licensing' ) ) {
 				$ywplicencing->edd_wordimpress_license_page();
 			}
 			?>

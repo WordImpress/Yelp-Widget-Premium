@@ -18,7 +18,6 @@ class Yelp_Map_Shortcode extends Yelp_Widget_Map {
 		//Only Load scripts when widget or shortcode is active
 		parent::add_yelp_widget_map_frontend_scripts();
 
-
 		//extract shortcode arguments
 		extract( shortcode_atts( array(
 			'location' => 'San Diego',

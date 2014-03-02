@@ -251,7 +251,9 @@
 	margin: 5px 0;
 }
 
-/* Google Map */
+/*---------------------------------------
+ Google Maps
+ ---------------------------------------- */
 .ywp-map-container {
 	margin: 0;
 }
@@ -261,32 +263,78 @@
 	height: 200px;
 }
 
-.marker {
+.ywp-map .marker {
 	font-size: 11px;
-	min-height: 130px;
+	max-height: 115px;
 }
 
-.marker .businessimage {
+.ywp-map .marker .businessimage {
 	float: left;
 }
 
-.marker .ratingsimage {
+.ywp-map .marker .ratingsimage {
 	vertical-align: middle;
 	margin-top: 0px;
 }
 
-.marker .businessinfo {
-	margin-left: 110px;
-	overflow: hidden;
+.ywp-map .marker .businessinfo {
 	line-height: 1.4em;
 }
 
-.marker .marker-business-name {
-	font-size: 13px;
+.ywp-map .marker .marker-business-name, .ywp-map .gm-style .gm-style-iw a.marker-business-name, .yelp-map .gm-style .gm-style-iw a.marker-business-name {
+	font-size: 13px !important;
 	font-weight: bold;
+	color: #C41200;
+	text-decoration: none !important;
+	display: block;
 }
 
-/* Error Alerts */
+.yelp-map .gm-style .gm-style-iw a.marker-business-name {
+	font-size: 15px !important;
+	padding:0;
+	margin: 0;
+	line-height: 15px !important;
+}
+
+.ywp-map .marker a.marker-reviews-link, .yelp-map .marker a.marker-reviews-link {
+	font-weight: bold;
+	color: #C41200;
+	text-decoration: none !important;
+}
+
+/* Google Maps Default Style Overrides */
+
+.ywp-map .gm-style-iw, .yelp-map .gm-style-iw {
+	width: 100% !important;
+	overflow: hidden !important;
+	min-height: 100%;
+	box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	position: relative !important;
+	top: 0 !important;
+	left: 0 !important;
+	padding: 10px;
+}
+
+/*.ywp-map .gm-style-iw > div {*/
+	/*height: 100% !important;*/
+/*}*/
+
+.ywp-map .gm-style .gm-style-iw, .ywp-map .gm-style .gm-style-iw a, .ywp-map .gm-style .gm-style-iw span, .ywp-map .gm-style .gm-style-iw label, .ywp-map .gm-style .gm-style-iw div {
+	font-size: 11px !important;
+}
+
+/*.yelp-map .gm-style-iw {*/
+	/*width: 260px  !important;*/
+/*}*/
+
+/*.yelp-map .gm-style-iw > div {*/
+	/*width: 260px;*/
+/*}*/
+
+/*--------------------------------------------
+ Error Alerts
+ ---------------------------------------------*/
 
 .yelp-error {
 	padding: 8px 14px;
@@ -316,7 +364,7 @@
 
 /* Phone */
 .ywp-phone {
-	background:url('../images/phone_icon.png') no-repeat left center transparent;
-	margin:0 !important;
-	padding:0 0 0 18px;
+	background: url('../images/phone_icon.png') no-repeat left center transparent;
+	margin: 0 !important;
+	padding: 0 0 0 18px;
 }

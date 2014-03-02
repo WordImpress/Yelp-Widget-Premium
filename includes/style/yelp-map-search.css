@@ -83,6 +83,7 @@
 
 .marker {
 	font-size: 11px;
+	max-height: 115px;
 }
 
 .ywp-business-info {
@@ -110,5 +111,5 @@
 }
 
 .marker .businessinfo {
-	margin-left: 110px;
+	margin: 0 0 10px 70px;
 }
