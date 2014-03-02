@@ -41,16 +41,13 @@ class Yelp_Widget_Map extends WP_Widget {
 		$yelp_widget_token           = $options['yelp_widget_token'];
 		$yelp_widget_token_secret    = $options['yelp_widget_token_secret'];
 
-
 		//Load Google Maps API
 		if ( ! isset( $options["yelp_widget_disable_gmap"] ) || $options["yelp_widget_disable_gmap"] == 0 ) {
 			wp_enqueue_script( 'google_maps_api', 'https://maps.googleapis.com/maps/api/js?sensor=false' );
 		}
 
-
 		$cssURL   = plugins_url( '/includes/style/yelp-map-search' . $suffix . '.css', dirname( __FILE__ ) );
 		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search' . $suffix . '.js', dirname( __FILE__ ) );
-
 
 		//CSS
 		wp_register_style( 'yelp-map-widget-css', $cssURL );
