@@ -7,11 +7,11 @@ var geocoder;
 jQuery(function ($) {
 
 	var $ywpMaps = $('.ywp-map');
+
 	/*
 	 * Loop through maps and initialize
 	 */
 	$ywpMaps.each(function (index, value) {
-
 		var jsonArray = JSON.parse(jQuery($ywpMaps[index]).parent().attr('data-ywp-json'));
 		var map;
 		var icon = null;

@@ -618,9 +618,9 @@ function handleSearchResults(data, map) {
 		biz = data.businesses[i];
 
 		bizAddress = biz.location.address[0] + ", " + biz.location.city + ", " + biz.location.state_code + ", " + biz.location.country_code;
-
 		//Get Long/Lat or calculate from address
 		if (typeof biz.location.coordinate !== 'undefined') {
+
 			createSearchMarker(biz, new google.maps.LatLng(biz.location.coordinate.latitude, biz.location.coordinate.longitude), i, map);
 
 		} else {
@@ -638,12 +638,16 @@ function handleSearchResults(data, map) {
  * GeoCode Address
  */
 function geocodeAddress(address, index, map, biz) {
+
 	geocoder.geocode({
 		'address': address
 	}, function (results, status) {
 		if (status === google.maps.GeocoderStatus.OK) {
 
-			createSearchMarker(biz, new google.maps.LatLng(results[0].geometry.location.d, results[0].geometry.location.e), index, map);
+			var lat = results[0].geometry.location.lat().toString().substr(0, 12);
+			var lng = results[0].geometry.location.lng().toString().substr(0, 12);
+
+			createSearchMarker(biz, new google.maps.LatLng(lat, lng), index, map);
 
 		} else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
 			setTimeout(function () {
