@@ -12,7 +12,7 @@
 }
 
 .yelp-toggler span {
-	background: url('../../../../../wp-admin/images/arrows.png') no-repeat 60% -107px;
+	background: url('../images/arrows.png') no-repeat 60% -107px;
 	float: right;
 	height: 12px;
 	display: inline-block;
@@ -34,6 +34,21 @@
 
 .toggle-item.toggled, .reviews-toggle-container.toggled {
 	display: block;
+}
+
+.ywp-clear-cache {
+	float:left;
+}
+.cache-clearing-loading.spinner {
+	float:left;
+}
+
+.cache-message {
+	float: right;
+	max-width: 160px;
+	font-style: italic;
+	color: #B9B9B9;
+	display: none;
 }
 
 .widget-api-option {

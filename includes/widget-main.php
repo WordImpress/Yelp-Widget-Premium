@@ -11,10 +11,12 @@
 
 class Yelp_Widget extends WP_Widget {
 
+
 	/**
 	 * Register widget with WordPress.
 	 */
 	public function __construct() {
+
 		parent::__construct(
 			'yelp_widget', // Base ID
 			'Yelp Widget Pro', // Name
@@ -26,6 +28,50 @@ class Yelp_Widget extends WP_Widget {
 			add_action( 'wp_enqueue_scripts', array( $this, 'add_yelp_widget_frontend_scripts' ) );
 		}
 
+		add_action( 'wp_ajax_clear_widget_cache', array( $this, 'ywp_clear_widget_cache' ) );
+
+	}
+
+
+	/**
+	 * AJAX Clear Widget Cache
+	 */
+// Same handler function...
+
+	function ywp_clear_widget_cache() {
+
+		if ( isset( $_POST['transient_id'] ) ) {
+
+			delete_transient( $_POST['transient_id'] );
+			echo "Cache cleared";
+
+		} else {
+			echo "Error: Transient ID not set. Cache not cleared.";
+		}
+
+		die();
+
+	}
+
+	//Load Widget JS Script ONLY on Widget page
+	function yelp_widget_scripts( $hook ) {
+		if ( $hook == 'widgets.php' ) {
+
+			if ( YELP_WIDGET_DEBUG == true ) {
+
+				wp_enqueue_script( 'yelp_widget_admin_scripts', plugins_url( 'includes/js/admin-widget.js', dirname( __FILE__ ) ) );
+				wp_enqueue_style( 'yelp_widget_admin_css', plugins_url( 'includes/style/admin-widget.css', dirname( __FILE__ ) ) );
+
+			} else {
+
+				wp_enqueue_script( 'yelp_widget_admin_scripts', plugins_url( 'includes/js/admin-widget.min.js', dirname( __FILE__ ) ) );
+				wp_enqueue_style( 'yelp_widget_admin_css', plugins_url( 'includes/style/admin-widget.min.css', dirname( __FILE__ ) ) );
+
+			}
+
+		} else {
+			return;
+		}
 	}
 
 
@@ -37,7 +83,6 @@ class Yelp_Widget extends WP_Widget {
 
 		$settings = get_option( 'yelp_widget_settings' );
 		$suffix   = defined( 'YELP_WIDGET_DEBUG' ) && YELP_WIDGET_DEBUG ? '' : '.min';
-
 
 		$params = array(
 			'ywpPath' => YELP_WIDGET_PRO_PATH,
@@ -80,7 +125,7 @@ class Yelp_Widget extends WP_Widget {
 	 * @param array $args     Widget arguments.
 	 * @param array $instance Saved values from database.
 	 *
-	 * @return widget output html
+	 * @return  output html
 	 */
 	function widget( $args, $instance ) {
 
@@ -111,7 +156,7 @@ class Yelp_Widget extends WP_Widget {
 
 		//Yelp Widget Options
 		$title             = empty( $instance['title'] ) ? '' : apply_filters( 'widget_title', $instance['title'] );
-		$displayOption     = empty( $instance['display_option'] ) ? '' : $instance['display_option'];
+		$displayOption     = ! isset( $instance['display_option'] ) ? 0 : $instance['display_option'];
 		$term              = empty( $instance['term'] ) ? '' : $instance['term'];
 		$id                = empty( $instance['id'] ) ? '' : $instance['id'];
 		$location          = empty( $instance['location'] ) ? '' : $instance['location'];
@@ -146,7 +191,6 @@ class Yelp_Widget extends WP_Widget {
 			'sort'     => $sort
 		);
 
-
 		// Use appropriate API depending on API Request Method option
 		if ( $displayOption == '1' ) {
 			$urlparams['method'] = 'business/' . $urlparams['id'];
@@ -155,7 +199,6 @@ class Yelp_Widget extends WP_Widget {
 			$urlparams['method'] = 'search';
 			unset( $urlparams['id'] );
 		}
-
 
 		// Set method
 		$unsigned_url = $unsigned_url . $urlparams['method'];
@@ -176,17 +219,21 @@ class Yelp_Widget extends WP_Widget {
 
 		// Cache: cache option is enabled
 		if ( $cache != 'None' ) {
-			$transient = $displayOption . $term . $id . $location . $limit . $sort;
+
+			$transient = urlencode( $displayOption . $term . $id . $location . $limit . $sort . $displayGoogleMap . $reviewsImgSize . $reviewsOption );
+
+
+			$response = get_transient( $transient );
 
 			// Check for an existing copy of our cached/transient data
-			if ( ( $response = get_transient( $transient ) ) == false ) {
+			if ( $response === false ) {
+				// It wasn't there, so regenerate the data and save the transient
 
 				//Get Time to Cache Data
 				$expiration = $cache;
 
 				//Assign Time to appropriate Math
 				switch ( $expiration ) {
-
 					case "1 Hour":
 						$expiration = 3600;
 						break;
@@ -214,9 +261,7 @@ class Yelp_Widget extends WP_Widget {
 				$response = yelp_widget_curl( $signed_url );
 				set_transient( $transient, $response, $expiration );
 
-
 			}
-
 
 		} else {
 
@@ -224,6 +269,7 @@ class Yelp_Widget extends WP_Widget {
 			$response = yelp_widget_curl( $signed_url );
 
 		}
+
 
 		/*
 		 * Output Yelp Widget Pro
@@ -342,7 +388,7 @@ class Yelp_Widget extends WP_Widget {
 	function form( $instance ) {
 
 		$title             = ! isset( $instance['title'] ) ? '' : esc_attr( $instance['title'] );
-		$displayOption     = ! isset( $instance['display_option'] ) ? '' : esc_attr( $instance['display_option'] );
+		$displayOption     = ! isset( $instance['display_option'] ) ? 0 : esc_attr( $instance['display_option'] );
 		$term              = ! isset( $instance['term'] ) ? '' : esc_attr( $instance['term'] );
 		$id                = ! isset( $instance['id'] ) ? '' : esc_attr( $instance['id'] );
 		$location          = ! isset( $instance['location'] ) ? '' : esc_attr( $instance['location'] );
@@ -365,6 +411,7 @@ class Yelp_Widget extends WP_Widget {
 		$targetBlank       = ! isset( $instance['target_blank'] ) ? '' : esc_attr( $instance['target_blank'] );
 		$noFollow          = ! isset( $instance['no_follow'] ) ? '' : esc_attr( $instance['no_follow'] );
 		$cache             = ! isset( $instance['cache'] ) ? '' : esc_attr( $instance['cache'] );
+		$transient         = urlencode( $displayOption . $term . $id . $location . $limit . $sort . $displayGoogleMap . $reviewsImgSize . $reviewsOption );
 
 		/**
 		 * @var: Get API Option: either Search or Business

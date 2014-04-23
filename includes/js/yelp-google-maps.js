@@ -18,7 +18,9 @@ jQuery(function ($) {
 		var mapBounds = null;
 		var myLatlng;
 		var options;
-		infowindow = new google.maps.InfoWindow();
+		infowindow = new google.maps.InfoWindow({
+					maxWidth: 220 //max-width for containers  https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple-max
+				});
 		geocoder = new google.maps.Geocoder();
 
 		//Scroll Option
@@ -203,6 +205,7 @@ function createMarkerWidget(biz, point, map) {
 
 	google.maps.event.addListener(marker, 'click', function () {
 		infowindow.setContent(marker.content);
+
 		infowindow.open(map, marker);
 	});
 }
@@ -215,41 +218,37 @@ function generateInfoWindowHtml(biz) {
 
 	var text = '<div class="marker">';
 
-	// image and rating
-	if (typeof biz.image_url !== 'undefined') {
-		text += '<img class="businessimage" src="' + biz.image_url + '" width="60" height="60"/>';
-	} else {
-		text += '<img class="businessimage" src="' + ywpParams.ywpURL + '/includes/images/blank-biz.png" width="60" height="60"/>';
-	}
+		text += '<div class="ywp-business-top ywp-marker-block clearfix clear">';
 
+		// image and rating
+		if (typeof biz.image_url !== 'undefined') {
+			text += '<img class="businessimage" src="' + biz.image_url + '" width="60" height="60" />';
+		} else {
+			text += '<img class="businessimage" src="' + ywpMapParams.ywpURL + '/includes/images/blank-biz.png" width="60" height="60" />';
+		}
 
-	// div start
-	text += '<div class="businessinfo">';
-	// name/url
-	text += '<a href="' + biz.url + '" target="_blank" class="marker-business-name">' + biz.name + '</a>';
-	// stars
-	text += '<img class="ratingsimage" src="' + biz.rating_img_url_small + '"/>';
-	// reviews
-	text += biz.review_count + '&nbsp;reviews<br/>';
-	// categories
-	text += formatCategories(biz.categories);
-	// neighborhoods
-	if (biz.location.neighborhoods)
-		text += formatNeighborhoods(biz.location.neighborhoods);
-	// address
-	text += biz.location.display_address + '<br/>';
+		// div start
+		text += '<div class="ywp-business-info">';
 
-	// city, state and zip
-	text += biz.location.city + ',&nbsp;' + biz.location.state_code + '&nbsp;' + biz.location.postal_code + '<br/>';
-	// phone number
-	if (biz.phone !== undefined)
-		text += formatPhoneNumber(biz.phone);
-	// Read the reviews
-	text += '<br/><a href="' + biz.url + '" target="_blank" class="marker-reviews-link">Read the reviews &raquo;</a><br/>';
-	// div end
-	text += '</div></div>';
+		// name/url
+		text += '<a href="' + biz.url + '" target="_blank" class="marker-business-name">' + biz.name + '</a>';
+		// stars
+		text += '<div class="review-rating"><img class="ratingsimage" src="' + biz.rating_img_url_small + '"/> <span class="ywp-review-text">';
+		// reviews
+		text += biz.review_count + ' reviews</span></div>';
 
-	return text;
+		//Phone number
+		if (biz.phone !== undefined) {
+			var phone = formatPhoneNumber(biz.phone);
+			text += '<a href="tel:' + biz.phone + '" title="Call ' + biz.name + '" class="phone-clickable">' + biz.display_phone + '</a>';
+		}
+
+		text += '</div></div>'; //close ywp-business-info & top info div
+
+		// div end
+		text += '</div>';
+
+		return text;
 }
 
 /*

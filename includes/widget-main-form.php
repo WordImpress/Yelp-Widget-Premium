@@ -294,7 +294,17 @@
 				<?php $counter ++;
 			}  ?>
 		</select>
+
+
 	</p>
+
+	<!-- Clear Cache Button -->
+	<p class="clearfix">
+			<span class="cache-message"></span>
+			<a href="#" class="button ywp-clear-cache" title="Clear" data-transient-id="<?php echo $transient; ?>">Clear Cache</a>
+			<span class="cache-clearing-loading spinner"></span>
+	</p>
+
 
 	<!-- Disable title output checkbox -->
 	<p>

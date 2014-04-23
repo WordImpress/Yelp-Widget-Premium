@@ -81,9 +81,10 @@
 
 /* Markers / Info Windows */
 
+
+
 .marker {
 	font-size: 11px;
-	max-height: 115px;
 }
 
 .ywp-business-info {
@@ -111,5 +112,9 @@
 }
 
 .marker .businessinfo {
+	margin: 0;
+}
+
+.marker .ywp-business-info {
 	margin: 0 0 10px 70px;
 }

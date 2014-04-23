@@ -90,9 +90,10 @@ class Yelp_Widget_Map extends WP_Widget {
 
 		/* Get our options */
 		$location = $instance['map_location'];
+		$search_term = !empty($instance['map_search_term']) ? $instance['map_search_term'] : 'Restaurants';
 		?>
 
-		<div class="yelp-map-wrap" data-map-location="<?php echo $location; ?>">
+		<div id="ywp-map" class="yelp-map-wrap" data-map-location="<?php echo $location; ?>">
 			<div class="top">
 				<div class="poweredby"><span><?php _e( 'Powered by', 'ywp' ); ?></span>
 					<a href="http://www.yelp.com"><img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/yelp-logo-transparent-icon.png' ?>" border="0" /></a>
@@ -100,7 +101,7 @@ class Yelp_Widget_Map extends WP_Widget {
 				<div class="searchbox">
 					<form class="yelp-search-form">
 						<?php _e( 'Search for', 'ywp' ); ?>
-						<input type="text" class="yelp-search-term" name="term" placeholder="Sushi" />
+						<input type="text" class="yelp-search-term" name="term" placeholder="<?php echo $search_term; ?>" />
 						<input value="Search" class="yelp-search-submit" type="submit" />
 						<img class="spinner" src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/ajax-loading-1.gif' ?>" />
 						<span class="error errorMessage"></span>
@@ -125,6 +126,7 @@ class Yelp_Widget_Map extends WP_Widget {
 
 		$instance                 = $old_instance;
 		$instance['map_location'] = strip_tags( $new_instance['map_location'] );
+		$instance['map_search_term'] = strip_tags( $new_instance['map_search_term'] );
 
 		//Return Instance
 		return $instance;
@@ -140,6 +142,7 @@ class Yelp_Widget_Map extends WP_Widget {
 
 		$title       = empty( $instance['title'] ) ? '' : esc_attr( $instance['title'] );
 		$mapLocation = empty( $instance['map_location'] ) ? 'San Diego' : esc_attr( $instance['map_location'] );
+		$mapSearchTerm = empty( $instance['map_search_term'] ) ? 'Restaurants' : esc_attr( $instance['map_search_term'] );
 
 
 		/**

@@ -480,9 +480,6 @@ var auth = {
 var map;
 var icon;
 var markersArray = [];
-var infowindow = new google.maps.InfoWindow({
-	maxWidth: 160 //max-width for containers  https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple-max
-});
 
 jQuery.noConflict();
 
@@ -493,7 +490,9 @@ jQuery.noConflict();
 		//Default Term
 
 		var $ywpSearchMaps = $('.yelp-map');
-		var infowindow;
+		var infowindow = new google.maps.InfoWindow({
+			maxWidth: 220 //max-width for containers  https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple-max
+		});
 
 		/*
 		 * Loop through maps and initialize
@@ -695,6 +694,9 @@ function createSearchMarker(biz, point, markerNum, map) {
 function generateSearchInfoWindowHtml(biz) {
 
 	var text = '<div class="marker">';
+
+	text += '<div class="ywp-business-top ywp-marker-block clearfix clear">';
+
 	// image and rating
 	if (typeof biz.image_url !== 'undefined') {
 		text += '<img class="businessimage" src="' + biz.image_url + '" width="60" height="60" />';
@@ -703,43 +705,52 @@ function generateSearchInfoWindowHtml(biz) {
 	}
 
 	// div start
-	text += '<div class="businessinfo">';
-
 	text += '<div class="ywp-business-info">';
 
 	// name/url
 	text += '<a href="' + biz.url + '" target="_blank" class="marker-business-name">' + biz.name + '</a>';
 	// stars
-	text += '<img class="ratingsimage" src="' + biz.rating_img_url_small + '"/>&nbsp;based&nbsp;on&nbsp;';
+	text += '<div class="review-rating"><img class="ratingsimage" src="' + biz.rating_img_url_small + '"/> <span class="ywp-review-text">';
 	// reviews
-	text += biz.review_count + '&nbsp;reviews';
+	text += biz.review_count + ' reviews</span></div>';
 
-	text += '</div>'; //close ywp-business-info info div
+	//Phone number
+	if (biz.phone !== undefined) {
+		var phone = formatPhoneNumber(biz.phone);
+		text += '<a href="tel:' + biz.phone + '" title="Call ' + biz.name + '" class="phone-clickable">' + biz.display_phone + '</a>';
+	}
+
+	text += '</div></div>'; //close ywp-business-info info div
+
+// Review Snipped
+	text += '<div class="ywp-read-review-snippet"><p class="snippet-text">' + biz.snippet_text + '</p><img class="snippet-img" src="' + biz.snippet_image_url + '" width="25" height="25" /></div>';
+// Read the reviews
+	text += '<div class="ywp-read-reviews"><a href="' + biz.url + '" target="_blank" class="marker-business-name marker-business-link">Read the reviews »</a></div>';
+
+	text += '<div class="businessinfo"><table border="0" class="marker-info-table" width="220" style="width:220px"><tr>';
 
 	// categories
 	if (biz.categories !== undefined) {
-		text += formatCategories(biz.categories);
+		text += '<td>' + formatCategories(biz.categories) + '</td>';
 	}
 
 	//Neighborhoods
 	if (biz.location.neighborhoods !== undefined) {
-		text += formatNeighborhoods(biz.location.neighborhoods);
+		text += '<td>' + formatNeighborhoods(biz.location.neighborhoods) + '</td>';
 	}
+
+	text += '<tr>';
 
 	//Display Address
 	if (biz.location.display_address[0] !== undefined) {
-		text += formatAddress(biz.location.display_address);
+		text += '<td colspan="2">' + formatAddress(biz.location.display_address) + '</td>';
 	}
 
-	//Phone number
-	if (biz.phone !== undefined) {
-		text += formatPhoneNumber(biz.phone);
-	}
+	text += '</tr>';
 
-	// Read the reviews
-	text += '<br/><a href="' + biz.url + '" target="_blank" class="marker-business-name">Read the reviews »</a><br/>';
+
 	// div end
-	text += '</div></div>';
+	text += '</table></div></div>';
 
 	return text;
 }
@@ -748,14 +759,14 @@ function generateSearchInfoWindowHtml(biz) {
  * Formats the categories HTML
  */
 function formatCategories(cats) {
-	var output = '<strong>Categories:</strong> ';
+	var output = '<div class="ywp-marker-categories-wrap ywp-marker-block"><p class="ywp-marker-cat-title"><strong>Categories:</strong></p><p class="ywp-marker-categories">';
 	for (var i = 0; i < cats.length; i++) {
-		output += cats[i][0];
+		output += '<span class="ywp-marker-cat">' + cats[i][0] + '</span>';
 		if (i != cats.length - 1) {
 			output += ', ';
 		}
 	}
-	output += '<br/>';
+	output += '</p></div>';
 	return output;
 }
 
@@ -763,14 +774,14 @@ function formatCategories(cats) {
  * Formats the neighborhoods HTML
  */
 function formatNeighborhoods(neighborhoods) {
-	output = '<strong>Neighborhoods:</strong><br/> ';
+	var output = '<div class="ywp-marker-neighborhoods-wrap ywp-marker-block"><p class="ywp-marker-neighborhoods-title"><strong>Neighborhoods:</strong></p><p class="ywp-marker-neighborhoods">';
 	for (var i = 0; i < neighborhoods.length; i++) {
-		output += neighborhoods[i];
+		output += '<span class="ywp-neighborhood">' + neighborhoods[i] + '</span>';
 		if (i != neighborhoods.length - 1) {
 			output += ', ';
 		}
 	}
-	output += '<br/>';
+	output += '</p></div>';
 	return output;
 }
 
@@ -782,14 +793,14 @@ function formatNeighborhoods(neighborhoods) {
 
 function formatAddress(address) {
 
-	output = '<strong>Address:</strong><br/><div class="ywp-map-address">';
+	output = '<address class="ywp-marker-block"><strong>Address:</strong><br/><div class="ywp-map-address">';
 	for (var i = 0; i < address.length; i++) {
-		output += address[i];
+		output += address[i] + '<br>';
 		if (i != address.length - 1) {
-			output += '<br/>';
+			output += '';
 		}
 	}
-	output += '</div>';
+	output += '</div></address>';
 
 	return output;
 

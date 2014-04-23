@@ -20,10 +20,9 @@ class Yelp_Map_Shortcode extends Yelp_Widget_Map {
 
 		//extract shortcode arguments
 		extract( shortcode_atts( array(
-			'location' => 'San Diego',
-
+			'location'    => 'San Diego',
+			'search_term' => 'Restaurants',
 		), $atts ) );
-
 
 		$args = array();
 
@@ -31,14 +30,11 @@ class Yelp_Map_Shortcode extends Yelp_Widget_Map {
 		* Set up our Widget instance array
 		*/
 		//Business API
-		if ( ! empty( $atts['location'] ) ) {
 
-			$instance = array(
-				'map_location' => $atts['location'],
-			);
-
-		}
-
+		$instance = array(
+			'map_location'    => $location,
+			'map_search_term' => $search_term,
+		);
 
 		//Search API
 		//Using ob_start to output shortcode within content appropriatly

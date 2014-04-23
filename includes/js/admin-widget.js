@@ -1,20 +1,43 @@
 /**
  * Yelp Widget Pro Backend JavaScripts
  */
-
-jQuery(function () {
+jQuery.noConflict();
+(function ($) {
+	'use strict';
 	/*
 	 * Initialize the API Request Method widget radio input toggles
 	 */
-	yelpWidgetToggles();
-	yelpWidgetTooltips();
+	$(document).ready(function () {
 
-});
+		yelpWidgetToggles();
+		yelpWidgetTooltips();
+
+	});
+
+	$(document).on('click', '.ywp-clear-cache', function (e) {
+		e.preventDefault();
+		var $this = $(this);
+		$this.next('.cache-clearing-loading').fadeIn('fast');
+		var data = {
+			action      : 'clear_widget_cache',
+			transient_id: $(this).data('transient-id')
+		};
+
+		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+		jQuery.post(ajaxurl, data, function (response) {
+			$('.cache-clearing-loading').fadeOut('fast');
+			$this.prev('.cache-message').text(response).fadeIn('fast').delay(2000).fadeOut();
+
+		});
+
+	});
+
+}(jQuery));
 
 function yelpWidgetToggles() {
 
 	//API Method Toggle
-	jQuery('#widgets-right .widget-api-option .yelp-method-span:not("clickable")').each(function () {
+	jQuery('.widget-api-option .yelp-method-span:not("clickable")').each(function () {
 
 		jQuery(this).addClass("clickable").unbind("click").click(function () {
 			jQuery(this).parent().parent().find('.toggled').slideUp().removeClass('toggled');
@@ -28,7 +51,7 @@ function yelpWidgetToggles() {
 	});
 
 	//Advanced Options Toggle (Bottom-gray panels)
-	jQuery('#widgets-right .yelp-toggler:not("clickable")').each(function () {
+	jQuery('.yelp-toggler:not("clickable")').each(function () {
 
 		jQuery(this).addClass("clickable").unbind("click").click(function () {
 			jQuery(this).toggleClass('toggled');
@@ -38,7 +61,7 @@ function yelpWidgetToggles() {
 	});
 
 	//Reviews Options Container Toggle
-	jQuery('#widgets-right .reviews-toggle:not("clickable")').each(function () {
+	jQuery('.reviews-toggle:not("clickable")').each(function () {
 
 		jQuery(this).addClass("clickable").unbind("click").click(function () {
 			jQuery(this).parent().next('.reviews-toggle-container').slideToggle();
@@ -68,6 +91,7 @@ function yelpWidgetTooltips() {
 		delayIn : 500
 	});
 }
+
 
 // tipsy, facebook style tooltips for jquery
 // version 1.0.0a
