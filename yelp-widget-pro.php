@@ -13,7 +13,7 @@ define( 'YELP_PLUGIN_NAME', 'yelp-widget-pro' );
 define( 'YELP_PLUGIN_NAME_PLUGIN', plugin_basename( __FILE__ ) );
 define( 'YELP_WIDGET_PRO_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'YELP_WIDGET_PRO_URL', plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
-define( 'YELP_WIDGET_DEBUG', true );
+define( 'YELP_WIDGET_DEBUG', false );
 
 /**
  * Localize the Plugin for Other Languages

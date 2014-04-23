@@ -480,6 +480,9 @@ var auth = {
 var map;
 var icon;
 var markersArray = [];
+var infowindow = new google.maps.InfoWindow({
+			maxWidth: 220 //max-width for containers  https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple-max
+		});
 
 jQuery.noConflict();
 
@@ -490,9 +493,6 @@ jQuery.noConflict();
 		//Default Term
 
 		var $ywpSearchMaps = $('.yelp-map');
-		var infowindow = new google.maps.InfoWindow({
-			maxWidth: 220 //max-width for containers  https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple-max
-		});
 
 		/*
 		 * Loop through maps and initialize

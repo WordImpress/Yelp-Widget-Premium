@@ -251,31 +251,6 @@ function generateInfoWindowHtml(biz) {
 		return text;
 }
 
-/*
- * Formats the categories HTML
- */
-function formatCategories(cats) {
-	var s = 'Categories: ';
-	for (var i = 0; i < cats.length; i++) {
-		s += cats[i][0];
-		if (i != cats.length - 1) s += ', ';
-	}
-	s += '<br/>';
-	return s;
-}
-
-/*
- * Formats the neighborhoods HTML
- */
-function formatNeighborhoods(neighborhoods) {
-	s = 'Neighborhoods: ';
-	for (var i = 0; i < neighborhoods.length; i++) {
-		s += neighborhoods[i];
-		if (i != neighborhoods.length - 1) s += ', ';
-	}
-	s += '<br/>';
-	return s;
-}
 
 /*
  * Formats the phone number HTML
