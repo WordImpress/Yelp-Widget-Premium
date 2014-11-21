@@ -1,10 +1,10 @@
 <?php
+
 /**
  *  WordImpress Licensing
  *
  * @description: Handles licencing for WordImpress products.
  */
-
 class Yelp_Widget_Pro_Licensing {
 
 
@@ -52,7 +52,7 @@ class Yelp_Widget_Pro_Licensing {
 				echo '<div class="updated error"><p>';
 				parse_str( $_SERVER['QUERY_STRING'], $params ); //ensures we're not redirect for admin pages using query string; ie '?=opentablewidget'
 				printf( __( 'Please <a href="options-general.php?page=yelp_widget">activate your license</a> for ' . $this->item_name . ' to receive support and updates. | <a href="%1$s" rel="nofollow">Hide Notice</a>' ),
-						'?' . http_build_query( array_merge( $params, array( $this->licence_key_setting . '_license_ignore_notice' => '0' ) ) )
+					'?' . http_build_query( array_merge( $params, array( $this->licence_key_setting . '_license_ignore_notice' => '0' ) ) )
 				);
 				echo "</p></div>";
 			}
@@ -67,7 +67,7 @@ class Yelp_Widget_Pro_Licensing {
 		global $current_user;
 		$user_id = $current_user->ID;
 		/* If user clicks to ignore the notice, add that to their user meta */
-		if ( isset( $_GET[$this->licence_key_setting . '_license_ignore_notice'] ) && $_GET[$this->licence_key_setting . '_license_ignore_notice'] == '0' ) {
+		if ( isset( $_GET[ $this->licence_key_setting . '_license_ignore_notice' ] ) && $_GET[ $this->licence_key_setting . '_license_ignore_notice' ] == '0' ) {
 			add_user_meta( $user_id, $this->licence_key_setting . '_license_ignore_notice', 'true', true );
 		}
 	}
@@ -125,9 +125,12 @@ class Yelp_Widget_Pro_Licensing {
 				'item_name'  => urlencode( $this->item_name ) // the name of our product in EDD
 			);
 
-			// Call the custom API.
-			$response = wp_remote_post( add_query_arg( $api_params, $this->store_url ), array( 'timeout' => 15, 'sslverify' => false ) );
-
+			// Call the WordImpress EDD API.
+			$response = wp_remote_post( $this->store_url, array(
+				'timeout'   => 120,
+				'sslverify' => false,
+				'body'      => $api_params
+			) );
 
 			// make sure the response came back okay
 			if ( is_wp_error( $response ) ) {
@@ -182,8 +185,12 @@ class Yelp_Widget_Pro_Licensing {
 				'item_name'  => urlencode( $this->item_name ) // the name of our product in EDD
 			);
 
-			// Call the custom API.
-			$response = wp_remote_post( add_query_arg( $api_params, $this->store_url ), array( 'timeout' => 15, 'sslverify' => false ) );
+			// Call the WordImpress EDD API.
+			$response = wp_remote_post( $this->store_url, array(
+				'timeout'   => 120,
+				'sslverify' => false,
+				'body'      => $api_params
+			) );
 
 			// make sure the response came back okay
 			if ( is_wp_error( $response ) ) {
@@ -208,8 +215,8 @@ class Yelp_Widget_Pro_Licensing {
 	 * Returns the license if in options
 	 */
 	function get_license() {
-		if ( ! empty( $_POST[$this->licence_key_option]['license_key'] ) ) {
-			$license = ! empty( $_POST[$this->licence_key_option]['license_key'] ) ? trim( $_POST[$this->licence_key_option]['license_key'] ) : '';
+		if ( ! empty( $_POST[ $this->licence_key_option ]['license_key'] ) ) {
+			$license = ! empty( $_POST[ $this->licence_key_option ]['license_key'] ) ? trim( $_POST[ $this->licence_key_option ]['license_key'] ) : '';
 		} else {
 			$current_options = get_option( $this->licence_key_option );
 			$license         = $current_options["license_key"];
@@ -253,13 +260,18 @@ class Yelp_Widget_Pro_Licensing {
 							<strong>(<?php echo $this->time_left_on_license( $license['license_expiration'] );
 								_e( ' Days Remaining' ); ?>)</strong></p>
 
-						<p><strong><?php _e( 'License Expiration:' ); ?></strong> <?php echo $license['license_expiration']; ?></p>
+						<p>
+							<strong><?php _e( 'License Expiration:' ); ?></strong> <?php echo $license['license_expiration']; ?>
+						</p>
 
 						<p><strong><?php _e( 'License Owner:' ); ?></strong> <?php echo $license['license_name']; ?></p>
 
-						<p><strong><?php _e( 'License Email:' ); ?></strong> <?php echo $license['license_email']; ?></p>
+						<p><strong><?php _e( 'License Email:' ); ?></strong> <?php echo $license['license_email']; ?>
+						</p>
 
-						<p><strong><?php _e( 'License Payment ID:' ); ?></strong> <?php echo $license['license_payment_id']; ?></p>
+						<p>
+							<strong><?php _e( 'License Payment ID:' ); ?></strong> <?php echo $license['license_payment_id']; ?>
+						</p>
 					</div>
 				<?php } ?>
 
@@ -362,8 +374,12 @@ class Yelp_Widget_Pro_Licensing {
 			'item_name'  => urlencode( $this->item_name )
 		);
 
-		// Call the custom API.
-		$response = wp_remote_get( add_query_arg( $api_params, $this->store_url ), array( 'timeout' => 15, 'sslverify' => false ) );
+		// Call the WordImpress EDD API.
+		$response = wp_remote_post( $this->store_url, array(
+			'timeout'   => 120,
+			'sslverify' => false,
+			'body'      => $api_params
+		) );
 
 
 		if ( is_wp_error( $response ) ) {

@@ -94,7 +94,7 @@ class Yelp_Shortcode extends Yelp_Widget {
 			);
 
 		} //Search API
-		elseif ( ! empty( $atts['term'] ) ) {
+		else if ( ! empty( $atts['term'] ) ) {
 
 			$instance = array(
 				'term'                => empty( $atts['term'] ) ? '' : $atts['term'],
@@ -120,7 +120,8 @@ class Yelp_Shortcode extends Yelp_Widget {
 		// actual shortcode handling here
 		//Using ob_start to output shortcode within content appropriatly
 		ob_start();
-		parent::widget( $args, $instance );
+		$shortcode_widget = new Yelp_Widget();
+		$shortcode_widget->widget( $args, $instance );
 		$shortcode = ob_get_contents();
 		ob_end_clean();
 

@@ -5,7 +5,6 @@
  * @description: Main Business Information Content
  * @since      : 1.2
  */
-
 ?>
 
 <div class="yelp-business-info clearfix">

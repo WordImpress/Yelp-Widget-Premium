@@ -3,8 +3,8 @@ Contributors: dlocc, wordimpress
 Donate link: http://imdev.in/
 Tags: yelp, yelp widget, yelp shortcode, yelp api, yelp business listings, yelp reviews, yelp widget pro
 Requires at least: 3.5
-Tested up to: 3.9
-Stable tag: 1.9
+Tested up to: 4.0
+Stable tag: 2.0
 
 Yelp Widget Pro makes it easy for you to add business listings to your website or blog via an easy-to-use and intuitive widget.
 
@@ -70,6 +70,12 @@ Some themes may have very small sidebars and CSS styles that conflict or alter t
 4. How the widget looks in a website sidebar
 
 == Changelog ==
+
+= 1.9.1 =
+* New: Added check for SSL so all assets are loaded over https
+* Fix: Several Strict Standards error within the plugin shortcode
+* Update: Fixed issue with WP Engine caching and occasional issues with cached license activation responses
+* Update: EDD_SL_Plugin_Updater.php to v1.5
 
 = 1.9 =
 * New: Google Maps Widget now includes option to modify the default search term 'search_term'

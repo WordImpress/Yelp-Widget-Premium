@@ -8,7 +8,6 @@
 /**
  * Adds Yelp Widget Pro Widget
  */
-
 class Yelp_Widget extends WP_Widget {
 
 
@@ -36,7 +35,7 @@ class Yelp_Widget extends WP_Widget {
 	/**
 	 * AJAX Clear Widget Cache
 	 */
-// Same handler function...
+	// Same handler function...
 
 	function ywp_clear_widget_cache() {
 
@@ -79,7 +78,7 @@ class Yelp_Widget extends WP_Widget {
 	 * Adds Yelp Widget Pro Scripts
 	 */
 
-	public function add_yelp_widget_frontend_scripts() {
+	public static function add_yelp_widget_frontend_scripts() {
 
 		$settings = get_option( 'yelp_widget_settings' );
 		$suffix   = defined( 'YELP_WIDGET_DEBUG' ) && YELP_WIDGET_DEBUG ? '' : '.min';
@@ -127,7 +126,7 @@ class Yelp_Widget extends WP_Widget {
 	 *
 	 * @return  output html
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 
 		$yelp = new Yelp_Widget();
 
@@ -269,7 +268,6 @@ class Yelp_Widget extends WP_Widget {
 			$response = yelp_widget_curl( $signed_url );
 
 		}
-
 
 		/*
 		 * Output Yelp Widget Pro
@@ -441,7 +439,7 @@ class Yelp_Widget extends WP_Widget {
 	 * @created    : 03/06/13
 	 */
 	public static function display_biz_address( $address ) {
-		$x      = 0;
+
 		$output = '<div class="yelp-address-wrap"><address>';
 		//Itterate through Address Array
 		foreach ( $address as $addressItem ) {
@@ -554,13 +552,31 @@ function yelp_widget_curl( $signed_url ) {
 		curl_setopt( $ch, CURLOPT_HEADER, 0 );
 		$data = curl_exec( $ch ); // Yelp response
 		curl_close( $ch );
+		$data = yelp_update_http_for_ssl( $data );
 		$response = json_decode( $data );
 
 	} else {
+		$data = yelp_update_http_for_ssl( $data );
 		$response = json_decode( $data['body'] );
 	}
-
 	// Handle Yelp response data
 	return $response;
+
+}
+
+/**
+ * Function update http for SSL
+ *
+ */
+function yelp_update_http_for_ssl( $data ) {
+
+	if ( ! empty( $data['body'] ) && is_ssl() ) {
+		$data['body'] = str_replace( 'http:', 'https:', $data['body'] );
+	} elseif ( is_ssl() ) {
+		$data = str_replace( 'http:', 'https:', $data );
+	}
+	$data = str_replace( 'http:', 'https:', $data );
+
+	return $data;
 
 }

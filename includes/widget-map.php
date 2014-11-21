@@ -30,7 +30,7 @@ class Yelp_Widget_Map extends WP_Widget {
 	/**
 	 *  Adds Yelp Widget Pro Google Maps Widget Scripts
 	 */
-	public function add_yelp_widget_map_frontend_scripts() {
+	public static function add_yelp_widget_map_frontend_scripts() {
 
 		$suffix = defined( 'YELP_WIDGET_DEBUG' ) && YELP_WIDGET_DEBUG ? '' : '.min';
 

@@ -14,9 +14,10 @@ class Yelp_Map_Shortcode extends Yelp_Widget_Map {
 	}
 
 	static function handle_shortcode( $atts ) {
+		$yelp_widget_map = new Yelp_Widget_Map();
 
 		//Only Load scripts when widget or shortcode is active
-		parent::add_yelp_widget_map_frontend_scripts();
+		$yelp_widget_map->add_yelp_widget_map_frontend_scripts();
 
 		//extract shortcode arguments
 		extract( shortcode_atts( array(
@@ -37,9 +38,9 @@ class Yelp_Map_Shortcode extends Yelp_Widget_Map {
 		);
 
 		//Search API
-		//Using ob_start to output shortcode within content appropriatly
+		//Using ob_start to output shortcode within content appropriately
 		ob_start();
-		parent::widget( $args, $instance );
+		$yelp_widget_map->widget( $args, $instance );
 		$shortcode = ob_get_contents();
 		ob_end_clean();
 
