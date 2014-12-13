@@ -71,6 +71,12 @@ Some themes may have very small sidebars and CSS styles that conflict or alter t
 
 == Changelog ==
 
+= 1.9.2 =
+* Integrated Developer Yelp API Key to enable 3 reviews for all users
+* Enabled backup API Key in case Developer API Key hits daily limit
+* Tightened up internationalization
+* Updated activation message
+
 = 1.9.1 =
 * New: Added check for SSL so all assets are loaded over https
 * Fix: Several Strict Standards error within the plugin shortcode

@@ -198,7 +198,7 @@
 
 	<!-- Profile Image Size -->
 	<p>
-		<label for="<?php echo $this->get_field_id( 'profile_img_size' ); ?>"><?php _e( 'Profile Image Size:' ); ?>
+		<label for="<?php echo $this->get_field_id( 'profile_img_size' ); ?>"><?php _e( 'Profile Image Size:', 'ywp' ); ?>
 			<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'Customize the width and height of the business Yelp profile image.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
 		<select name="<?php echo $this->get_field_name( 'profile_img_size' ); ?>" id="<?php echo $this->get_field_id( 'profile_img_size' ); ?>" class="widefat">
 			<?php

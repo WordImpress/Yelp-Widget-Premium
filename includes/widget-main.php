@@ -138,16 +138,28 @@ class Yelp_Widget extends WP_Widget {
 		// Base unsigned URL
 		$unsigned_url = "http://api.yelp.com/v2/";
 
-		// Token object built using the OAuth library
-		$yelp_widget_token        = $options['yelp_widget_token'];
-		$yelp_widget_token_secret = $options['yelp_widget_token_secret'];
+		if(empty($options['enable_backup_key'])) {
+			// Token object built using the OAuth library
+			$yelp_widget_token        = 'Z3J0Ecxir8c-Vx1_dHDlVnVFOvmWrQ5T';
+			$yelp_widget_token_secret = 'qx2cpAUz6UHnAlu53tcWOdH2LNg';
 
-		$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
+			$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
 
-		// Consumer object built using the OAuth library
-		$yelp_widget_consumer_key    = $options['yelp_widget_consumer_key'];
-		$yelp_widget_consumer_secret = $options['yelp_widget_consumer_secret'];
+			// Consumer object built using the OAuth library
+			$yelp_widget_consumer_key    = 'NLzpDyRu35JeHhOzQAIHuQ';
+			$yelp_widget_consumer_secret = '1eQpHwSO38jMSsI37QOjBWuroeQ';
 
+		} else {
+			// Token object built using the OAuth library
+			$yelp_widget_token        = $options["yelp_widget_token"];
+			$yelp_widget_token_secret = $options["yelp_widget_token_secret"];
+
+			$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
+
+			// Consumer object built using the OAuth library
+			$yelp_widget_consumer_key    = $options["yelp_widget_consumer_key"];
+			$yelp_widget_consumer_secret = $options["yelp_widget_consumer_secret"];
+		}
 		$consumer = new YWPOAuthConsumer( $yelp_widget_consumer_key, $yelp_widget_consumer_secret );
 
 		// Yelp uses HMAC SHA1 encoding
@@ -417,7 +429,8 @@ class Yelp_Widget extends WP_Widget {
 		$apiOptions = get_option( 'yelp_widget_settings' );
 
 		//Verify that the API values have been inputed prior to output
-		if ( empty( $apiOptions["yelp_widget_consumer_key"] ) || empty( $apiOptions["yelp_widget_consumer_secret"] ) || empty( $apiOptions["yelp_widget_token"] ) || empty( $apiOptions["yelp_widget_token_secret"] ) ) {
+
+		if ((!empty($apiOptions["enable_backup_key"])) && (empty( $apiOptions["yelp_widget_consumer_key"] ) || empty( $apiOptions["yelp_widget_consumer_secret"] ) || empty( $apiOptions["yelp_widget_token"] ) || empty( $apiOptions["yelp_widget_token_secret"])) ) {
 			//the user has not properly configured plugin so display a warning
 			?>
 			<div class="alert alert-red"><?php _e( 'Please input your Yelp API information in the <a href="options-general.php?page=yelp_widget">plugin settings</a> page prior to enabling Yelp Widget Pro.', 'ywp' ); ?></div>
@@ -510,7 +523,7 @@ class Yelp_Widget extends WP_Widget {
 
 		$output = '<div class="yelp-error">';
 		if ( $response->error->id == 'EXCEEDED_REQS' ) {
-			$output .= __( 'Yelp API is exhausted (Contact Yelp to increase your API call limit)', 'ywp' );
+			$output .= __( 'The default Yelp API has exhausted its daily limit. Please enable your own API Key in your Yelp Widget Pro settings.', 'ywp' );
 		} elseif ( $response->error->id == 'BUSINESS_UNAVAILABLE' ) {
 			$output .= __( '<strong>Error:</strong> Business information is unavailable. Either you mistyped the Yelp biz ID or the business does not have any reviews.', 'ywp' );
 		} //output standard error

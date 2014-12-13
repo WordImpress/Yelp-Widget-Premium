@@ -1,0 +1,685 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Yelp Widget Pro Premium v1.9.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-12-09 23:20:06+0000\n"
+"Last-Translator: webdevmattcrom <matt@wordimpress.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: includes/options.php:33
+#: includes/options.php:159
+#@ ywp
+msgid "Yelp Widget Pro Settings"
+msgstr ""
+
+#: includes/options.php:34
+#@ ywp
+msgid "Yelp Widget Pro"
+msgstr ""
+
+#: includes/options.php:94
+#@ ywp
+msgid "Rate Yelp Widget Pro"
+msgstr ""
+
+#: includes/options.php:94
+#@ ywp
+msgid "Rate Plugin"
+msgstr ""
+
+#: includes/options.php:95
+#@ ywp
+msgid "Upgrade to Yelp Widget Premium"
+msgstr ""
+
+#: includes/options.php:95
+#@ ywp
+msgid "Upgrade to Premium"
+msgstr ""
+
+#: includes/options.php:103
+#@ ywp
+msgid "Support"
+msgstr ""
+
+#: includes/options.php:111
+#@ ywp
+msgid "Settings"
+msgstr ""
+
+#: includes/options.php:173
+#@ ywp
+msgid "Yelp Widget Pro Introductions"
+msgstr ""
+
+#: includes/options.php:176
+#@ ywp
+msgid "Thanks for choosing Yelp Widget Pro! <strong>To start using Yelp Widget Pro you must have a valid Yelp API key</strong>.  Don't worry, it's <em>free</em> and very easy to get one! <strong>Having trouble?</strong> Check out the <a href=\"http://wordimpress.com/docs/yelp-widget-pro/#how-to-request-a-yelp-api-key\" target=\"_blank\" class=\"new-window\">How to Request a Yelp API Key</a> screencast."
+msgstr ""
+
+#: includes/options.php:178
+#@ ywp
+msgid "Yelp Widget Pro Activation Instructions:"
+msgstr ""
+
+#: includes/options.php:181
+#@ ywp
+msgid "Sign into Yelp or create an account if you don't have one already"
+msgstr ""
+
+#: includes/options.php:182
+#@ ywp
+msgid "Once logged in, <a href=\"http://www.yelp.com/developers/getting_started/api_access\" target=\"_blank\" class=\"new-window\">sign up for API access"
+msgstr ""
+
+#: includes/options.php:183
+#@ ywp
+msgid "After you have been granted an API key copy-and-paste the API v2.0 information into the appropriate fields below"
+msgstr ""
+
+#: includes/options.php:184
+#@ ywp
+msgid "Click update to activate and begin using Yelp Widget Pro"
+msgstr ""
+
+#: includes/options.php:188
+#@ ywp
+msgid "Like this plugin?  Give it a like on Facebook:"
+msgstr ""
+
+#: includes/options.php:233
+#@ ywp
+msgid "Yelp API v2.0 Information"
+msgstr ""
+
+#: includes/options.php:244
+#@ ywp
+msgid "Yelp Widget Pro has our API Key integrated into it automatically. This allows you to show up to 3 reviews on your site at a time. Read about why we did this here."
+msgstr ""
+
+#: includes/options.php:245
+#@ ywp
+msgid "There is a small chance that the cumulative amount of API calls made to our integrated API Key will reach the max amount that Yelp allows. If that happens the widget will break regardless of whether you are showing reviews or not."
+msgstr ""
+
+#: includes/options.php:246
+#@ ywp
+msgid "To avoid that, we're providing you the ability to integrate your own API Key here as a backup. This means that as long as our API is working well, you'll be using that. But if you encounter an error that says the API daily limit has been reached, you can enable your backup key for the remainder of the day (remember, the limit Yelp imposes is daily, so you can enable our key again the next day). Keep in mind that if you created your key sometime after June 2014, you will only be able to show one review at a time, instead of 3 -- this is the limit that Yelp imposes on the API, it is restricted by the plugin at all."
+msgstr ""
+
+#: includes/options.php:250
+#@ ywp
+msgid "Enable Backup API Key?"
+msgstr ""
+
+#: includes/options.php:266
+#@ ywp
+msgid "Consumer Key"
+msgstr ""
+
+#: includes/options.php:275
+#@ ywp
+msgid "Consumer Secret"
+msgstr ""
+
+#: includes/options.php:284
+#@ ywp
+msgid "Token"
+msgstr ""
+
+#: includes/options.php:293
+#@ ywp
+msgid "Token Secret"
+msgstr ""
+
+#: includes/options.php:312
+#@ ywp
+msgid "Disabling the widget's CSS output is useful for more complete control over customizing the widget styles. Helpful for integration into custom theme designs."
+msgstr ""
+
+#: includes/options.php:329
+#@ ywp
+msgid "Update"
+msgstr ""
+
+#: includes/options.php:341
+#@ ywp
+msgid "Yelp Widget Premium"
+msgstr ""
+
+#: includes/options.php:345
+#@ ywp
+msgid "Yelp Widget Premium is a significant upgrade to Yelp Widget Pro that adds many features that will allow you to further customize your widgets with Google Maps, Yelp review snippets, additional graphics and display options plus so much more! Also included is priority support, auto updates, and well documented shortcodes to display Yelp in any page or post"
+msgstr ""
+
+#: includes/options.php:352
+#@ ywp
+msgid "Need Support?"
+msgstr ""
+
+#: includes/options.php:355
+#@ ywp
+msgid "If you have any problems with this plugin or ideas for improvements or enhancements, please use the WordImpress support forum: <a href=\"http://wordimpress.com/support/forum/yelp-widget-pro/\" target=\"_blank\" class=\"new-window\">Support Forums</a>. Please note, support is prioritized for <a href=\"http://wordimpress.com/plugins/yelp-widget-pro/\" title=\"Upgrade to Yelp Widget Premium\" target=\"_blank\" class=\"new-window\">Premium Users</a>."
+msgstr ""
+
+#: includes/template-parts/business-info.php:23
+#@ ywp
+msgid "reviews"
+msgstr ""
+
+#: includes/template-parts/business-info.php:25
+#@ ywp
+msgid "on Yelp"
+msgstr ""
+
+#: includes/template-parts/business.php:87
+#@ ywp
+msgid "Read Full Review"
+msgstr ""
+
+#: includes/widget-main-form.php:10
+#: includes/widget-map-form.php:11
+#@ ywp
+msgid "Widget Title"
+msgstr ""
+
+#: includes/widget-main-form.php:17
+#@ ywp
+msgid "Yelp API Request Method:"
+msgstr ""
+
+#: includes/widget-main-form.php:19
+#@ ywp
+msgid "Search Method"
+msgstr ""
+
+#: includes/widget-main-form.php:19
+#@ ywp
+msgid "Yelp's Search API allows you to display results of a specific search term. For more information <a href='http://wordimpress.com/docs/yelp-widget-pro/#search-method' target='_blank'>Click Here</a>"
+msgstr ""
+
+#: includes/widget-main-form.php:22
+#@ ywp
+msgid "Business Method"
+msgstr ""
+
+#: includes/widget-main-form.php:22
+#@ ywp
+msgid "Yelp’s Business API allows business owners to display their Yelp reviews (up to 3), address, Google Map location, and more (premium version). For more information <a href='http://wordimpress.com/docs/yelp-widget-pro/#business-method' target='_blank'>Click Here</a>"
+msgstr ""
+
+#: includes/widget-main-form.php:31
+#@ ywp
+msgid "Search Term:"
+msgstr ""
+
+#: includes/widget-main-form.php:32
+#@ ywp
+msgid "The term you would like to display results for, ie: 'Bars', 'Daycare', 'Restaurants'."
+msgstr ""
+
+#: includes/widget-main-form.php:39
+#@ ywp
+msgid "Location:"
+msgstr ""
+
+#: includes/widget-main-form.php:40
+#@ ywp
+msgid "The city name you would like to to search, ie 'San Diego', 'New York', 'Miami'."
+msgstr ""
+
+#: includes/widget-main-form.php:46
+#@ ywp
+msgid "Number of Items:"
+msgstr ""
+
+#: includes/widget-main-form.php:63
+#@ ywp
+msgid "Sorting:"
+msgstr ""
+
+#: includes/widget-main-form.php:66
+#@ ywp
+msgid "Best Match"
+msgstr ""
+
+#: includes/widget-main-form.php:66
+#@ ywp
+msgid "Distance"
+msgstr ""
+
+#: includes/widget-main-form.php:66
+#@ ywp
+msgid "Highest Rated"
+msgstr ""
+
+#: includes/widget-main-form.php:86
+#@ ywp
+msgid "Business ID:"
+msgstr ""
+
+#: includes/widget-main-form.php:87
+#@ ywp
+msgid "The Business ID is the portion of the Yelp url after the 'http://www.yelp.com/biz/' portion. For example, the following business's URL on Yelp is 'http://www.yelp.com/biz/the-barbeque-pit-seattle-2' and the Business ID is 'the-barbeque-pit-seattle-2'. For more information <a href='http://wordimpress.com/docs/yelp-widget-pro/#business-method' target='_blank'>Click Here</a>"
+msgstr ""
+
+#: includes/widget-main-form.php:94
+#@ ywp
+msgid "Display Business Reviews"
+msgstr ""
+
+#: includes/widget-main-form.php:101
+#@ ywp
+msgid "Review Options:"
+msgstr ""
+
+#: includes/widget-main-form.php:108
+#@ ywp
+msgid "Minimum Review Rating:"
+msgstr ""
+
+#: includes/widget-main-form.php:109
+#@ ywp
+msgid "Filter bad reviews to prevent them from displaying. Please note that the Yelp API only allows for 3 total reviews pulled. This will limit the total number further."
+msgstr ""
+
+#: includes/widget-main-form.php:115
+#@ ywp
+msgid "No filter"
+msgstr ""
+
+#: includes/widget-main-form.php:119
+#@ ywp
+msgid "5 Stars"
+msgstr ""
+
+#: includes/widget-main-form.php:123
+#@ ywp
+msgid "4 Stars"
+msgstr ""
+
+#: includes/widget-main-form.php:127
+#@ ywp
+msgid "3 Stars"
+msgstr ""
+
+#: includes/widget-main-form.php:131
+#@ ywp
+msgid "2 Stars"
+msgstr ""
+
+#: includes/widget-main-form.php:135
+#@ ywp
+msgid "1 Star"
+msgstr ""
+
+#: includes/widget-main-form.php:144
+#@ ywp
+msgid "Reviewer's Avatar Size:"
+msgstr ""
+
+#: includes/widget-main-form.php:166
+#@ ywp
+msgid "Hide Star Rating and Date"
+msgstr ""
+
+#: includes/widget-main-form.php:167
+#@ ywp
+msgid "Disable the individual star rating and date per each review. Useful for certain feeds and output situations."
+msgstr ""
+
+#: includes/widget-main-form.php:174
+#@ ywp
+msgid "Hide \"Read Full Review\" link"
+msgstr ""
+
+#: includes/widget-main-form.php:175
+#@ ywp
+msgid "This option allows you to hide the link below each review snippet to the full review on Yelp."
+msgstr ""
+
+#: includes/widget-main-form.php:182
+#@ ywp
+msgid "Custom \"Read More\" text:"
+msgstr ""
+
+#: includes/widget-main-form.php:183
+#@ ywp
+msgid "Customize the 'Read More' link text. Useful for non-English languages and personalization."
+msgstr ""
+
+#: includes/widget-main-form.php:195
+#: includes/widget-map-form.php:16
+#@ ywp
+msgid "Display Options:"
+msgstr ""
+
+#: includes/widget-main-form.php:201
+#@ ywp
+msgid "Profile Image Size:"
+msgstr ""
+
+#: includes/widget-main-form.php:202
+#@ ywp
+msgid "Customize the width and height of the business Yelp profile image."
+msgstr ""
+
+#: includes/widget-main-form.php:220
+#@ ywp
+msgid "Display Business Address"
+msgstr ""
+
+#: includes/widget-main-form.php:225
+#@ ywp
+msgid "Display Business Phone Number"
+msgstr ""
+
+#: includes/widget-main-form.php:232
+#@ ywp
+msgid "Hide Business Information"
+msgstr ""
+
+#: includes/widget-main-form.php:233
+#@ ywp
+msgid "Disable the main business information profile image, name, rating and address (if enabled). Useful for displaying only maps and ratings in the widget."
+msgstr ""
+
+#: includes/widget-main-form.php:240
+#@ ywp
+msgid "Google Map Options:"
+msgstr ""
+
+#: includes/widget-main-form.php:247
+#@ ywp
+msgid "Display Google Map"
+msgstr ""
+
+#: includes/widget-main-form.php:254
+#@ ywp
+msgid "Disable Map Scroll"
+msgstr ""
+
+#: includes/widget-main-form.php:260
+#@ ywp
+msgid "Map Position"
+msgstr ""
+
+#: includes/widget-main-form.php:265
+#@ ywp
+msgid "Below Results"
+msgstr ""
+
+#: includes/widget-main-form.php:266
+#@ ywp
+msgid "Above Results"
+msgstr ""
+
+#: includes/widget-main-form.php:273
+#@ ywp
+msgid "Advanced Options:"
+msgstr ""
+
+#: includes/widget-main-form.php:279
+#@ ywp
+msgid "Cache Data:"
+msgstr ""
+
+#: includes/widget-main-form.php:280
+#@ ywp
+msgid "Caching data will save Yelp data to your database in order to speed up response times and conserve API requests. The suggested settings is 1 Day. "
+msgstr ""
+
+#: includes/widget-main-form.php:283
+#@ ywp
+msgid "None"
+msgstr ""
+
+#: includes/widget-main-form.php:283
+#@ ywp
+msgid "1 Hour"
+msgstr ""
+
+#: includes/widget-main-form.php:283
+#@ ywp
+msgid "3 Hours"
+msgstr ""
+
+#: includes/widget-main-form.php:283
+#@ ywp
+msgid "6 Hours"
+msgstr ""
+
+#: includes/widget-main-form.php:283
+#@ ywp
+msgid "12 Hours"
+msgstr ""
+
+#: includes/widget-main-form.php:283
+#@ ywp
+msgid "1 Day"
+msgstr ""
+
+#: includes/widget-main-form.php:283
+#@ ywp
+msgid "2 Days"
+msgstr ""
+
+#: includes/widget-main-form.php:283
+#@ ywp
+msgid "1 Week"
+msgstr ""
+
+#: includes/widget-main-form.php:312
+#@ ywp
+msgid "Disable Title Output"
+msgstr ""
+
+#: includes/widget-main-form.php:313
+#@ ywp
+msgid "The title output is content within the 'Widget Title' field above. Disabling the title output may be useful for some themes."
+msgstr ""
+
+#: includes/widget-main-form.php:321
+#@ ywp
+msgid "Open Links in New Window"
+msgstr ""
+
+#: includes/widget-main-form.php:322
+#@ ywp
+msgid "This option will add target='_blank' to the widget's links. This is useful to keep users on your website."
+msgstr ""
+
+#: includes/widget-main-form.php:329
+#@ ywp
+msgid "No Follow Links"
+msgstr ""
+
+#: includes/widget-main-form.php:330
+#@ ywp
+msgid "This option will add rel='nofollow' to the widget's outgoing links. This option may be useful for SEO."
+msgstr ""
+
+#: includes/widget-main-form.php:336
+#: includes/widget-map-form.php:38
+#@ ywp
+msgid "Plugin Documentation"
+msgstr ""
+
+#: includes/widget-main-form.php:336
+#: includes/widget-map-form.php:38
+#@ ywp
+msgid "Priority Support"
+msgstr ""
+
+#: includes/widget-main.php:22
+#@ ywp
+msgid "Display Yelp business ratings and reviews on your website."
+msgstr ""
+
+#: includes/widget-main.php:313
+#@ ywp
+msgid "No results"
+msgstr ""
+
+#: includes/widget-main.php:436
+#: includes/widget-map.php:157
+#@ ywp
+msgid "Please input your Yelp API information in the <a href=\"options-general.php?page=yelp_widget\">plugin settings</a> page prior to enabling Yelp Widget Pro."
+msgstr ""
+
+#: includes/widget-main.php:526
+#@ ywp
+msgid "The default Yelp API has exhausted its daily limit. Please enable your own API Key in your Yelp Widget Pro settings."
+msgstr ""
+
+#: includes/widget-main.php:528
+#@ ywp
+msgid "<strong>Error:</strong> Business information is unavailable. Either you mistyped the Yelp biz ID or the business does not have any reviews."
+msgstr ""
+
+#: includes/widget-map-form.php:22
+#@ ywp
+msgid "Map Location:"
+msgstr ""
+
+#: includes/widget-map-form.php:23
+#@ ywp
+msgid "The location this map will search. You can either use a full address or city name."
+msgstr ""
+
+#: includes/widget-map-form.php:29
+#@ ywp
+msgid "Default Search Term:"
+msgstr ""
+
+#: includes/widget-map-form.php:30
+#@ ywp
+msgid "This is the default search term that appears in the search input."
+msgstr ""
+
+#: includes/widget-map.php:20
+#@ ywp
+msgid "Add a Google Map Yelp Search to your website."
+msgstr ""
+
+#: includes/widget-map.php:98
+#@ ywp
+msgid "Powered by"
+msgstr ""
+
+#: includes/widget-map.php:103
+#@ ywp
+msgid "Search for"
+msgstr ""
+
+#: licence/classes/EDD_SL_Plugin_Updater.php:206
+#, php-format
+#@ ywp
+msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr ""
+
+#: licence/classes/EDD_SL_Plugin_Updater.php:213
+#, php-format
+#@ ywp
+msgid "There is a new version of %1$s available. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s\">update now</a>."
+msgstr ""
+
+#: licence/classes/EDD_SL_Plugin_Updater.php:299
+#@ ywp
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: licence/classes/EDD_SL_Plugin_Updater.php:299
+#@ ywp
+msgid "Error"
+msgstr ""
+
+#: licence/licence.php:252
+#@ ywp
+msgid "Plugin License"
+msgstr ""
+
+#: licence/licence.php:258
+#@ ywp
+msgid "License Status:"
+msgstr ""
+
+#: licence/licence.php:261
+#@ ywp
+msgid " Days Remaining"
+msgstr ""
+
+#: licence/licence.php:264
+#@ ywp
+msgid "License Expiration:"
+msgstr ""
+
+#: licence/licence.php:267
+#@ ywp
+msgid "License Owner:"
+msgstr ""
+
+#: licence/licence.php:269
+#@ ywp
+msgid "License Email:"
+msgstr ""
+
+#: licence/licence.php:273
+#@ ywp
+msgid "License Payment ID:"
+msgstr ""
+
+#: licence/licence.php:278
+#@ ywp
+msgid "Your license is active and you are receiving updates."
+msgstr ""
+
+#: licence/licence.php:285
+#@ ywp
+msgid "The license you entered has reached the activation limit. To purchase more licenses please visit WordImpress."
+msgstr ""
+
+#: licence/licence.php:289
+#@ ywp
+msgid "There was a problem with the license you entered. Please check that your license key is active and valid then reenter it below. If you are having trouble please contact support for assistance."
+msgstr ""
+
+#: licence/licence.php:293
+#@ ywp
+msgid "Activate your license to receive automatic plugin updates for the life of your license."
+msgstr ""
+
+#: licence/licence.php:306
+#@ ywp
+msgid "Your licence is active and valid."
+msgstr ""
+
+#: licence/licence.php:308
+#@ ywp
+msgid "Enter your license key to receive updates and support"
+msgstr ""
+
+#: licence/licence.php:314
+#@ ywp
+msgid "Deactivate License"
+msgstr ""
+
+#: licence/licence.php:318
+#@ ywp
+msgid "Activate License"
+msgstr ""
+

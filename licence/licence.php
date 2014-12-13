@@ -249,48 +249,48 @@ class Yelp_Widget_Pro_Licensing {
 		?>
 
 		<div class="edd-wordimpress-license-wrap">
-			<h2><?php _e( 'Plugin License' ); ?></h2>
+			<h2><?php _e( 'Plugin License', 'ywp' ); ?></h2>
 
 			<?php if ( $status !== false && $status == 'valid' ) { ?>
 
 				<?php if ( $legacySupport != true ) { ?>
 					<div class="license-stats">
-						<p><strong><?php _e( 'License Status:' ); ?></strong>
+						<p><strong><?php _e( 'License Status:', 'ywp' ); ?></strong>
 							<span style="color: #468847;"><?php echo strtoupper( $license['license_status'] ); ?></span>
 							<strong>(<?php echo $this->time_left_on_license( $license['license_expiration'] );
-								_e( ' Days Remaining' ); ?>)</strong></p>
+								_e( ' Days Remaining', 'ywp' ); ?>)</strong></p>
 
 						<p>
-							<strong><?php _e( 'License Expiration:' ); ?></strong> <?php echo $license['license_expiration']; ?>
+							<strong><?php _e( 'License Expiration:', 'ywp' ); ?></strong> <?php echo $license['license_expiration']; ?>
 						</p>
 
-						<p><strong><?php _e( 'License Owner:' ); ?></strong> <?php echo $license['license_name']; ?></p>
+						<p><strong><?php _e( 'License Owner:', 'ywp' ); ?></strong> <?php echo $license['license_name']; ?></p>
 
-						<p><strong><?php _e( 'License Email:' ); ?></strong> <?php echo $license['license_email']; ?>
+						<p><strong><?php _e( 'License Email:', 'ywp' ); ?></strong> <?php echo $license['license_email']; ?>
 						</p>
 
 						<p>
-							<strong><?php _e( 'License Payment ID:' ); ?></strong> <?php echo $license['license_payment_id']; ?>
+							<strong><?php _e( 'License Payment ID:', 'ywp' ); ?></strong> <?php echo $license['license_payment_id']; ?>
 						</p>
 					</div>
 				<?php } ?>
 
-				<p class="alert alert-success license-status"><?php _e( 'Your license is active and you are receiving updates.' ); ?></p>
+				<p class="alert alert-success license-status"><?php _e( 'Your license is active and you are receiving updates.', 'ywp' ); ?></p>
 
 			<?php
 			} //Reached Activation?
 			elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license['license_error'] == 'no_activations_left' ) {
 				?>
 
-				<p class="alert alert-red license-status"><?php _e( 'The license you entered has reached the activation limit. To purchase more licenses please visit WordImpress.', 'wqc' ); ?></p>
+				<p class="alert alert-red license-status"><?php _e( 'The license you entered has reached the activation limit. To purchase more licenses please visit WordImpress.', 'ywp' ); ?></p>
 
 			<?php } elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license["license_error"] == 'missing' ) { ?>
 
-				<p class="alert alert-red license-status"><?php _e( 'There was a problem with the license you entered. Please check that your license key is active and valid then reenter it below. If you are having trouble please contact support for assistance.' ); ?></p>
+				<p class="alert alert-red license-status"><?php _e( 'There was a problem with the license you entered. Please check that your license key is active and valid then reenter it below. If you are having trouble please contact support for assistance.', 'ywp' ); ?></p>
 
 			<?php } else { ?>
 
-				<p class="alert alert-red license-status"><?php _e( 'Activate your license to receive automatic plugin updates for the life of your license.' ); ?></p>
+				<p class="alert alert-red license-status"><?php _e( 'Activate your license to receive automatic plugin updates for the life of your license.', 'ywp' ); ?></p>
 
 			<?php } ?>
 
@@ -303,19 +303,19 @@ class Yelp_Widget_Pro_Licensing {
 					echo $license['license_key'];
 				} ?>" autocomplete="off" />
 				<label class="description licence-label" for="<?php echo $this->licence_key_option; ?>"><?php if ( $status !== false && $status == 'valid' ) {
-						_e( 'Your licence is active and valid.' );
+						_e( 'Your licence is active and valid.', 'ywp' );
 					} else {
-						_e( 'Enter your license key to receive updates and support' );
+						_e( 'Enter your license key to receive updates and support', 'ywp' );
 					} ?></label>
 
 
 				<?php if ( $status !== false && $status == 'valid' ) { ?>
 					<?php wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
-					<input type="submit" class="button-secondary deactivate-license-btn" name="edd_license_deactivate" value="<?php _e( 'Deactivate License' ); ?>" />
+					<input type="submit" class="button-secondary deactivate-license-btn" name="edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ywp' ); ?>" />
 				<?php
 				} else {
 					wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
-					<input type="submit" class="button-secondary activate-license-btn" name="edd_license_activate" value="<?php _e( 'Activate License' ); ?>" />
+					<input type="submit" class="button-secondary activate-license-btn" name="edd_license_activate" value="<?php _e( 'Activate License', 'ywp' ); ?>" />
 				<?php } ?>
 
 
