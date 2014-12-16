@@ -11,148 +11,32 @@ function ywp_activation_admin_notice() {
 	global $pagenow;
 	if ( $pagenow == 'plugins.php' ) {
 		if (!get_user_meta($user_id, 'ywp_activation_ignore_notice')) { ?>
-			<style>
-				.updated.ywp {
-					border: 0px;
-					background: transparent;
-					position: relative;
-					padding: 0;
-					margin: 0;
-					overflow: hidden;
-					-webkit-box-shadow: 0 0 0 0 rgba(0,0,0,0.1);
-					box-shadow: 0 0 0 0 rgba(0,0,0,0.1);
-					-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-					-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-					box-sizing: border-box;         /* Opera/IE 8+ */
-					width: 100%;
-				}
-				.updated.ywp h3 {
-					background: #BF3026;
-					padding: 0 1rem 1.5rem 1rem;
-					margin: 0;
-					color: white;
-					position: relative;
-				}
-				.updated.ywp h3 img {
-					position: relative;
-					top: 10px;
-
-				}
-
-				.ywp {position: relative;}
-
-				.ywp .dismiss {
-					float: right;
-					position: relative;
-					top: -6px;
-					bottom: 0;
-					right: -1rem;
-					background: rgba(255,255,255,.15);
-					padding: 2rem;
-					color: white;
-				}
-				.ywp .dismiss:hover {
-					color: #777;
-					background: rgba(255,255,255,.5)
-				}
-				.ywp .dismiss:before {font-family: 'Dashicons'; content: "\f153"; display: inline-block;}
-				.ywp-actions {
-					display: block;
-					width: 100%;
-					margin: 0;
-					padding: 0;
-				}
-				.ywp-action {
-					width: 30%;
-					float: left;
-					margin: 0 0 -1rem 0;
-				}
-				.ywp-action a, .ywp-action a:hover,
-				.ywp-action a:before, .ywp-action:hover a:before,
-				.dashicons-edit {
-					-webkit-transition: all 500ms ease-in-out;
-					-moz-transition: all 500ms ease-in-out;
-					-ms-transition: all 500ms ease-in-out;
-					-o-transition: all 500ms ease-in-out;
-					transition: all 500ms ease-in-out;
-				}
-				.ywp-action a,
-				.ywp-action #mc_embed_signup {
-					background: #ddd;
-					padding: 1.5rem;
-					position: relative;
-					top: 0;
-					bottom: 0;
-					right: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-					display: block;
-					text-align: left;
-					color: rgba(51,51,51,1);
-				}
-				.ywp-action a:hover,
-				.ywp-action:hover .dashicons-edit {
-					background: #cccccc;
-					color: rgba(0,0,0,1);
-				}
-				.ywp-action a:before,
-				.ywp-action .dashicons-edit {
-					float: left;
-					position: relative;
-					top: -1.5rem;
-					bottom: 0;
-					left: -1.5rem;
-					background: rgba(163,163,163,.15);
-					padding: 1.5rem;
-					font-size: 2rem;
-					color: #bf3026;
-					display: inline-block;
-					font-family: 'Dashicons';
-				}
-
-				.ywp-action a.settings:before {content: "\f108";}
-				.ywp-action a.widget:before {content: "\f111";}
-
-				.ywp-action.mailchimp {
-					margin: -12px 0 0 0;
-					width: 40%;
-					height: 4.1rem;
-					overflow: hidden;
-				}
-				.ywp-action #mc_embed_signup {
-					padding: 0 0 0 2rem;
-				}
-				.ywp-action #mc_embed_signup .mc-field-group,
-				.ywp-action #mc_embed_signup .mc-field-group p {
-					position: relative;
-					top: 0rem;
-					margin: 0;
-				}
-
-				.ywp-action #mc_embed_signup .dashicons-edit {
-					top: 0;
-					left: -2rem;
-				}
-				.ywp-action .dashicons-edit:before {
-					con tent: "\f464";
-					position: relative;
-					top: -0.5rem;
-					left: -0.25rem;
-				}
-			</style>
+			<style>@import url('//cdn.jsdelivr.net/dashicons/0.1.0/css/dashicons.min.css');  div.updated.ywp, div.updated.ywp header, div.updated.ywp header img, div.updated.ywp header h3, div.updated.ywp .dismiss, .ywp-actions, .ywp-action, .ywp-action #mc_embed_signup, div.updated.ywp .ywp-action span.dashicons:before	{ -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */ -moz-box-sizing: border-box;    /* Firefox, other Gecko */ box-sizing: border-box;         /* Opera/IE 8+ */ width: 100%; position: relative; padding: 0; margin: 0; overflow: hidden; float: none; display: block; text-align: left; }  .ywp-action a, .ywp-action a:hover, .dashicons-edit { -webkit-transition: all 500ms ease-in-out; -moz-transition: all 500ms ease-in-out; -ms-transition: all 500ms ease-in-out; -o-transition: all 500ms ease-in-out; transition: all 500ms ease-in-out; }  div.updated.ywp {margin: 1rem 0 2rem 0;}  @media screen and (min-width:280px) { div.updated.ywp { border: 0px; background: transparent; -webkit-box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1); box-shadow: 0 1px 1px 1px rgba(0,0,0,0.1); }  div.updated.ywp header { background: #bf3026; color: white; position: relative; }  div.updated.ywp header img {display: none;}  div.updated.ywp header h3 { float: left; max-width: 60%; margin: 1rem; display: inline-block; color: white; }  div.updated.ywp .dismiss { display: block; position: absolute; left: auto; top: 0; bottom: 0; right: 0; width: 6rem; background: rgba(255,255,255,.15); color: white; text-align: center; }  .ywp .dismiss:hover:before { color: #777; background: rgba(255,255,255,.5) }  .ywp a.dismiss:before { font-family: 'Dashicons'; content: "\f153"; display: inline-block; position: absolute; display: inline-block; top: 50%; transform: translateY(-50%), translateX(-50%); right: 45%; margin: auto; line-height: 0; }  .ywp-action a, .ywp-action #mc_embed_signup { background: #ddd; color: rgba(51,51,51,1); display: block; padding: 1rem 1rem 1rem 8rem; }   .ywp-action a:hover, .ywp-action.mailchimp:hover #mc_embed_signup { background: #ccc; cursor: pointer; }  .ywp-action.mailchimp p { margin: 4px; }  .ywp-action #mc_embed_signup form { display: inline-block; }  div.updated.ywp .ywp-action span { display: block; position: absolute; left: 0; top: 0; bottom: 0; height: 100%; width: auto; background: rgba(163,163,163,.15); }  div.updated.ywp .ywp-action span.dashicons:before { padding: 3rem; color: #bf3026; line-height: 0; top: 50%; transform: translateY(-50%); } div.updated.ywp .ywp-action a:hover span.dashicons, div.updated.ywp .ywp-action.mailchimp:hover span.dashicons	{ opacity: 0.7; background: #bbb; }  div.updated.ywp .ywp-action a {text-decoration: none;}  div.updated.ywp .ywp-action a, div.updated.ywp .ywp-action #mc_embed_signup	{ position: relative; overflow: visible; }  }  @media screen and (min-width:780px) { div.updated.ywp header img {display: none;} div.updated.ywp header img { display: inline-block; margin: 1rem; max-width: 150px; float: left; }  div.updated.ywp header h3 { max-width: 50%; }  .ywp-action { width: 30%; float: left; }  div.updated.ywp .ywp-action a {height: 5rem;} div.updated.ywp .ywp-action #mc_embed_signup {height: 7rem;}  .ywp-action a, .ywp-action #mc_embed_signup { padding: 1rem 1rem 1rem 6rem; }  div.updated.ywp .ywp-action span.dashicons:before { padding: 2rem; }  div.updated.ywp .ywp-action.mailchimp { width: 40%; } }  @media screen and (min-width:960px) { .ywp-actions a { height: 4rem; } }  </style>
 			<div class="updated ywp">
-				<h3><img src="<?php echo YELP_WIDGET_PRO_URL; ?>/includes/images/yelp-logo-transparent-icon.png"  class="yelp-logo"/>Thanks for installing Yelp Widget Pro Premium!<?php printf(__('<a href="%1$s" class="dismiss"></a>'), '?ywp_nag_ignore=0'); ?></h3>
+				<header>
+					<img src="<?php echo YELP_WIDGET_PRO_URL; ?>/includes/images/yelp-logo-transparent-icon.png"  class="yelp-logo"/>
+					<h3>Thanks for installing Yelp Widget Pro Premium!</h3>
+					<?php printf(__('<a href="%1$s" class="dismiss"></a>'), '?ywp_nag_ignore=0'); ?>
+				</header>
 				<div class="ywp-actions">
-					<div class="ywp-action"><a href="<?php echo admin_url(); ?>options-general.php?page=yelp_widget" class="settings">Go to the Yelp Reviews Pro Settings Page</a></div>
+					<div class="ywp-action">
+						<a href="<?php echo admin_url(); ?>options-general.php?page=yelp_widget">
+							<span class="dashicons dashicons-admin-settings"></span>Go to the Yelp Reviews Pro Settings Page
+						</a>
+					</div>
 
-					<div class="ywp-action"><a href="<?php echo admin_url(); ?>widgets.php" class="widget">Add a Yelp Widget</a></div>
+					<div class="ywp-action">
+						<a href="<?php echo admin_url(); ?>widgets.php">
+							<span class="dashicons dashicons-admin-generic"></span>
+							Add a Yelp Widget
+						</a>
+					</div>
 
 					<div class="ywp-action mailchimp">
 						<div id="mc_embed_signup">
+							<span class="dashicons dashicons-edit"></span>
 							<form action="//wordimpress.us3.list-manage.com/subscribe/post?u=3ccb75d68bda4381e2f45794c&amp;id=68d0636428" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 								<div class="mc-field-group">
-									<span class="dashicons dashicons-edit"></span>
 									<p><small>Get notified of plugin updates:</small></p>
 									<input type="text" value="" name="b_3ccb75d68bda4381e2f45794c_68d0636428" class="required email" id="mce-EMAIL" placeholder="my.email@wordpress.com">
 									<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
