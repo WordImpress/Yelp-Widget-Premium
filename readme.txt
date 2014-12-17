@@ -71,6 +71,9 @@ Some themes may have very small sidebars and CSS styles that conflict or alter t
 
 == Changelog ==
 
+= 1.9.3.1 =
+* Tighten Activation Info CSS
+
 = 1.9.3 =
 * Hotfix for unexpected output error
 
