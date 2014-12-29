@@ -9,6 +9,55 @@ register_uninstall_hook( __FILE__, 'yelp_widget_uninstall' );
 add_action( 'admin_init', 'yelp_widget_init' );
 add_action( 'admin_menu', 'yelp_widget_add_options_page' );
 
+include_once( YELP_WIDGET_PRO_PATH . '/licence/licence.php' );
+
+// Include Licensing
+if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+	// load our custom updater
+	include_once( YELP_WIDGET_PRO_PATH . '/licence/classes/EDD_SL_Plugin_Updater.php' );
+}
+
+
+global $ywplicencing, $store_url, $item_name, $yelp_plugin_meta;
+$store_url = 'http://wordimpress.com';
+$item_name = 'Yelp Widget Pro';
+
+//Licence Args
+$licence_args = array(
+	'plugin_basename'     => YELP_PLUGIN_NAME_PLUGIN, //Name of License Option in DB
+	'store_url'           => $store_url, //URL of license API
+	'item_name'           => $item_name, //Name of License Option in DB
+	'settings_page'       => 'settings_page_yelp_widget', //Name of License Option in DB
+	'licence_key_setting' => 'ywp_licence_setting', //Name of License Option in DB
+	'licence_key_option'  => 'edd_yelp_license_key', //Name of License Option in DB
+	'licence_key_status'  => 'edd_yelp_license_status', //Name of License Option in DB
+);
+
+$ywplicencing = new Yelp_Widget_Pro_Licensing( $licence_args );
+
+
+/**
+ * Licensing
+ */
+add_action( 'admin_init', 'edd_sl_wordimpress_updater' );
+
+function edd_sl_wordimpress_updater() {
+	global $store_url, $item_name;
+	$yelp_plugin_meta = get_plugin_data( YELP_WIDGET_PRO_PATH . '/' . YELP_PLUGIN_NAME . '.php', false );
+	$options          = get_option( 'edd_yelp_license_key' );
+	$licence_key = ! empty( $options['license_key'] ) ? trim( $options['license_key'] ) : '';
+
+	// setup the updater
+	$edd_updater = new EDD_SL_Plugin_Updater( $store_url, YELP_PLUGIN_NAME_PLUGIN, array(
+			'version'   => $yelp_plugin_meta["Version"], // current version number
+			'license'   => $licence_key, // license key (used get_option above to retrieve from DB)
+			'item_name' => $item_name, // name of this plugin
+			'author'    => 'Devin Walker' // author of this plugin
+		)
+	);
+
+}
+
 
 // Delete options when uninstalled
 function yelp_widget_uninstall() {
@@ -343,16 +392,17 @@ function yelp_widget_options_form() {
 	<div class="alignright" style="width:24%">
 		<div id="sidebar-sortables" class="meta-box-sortables ui-sortable">
 
-			<div id="yelp-widget-pro-premium" class="postbox">
-				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span><?php _e( 'Yelp Widget Premium', 'ywp' ); ?></span></h3>
-
-				<div class="inside">
-
-					<p><?php _e( 'Yelp Widget Premium is a significant upgrade to Yelp Widget Pro that adds many features that will allow you to further customize your widgets with Google Maps, Yelp review snippets, additional graphics and display options plus so much more! Also included is priority support, auto updates, and well documented shortcodes to display Yelp in any page or post', 'ywp' ); ?>.</p>
-				</div>
+			<div id="yelp-licence" class="postbox">
+				<?php
+				/**
+				 * Output Licensing Fields
+				 */
+				global $ywplicencing;
+				if ( class_exists( 'Yelp_Widget_Pro_Licensing' ) ) {
+					$ywplicencing->edd_wordimpress_license_page();
+				}
+				?>
 			</div>
-			<!-- /.premium-metabox -->
 
 			<div id="yelp-widget-pro-support" class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
@@ -367,8 +417,10 @@ function yelp_widget_options_form() {
 
 		</div>
 		<!-- /.sidebar-sortables -->
-		<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank"></a>
-		<a href="https://wordimpress.com/" class="wordimpress-link" target="_blank"></a>
+		<div class="wip-buttons">
+			<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank"></a>
+			<a href="https://wordimpress.com/" class="wordimpress-link" target="_blank"></a>
+		</div>
 
 	</div>
 	<!-- /.alignright -->

@@ -64,14 +64,17 @@
     height: 75px;
     width: 190px;
 }
-
+.wip-buttons {
+    max-width: 267px;
+}
 .bundle-link {
     background: url('../images/bundle-banner-300x300.png') no-repeat center center transparent;
     display: block;
     text-align: center;
     margin: 0 auto;
     height: 300px;
-    width: 300px;
+    width: 100%;
+    background-size: contain;
 }
 
 /*----------------------------------------

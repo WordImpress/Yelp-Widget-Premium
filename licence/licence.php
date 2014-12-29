@@ -249,8 +249,9 @@ class Yelp_Widget_Pro_Licensing {
 		?>
 
 		<div class="edd-wordimpress-license-wrap">
-			<h2><?php _e( 'Plugin License', 'ywp' ); ?></h2>
-
+			<div class="handlediv" title="Click to toggle"><br></div>
+			<h3 class="hndle"><span><?php _e( 'Plugin License?', 'ywp' ); ?></span></h3>
+			<div class="inside">
 			<?php if ( $status !== false && $status == 'valid' ) { ?>
 
 				<?php if ( $legacySupport != true ) { ?>
@@ -322,7 +323,7 @@ class Yelp_Widget_Pro_Licensing {
 				<?php //submit_button(); ?>
 
 			</form>
-
+		</div>
 		</div>
 	<?php
 	}

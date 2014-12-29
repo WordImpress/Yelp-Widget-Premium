@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Yelp Widget Pro Premium
+Plugin Name: Yelp Widget Premium
 Plugin URI: http://wordimpress.com/wordpress-plugin-development/yelp-widget-pro/
 Description: Easily display Yelp business ratings with a simple and intuitive WordPress widget.
-Version: 1.9.3.1
+Version: 1.9.3.2
 Author: Devin Walker, Matt Cromwell
 Author URI: http://imdev.in/
 License: GPLv2
@@ -30,7 +30,6 @@ require_once( dirname( __FILE__ ) . '/includes/options.php' );
 if ( ! class_exists( 'YWPOAuthToken', false ) ) {
 	require_once( dirname( __FILE__ ) . '/lib/oauth.php' );
 }
-
 
 /**
  * Logic to check for updated version of Yelp Widget Pro Premium
@@ -64,7 +63,6 @@ function ywp_debug_view( $what ) {
 	}
 }
 
-
 /*
  * Get the Widget and Shortcode
  */
@@ -76,7 +74,5 @@ if ( ! class_exists( 'Yelp_Widget' ) ) {
 }
 
 if (is_admin()) {
-
  include YELP_WIDGET_PRO_PATH . '/admin/admin.php';
-
 }
