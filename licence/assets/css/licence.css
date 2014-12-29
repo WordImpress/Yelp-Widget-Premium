@@ -11,6 +11,7 @@ Licensing
 	margin-bottom: 7px;
 	width: 420px;
 	padding: 6px;
+	max-width: 100%;
 }
 
 .licence-status {
@@ -54,8 +55,8 @@ Alerts
 	width: 390px;
 }
 
-.alert p {
-	margin: 0;
+.alert p,
+.alert.license {
 	display: table-cell;
 }
 

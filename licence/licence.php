@@ -262,6 +262,11 @@ class Yelp_Widget_Pro_Licensing {
 								_e( ' Days Remaining', 'ywp' ); ?>)</strong></p>
 
 						<p>
+						<?php
+						$daysleft = $this->time_left_on_license( $license['license_expiration'] );
+						if ($daysleft < '16'){ ?>
+							<div class="alert alert-warning license"><p>Your license is expiring soon. Would you like to renew your license at 25% off the original price? <a href="https://wordimpress.com/plugins/yelp-widget-pro" target="_blank">Click Here</a> and click the "Renewing a license key?" link at the checkout page.<br /></div><br />
+						<?php } ?>
 							<strong><?php _e( 'License Expiration:', 'ywp' ); ?></strong> <?php echo $license['license_expiration']; ?>
 						</p>
 
