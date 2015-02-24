@@ -3,7 +3,7 @@
 Plugin Name: Yelp Widget Premium
 Plugin URI: http://wordimpress.com/wordpress-plugin-development/yelp-widget-pro/
 Description: Easily display Yelp business ratings with a simple and intuitive WordPress widget.
-Version: 1.9.3.2
+Version: 1.9.3.3
 Author: Devin Walker, Matt Cromwell
 Author URI: http://imdev.in/
 License: GPLv2
@@ -13,8 +13,7 @@ define( 'YELP_PLUGIN_NAME', 'yelp-widget-pro' );
 define( 'YELP_PLUGIN_NAME_PLUGIN', plugin_basename( __FILE__ ) );
 define( 'YELP_WIDGET_PRO_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'YELP_WIDGET_PRO_URL', plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
-define( 'YELP_WIDGET_DEBUG', false );
-define( 'YWP_SETTINGS_URL', admin_url('options-general.php?page=yelp_widget') );
+define( 'YWP_SETTINGS_URL', admin_url( 'options-general.php?page=yelp_widget' ) );
 
 /**
  * Localize the Plugin for Other Languages
@@ -52,7 +51,7 @@ if ( isset( $options['yelp_widget_premium_license_status'] ) && $options['yelp_w
  * @param $what
  */
 function ywp_debug_view( $what ) {
-	if ( YELP_WIDGET_DEBUG == true ) {
+	if ( SCRIPT_DEBUG == true ) {
 		echo '<pre>';
 		if ( is_array( $what ) ) {
 			print_r( $what );
@@ -73,6 +72,6 @@ if ( ! class_exists( 'Yelp_Widget' ) ) {
 	require 'includes/shortcode-map.php';
 }
 
-if (is_admin()) {
- include YELP_WIDGET_PRO_PATH . '/admin/admin.php';
+if ( is_admin() ) {
+	include YELP_WIDGET_PRO_PATH . '/includes/admin.php';
 }

@@ -32,7 +32,7 @@ class Yelp_Widget_Map extends WP_Widget {
 	 */
 	public static function add_yelp_widget_map_frontend_scripts() {
 
-		$suffix = defined( 'YELP_WIDGET_DEBUG' ) && YELP_WIDGET_DEBUG ? '' : '.min';
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		/* Get our options */
 		$options                     = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists

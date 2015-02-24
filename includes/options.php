@@ -97,7 +97,7 @@ function yelp_options_scripts() {
 	//register admin JS
 	wp_enqueue_script( 'yelp_widget_options_js', plugins_url( 'includes/js/options.js', dirname( __FILE__ ) ) );
 
-	if ( YELP_WIDGET_DEBUG == true ) {
+	if ( SCRIPT_DEBUG == true ) {
 		//register our stylesheet
 		wp_register_style('yelp_widget_options_css', plugins_url('includes/style/options.css', dirname(__FILE__)));
 		// It will be called only on plugin admin page, enqueue our stylesheet here
@@ -148,7 +148,7 @@ function ywp_add_plugin_page_links( $links, $file ) {
 function ywp_add_plugin_meta_links( $meta, $file ) {
 	if ( $file == YELP_PLUGIN_NAME_PLUGIN ) {
 		$meta[] = "<a href='http://wordpress.org/support/view/plugin-reviews/yelp-widget-pro' target='_blank' title='" . __( 'Rate Yelp Widget Pro', 'ywp' ) . "'>" . __( 'Rate Plugin', 'ywp' ) . "</a>";
-		$meta[] = "<a href='http://wordimpress.com/plugins/yelp-widget-pro/' target='_blank' title='" . __( 'Upgrade to Yelp Widget Premium', 'ywp' ) . "'>" . __( 'Upgrade to Premium', 'ywp' ) . "</a>";
+		$meta[] =  __( 'Premium Version', 'ywp' );
 	}
 
 	return $meta;
@@ -213,8 +213,7 @@ function yelp_widget_options_form() {
 	<div id="ywp-title-wrap">
 		<div id="icon-yelp" class=""></div>
 		<h2><?php _e( 'Yelp Widget Pro Settings', 'ywp' ); ?> </h2>
-<!--		<label class="label basic-label">Basic Version</label>-->
-<!--		<a href="http://wordimpress.com/plugins/yelp-widget-pro/" title="Upgrade to Yelp Widget Premium" target="_blank" class="update-link new-window">Upgrade to Premium</a>-->
+		<label class="label-success label">Premium Version</label>
 	</div>
 	<form id="yelp-settings" method="post" action="options.php">
 
@@ -418,7 +417,7 @@ function yelp_widget_options_form() {
 		</div>
 		<!-- /.sidebar-sortables -->
 		<div class="wip-buttons">
-			<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank"></a>
+			<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank"><img src="<?php echo YELP_WIDGET_PRO_URL; ?>/includes/images/bundle-banner-300x300.png" /></a>
 			<a href="https://wordimpress.com/" class="wordimpress-link" target="_blank"></a>
 		</div>
 

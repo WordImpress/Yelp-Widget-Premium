@@ -56,7 +56,7 @@ class Yelp_Widget extends WP_Widget {
 	function yelp_widget_scripts( $hook ) {
 		if ( $hook == 'widgets.php' ) {
 
-			if ( YELP_WIDGET_DEBUG == true ) {
+			if ( SCRIPT_DEBUG == true ) {
 
 				wp_enqueue_script( 'yelp_widget_admin_scripts', plugins_url( 'includes/js/admin-widget.js', dirname( __FILE__ ) ) );
 				wp_enqueue_style( 'yelp_widget_admin_css', plugins_url( 'includes/style/admin-widget.css', dirname( __FILE__ ) ) );
@@ -81,7 +81,7 @@ class Yelp_Widget extends WP_Widget {
 	public static function add_yelp_widget_frontend_scripts() {
 
 		$settings = get_option( 'yelp_widget_settings' );
-		$suffix   = defined( 'YELP_WIDGET_DEBUG' ) && YELP_WIDGET_DEBUG ? '' : '.min';
+		$suffix   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		$params = array(
 			'ywpPath' => YELP_WIDGET_PRO_PATH,
@@ -138,7 +138,7 @@ class Yelp_Widget extends WP_Widget {
 		// Base unsigned URL
 		$unsigned_url = "http://api.yelp.com/v2/";
 
-		if(empty($options['enable_backup_key'])) {
+		if ( empty( $options['enable_backup_key'] ) ) {
 			// Token object built using the OAuth library
 			$yelp_widget_token        = 'Z3J0Ecxir8c-Vx1_dHDlVnVFOvmWrQ5T';
 			$yelp_widget_token_secret = 'qx2cpAUz6UHnAlu53tcWOdH2LNg';
@@ -430,7 +430,7 @@ class Yelp_Widget extends WP_Widget {
 
 		//Verify that the API values have been inputed prior to output
 
-		if ((!empty($apiOptions["enable_backup_key"])) && (empty( $apiOptions["yelp_widget_consumer_key"] ) || empty( $apiOptions["yelp_widget_consumer_secret"] ) || empty( $apiOptions["yelp_widget_token"] ) || empty( $apiOptions["yelp_widget_token_secret"])) ) {
+		if ( ( ! empty( $apiOptions["enable_backup_key"] ) ) && ( empty( $apiOptions["yelp_widget_consumer_key"] ) || empty( $apiOptions["yelp_widget_consumer_secret"] ) || empty( $apiOptions["yelp_widget_token"] ) || empty( $apiOptions["yelp_widget_token_secret"] ) ) ) {
 			//the user has not properly configured plugin so display a warning
 			?>
 			<div class="alert alert-red"><?php _e( 'Please input your Yelp API information in the <a href="options-general.php?page=yelp_widget">plugin settings</a> page prior to enabling Yelp Widget Pro.', 'ywp' ); ?></div>
@@ -557,21 +557,25 @@ function yelp_widget_curl( $signed_url ) {
 	// Send Yelp API Call using WP's HTTP API
 	$data = wp_remote_get( $signed_url );
 
+	// make sure the response came back okay
+	if ( is_wp_error( $data ) ) {
+		return false;
+	}
+
 	//Use curl only if necessary
 	if ( empty( $data['body'] ) ) {
-
 		$ch = curl_init( $signed_url );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $ch, CURLOPT_HEADER, 0 );
 		$data = curl_exec( $ch ); // Yelp response
 		curl_close( $ch );
-		$data = yelp_update_http_for_ssl( $data );
+		$data     = yelp_update_http_for_ssl( $data );
 		$response = json_decode( $data );
-
 	} else {
-		$data = yelp_update_http_for_ssl( $data );
+		$data     = yelp_update_http_for_ssl( $data );
 		$response = json_decode( $data['body'] );
 	}
+
 	// Handle Yelp response data
 	return $response;
 
