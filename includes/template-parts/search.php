@@ -16,7 +16,7 @@
 	if ( $displayBizInfo !== '1' ) {
 
 
-//Begin Setting Output Variable by Looping Data from Yelp
+		//Begin Setting Output Variable by Looping Data from Yelp
 		for ( $x = 0; $x < count( $businesses ); $x ++ ) {
 			?>
 

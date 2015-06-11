@@ -280,7 +280,16 @@
 			<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'Caching data will save Yelp data to your database in order to speed up response times and conserve API requests. The suggested settings is 1 Day. ', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
 
 		<select name="<?php echo $this->get_field_name( 'cache' ); ?>" id="<?php echo $this->get_field_id( 'cache' ); ?>" class="widefat">
-			<?php  $options = array( __( 'None', 'ywp' ), __( '1 Hour', 'ywp' ), __( '3 Hours', 'ywp' ), __( '6 Hours', 'ywp' ), __( '12 Hours', 'ywp' ), __( '1 Day', 'ywp' ), __( '2 Days', 'ywp' ), __( '1 Week', 'ywp' ) );
+			<?php $options = array(
+				__( 'None', 'ywp' ),
+				__( '1 Hour', 'ywp' ),
+				__( '3 Hours', 'ywp' ),
+				__( '6 Hours', 'ywp' ),
+				__( '12 Hours', 'ywp' ),
+				__( '1 Day', 'ywp' ),
+				__( '2 Days', 'ywp' ),
+				__( '1 Week', 'ywp' )
+			);
 			/**
 			 * Output Cache Options (set 2 Days as default for new widgets)
 			 */
@@ -292,7 +301,7 @@
 					<?php echo $option; ?>
 				</option>
 				<?php $counter ++;
-			}  ?>
+			} ?>
 		</select>
 
 
@@ -300,9 +309,9 @@
 
 	<!-- Clear Cache Button -->
 	<p class="clearfix">
-			<span class="cache-message"></span>
-			<a href="#" class="button ywp-clear-cache" title="Clear" data-transient-id="<?php echo $transient; ?>">Clear Cache</a>
-			<span class="cache-clearing-loading spinner"></span>
+		<span class="cache-message"></span>
+		<a href="#" class="button ywp-clear-cache" title="Clear" data-transient-id="<?php echo $transient; ?>">Clear Cache</a>
+		<span class="cache-clearing-loading spinner"></span>
 	</p>
 
 
@@ -333,5 +342,6 @@
 </div>
 
 <p class="ywp-widget-footer-links">
-	<a href="http://wordimpress.com/docs/yelp-widget-pro/" target="_blank" class="new-window"><?php _e( 'Plugin Documentation', 'ywp' ); ?></a> <a href="http://wordimpress.com/support/forum/yelp-widget-pro/yelp-widget-pro-premium-priority-support/" target="_blank" class="new-window"><?php _e( 'Priority Support', 'ywp' ); ?></a>
+	<a href="http://wordimpress.com/docs/yelp-widget-pro/" target="_blank" class="new-window"><?php _e( 'Plugin Documentation', 'ywp' ); ?></a>
+	<a href="http://wordimpress.com/support/forum/yelp-widget-pro/yelp-widget-pro-premium-priority-support/" target="_blank" class="new-window"><?php _e( 'Priority Support', 'ywp' ); ?></a>
 </p>

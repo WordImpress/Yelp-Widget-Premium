@@ -25,7 +25,7 @@ $x = 0; ?>
 	 */
 	if ( $displayBizInfo !== '1' ) {
 		include( 'business-info.php' );
-	}?>
+	} ?>
 
 	<?php
 	/*
@@ -88,7 +88,7 @@ $x = 0; ?>
 								}
 
 								?>
-								<a href="<?php echo esc_attr( $businesses[$x]->url ) . "#review_" . $review->id; ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?> title="<?php echo $reviewMoreText; ?>"><?php echo $reviewMoreText; ?></a>
+								<a href="<?php echo esc_attr( $businesses[ $x ]->url ) . "#review_" . $review->id; ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?> title="<?php echo $reviewMoreText; ?>"><?php echo $reviewMoreText; ?></a>
 							<?php } ?>
 
 						</div>

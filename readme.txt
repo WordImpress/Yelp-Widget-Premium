@@ -1,10 +1,10 @@
 === Yelp Widget Premium ===
 Contributors: dlocc, wordimpress
-Donate link: http://imdev.in/
+Donate link: http://wordimpress.com
 Tags: yelp, yelp widget, yelp shortcode, yelp api, yelp business listings, yelp reviews, yelp widget pro
 Requires at least: 3.6
-Tested up to: 4.1.1
-Stable tag: 1.9.3.3
+Tested up to: 4.2.2
+Stable tag: 1.9.3.4
 
 Yelp Widget Pro makes it easy for you to add business listings to your website or blog via an easy-to-use and intuitive widget.
 
@@ -70,6 +70,10 @@ Some themes may have very small sidebars and CSS styles that conflict or alter t
 4. How the widget looks in a website sidebar
 
 == Changelog ==
+
+= 1.9.3.4 =
+* Fix: Settings pages not saving properly
+* General code cleanup and style fixes
 
 = 1.9.3.3 =
 * Added is_wp_error() conditional check when querying to prevent PHP errors

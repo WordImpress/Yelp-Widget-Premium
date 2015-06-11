@@ -7,7 +7,6 @@
 /**
  * Adds Yelp Widget Pro Widget
  */
-
 class Yelp_Widget_Map extends WP_Widget {
 
 	/**
@@ -89,8 +88,8 @@ class Yelp_Widget_Map extends WP_Widget {
 		}
 
 		/* Get our options */
-		$location = $instance['map_location'];
-		$search_term = !empty($instance['map_search_term']) ? $instance['map_search_term'] : 'Restaurants';
+		$location    = $instance['map_location'];
+		$search_term = ! empty( $instance['map_search_term'] ) ? $instance['map_search_term'] : 'Restaurants';
 		?>
 
 		<div id="ywp-map" class="yelp-map-wrap" data-map-location="<?php echo $location; ?>">
@@ -124,8 +123,8 @@ class Yelp_Widget_Map extends WP_Widget {
 	 */
 	function update( $new_instance, $old_instance ) {
 
-		$instance                 = $old_instance;
-		$instance['map_location'] = strip_tags( $new_instance['map_location'] );
+		$instance                    = $old_instance;
+		$instance['map_location']    = strip_tags( $new_instance['map_location'] );
 		$instance['map_search_term'] = strip_tags( $new_instance['map_search_term'] );
 
 		//Return Instance
@@ -140,8 +139,8 @@ class Yelp_Widget_Map extends WP_Widget {
 	 */
 	function form( $instance ) {
 
-		$title       = empty( $instance['title'] ) ? '' : esc_attr( $instance['title'] );
-		$mapLocation = empty( $instance['map_location'] ) ? 'San Diego' : esc_attr( $instance['map_location'] );
+		$title         = empty( $instance['title'] ) ? '' : esc_attr( $instance['title'] );
+		$mapLocation   = empty( $instance['map_location'] ) ? 'San Diego' : esc_attr( $instance['map_location'] );
 		$mapSearchTerm = empty( $instance['map_search_term'] ) ? 'Restaurants' : esc_attr( $instance['map_search_term'] );
 
 

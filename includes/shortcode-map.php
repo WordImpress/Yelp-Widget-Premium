@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class Yelp_Map_Shortcode
  *
@@ -6,7 +7,6 @@
  * @since  : 1.5
  * @created: 5/23/13
  */
-
 class Yelp_Map_Shortcode extends Yelp_Widget_Map {
 
 	static function init() {

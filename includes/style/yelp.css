@@ -291,7 +291,7 @@
 
 .yelp-map a.marker-business-name {
 	font-size: 15px !important;
-	padding:0;
+	padding: 0;
 	margin: 0;
 	line-height: 15px !important;
 }
@@ -301,6 +301,7 @@
 	color: #C41200;
 	text-decoration: none !important;
 }
+
 #ywp-map .marker p {
 	margin: 0;
 	padding: 0;
@@ -377,14 +378,13 @@
 }
 
 #ywp-map .ywp-read-reviews {
-	float:left;
+	float: left;
 	margin: 5px 0 10px;
 }
 
 #ywp-map a.marker-business-name {
 	white-space: normal;
 }
-
 
 /*--------------------------------------------
  Error Alerts

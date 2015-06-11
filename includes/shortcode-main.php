@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class Yelp_Shortcode
  *
@@ -6,7 +7,6 @@
  * @since      : 1.2
  * @created    : 3/20/13
  */
-
 class Yelp_Shortcode extends Yelp_Widget {
 	static function init() {
 		add_shortcode( 'yelp-widget-pro', array( __CLASS__, 'handle_shortcode' ) );

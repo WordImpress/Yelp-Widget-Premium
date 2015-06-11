@@ -1,13 +1,13 @@
 <?php
-/*
-Plugin Name: Yelp Widget Premium
-Plugin URI: http://wordimpress.com/wordpress-plugin-development/yelp-widget-pro/
-Description: Easily display Yelp business ratings with a simple and intuitive WordPress widget.
-Version: 1.9.3.3
-Author: Devin Walker, Matt Cromwell
-Author URI: http://imdev.in/
-License: GPLv2
-*/
+/**
+ * Plugin Name: Yelp Widget Premium
+ * Plugin URI: http://wordimpress.com/wordpress-plugin-development/yelp-widget-pro/
+ * Description: Easily display Yelp business ratings with a simple and intuitive WordPress widget.
+ * Version: 1.9.3.4
+ * Author: Devin Walker, Matt Cromwell
+ * Author URI: http://wordimpress.com/
+ * License: GPLv2
+ */
 
 define( 'YELP_PLUGIN_NAME', 'yelp-widget-pro' );
 define( 'YELP_PLUGIN_NAME_PLUGIN', plugin_basename( __FILE__ ) );
@@ -70,8 +70,8 @@ if ( ! class_exists( 'Yelp_Widget' ) ) {
 	require 'includes/widget-map.php';
 	require 'includes/shortcode-main.php';
 	require 'includes/shortcode-map.php';
-}
 
-if ( is_admin() ) {
-	include YELP_WIDGET_PRO_PATH . '/includes/admin.php';
+	if ( is_admin() ) {
+		include YELP_WIDGET_PRO_PATH . '/includes/admin.php';
+	}
 }

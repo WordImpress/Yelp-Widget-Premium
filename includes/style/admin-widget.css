@@ -37,10 +37,11 @@
 }
 
 .ywp-clear-cache {
-	float:left;
+	float: left;
 }
+
 .cache-clearing-loading.spinner {
-	float:left;
+	float: left;
 }
 
 .cache-message {
@@ -85,7 +86,7 @@
 }
 
 .ywp-widget-footer-links a {
-	margin-right:10px;
+	margin-right: 10px;
 }
 
 /*!

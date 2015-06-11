@@ -16,7 +16,7 @@ class YWPOAuthConsumer {
 	public $key;
 	public $secret;
 
-	function __construct( $key, $secret, $callback_url = NULL ) {
+	function __construct( $key, $secret, $callback_url = null ) {
 		$this->key          = $key;
 		$this->secret       = $secret;
 		$this->callback_url = $callback_url;
@@ -47,9 +47,9 @@ class YWPOAuthToken {
 	 */
 	function to_string() {
 		return "oauth_token=" .
-		YWPOAuthUtil::urlencode_rfc3986( $this->key ) .
-		"&oauth_token_secret=" .
-		YWPOAuthUtil::urlencode_rfc3986( $this->secret );
+		       YWPOAuthUtil::urlencode_rfc3986( $this->key ) .
+		       "&oauth_token_secret=" .
+		       YWPOAuthUtil::urlencode_rfc3986( $this->secret );
 	}
 
 	function __toString() {
@@ -236,7 +236,7 @@ class YWPOAuthRequest {
 	public static $version = '1.0';
 	public static $POST_INPUT = 'php://input';
 
-	function __construct( $http_method, $http_url, $parameters = NULL ) {
+	function __construct( $http_method, $http_url, $parameters = null ) {
 		$parameters        = ( $parameters ) ? $parameters : array();
 		$parameters        = array_merge( YWPOAuthUtil::parse_parameters( parse_url( $http_url, PHP_URL_QUERY ) ), $parameters );
 		$this->parameters  = $parameters;
@@ -248,15 +248,15 @@ class YWPOAuthRequest {
 	/**
 	 * attempt to build up a request from what was passed to the server
 	 */
-	public static function from_request( $http_method = NULL, $http_url = NULL, $parameters = NULL ) {
+	public static function from_request( $http_method = null, $http_url = null, $parameters = null ) {
 		$scheme      = ( ! isset( $_SERVER['HTTPS'] ) || $_SERVER['HTTPS'] != "on" )
-				? 'http'
-				: 'https';
+			? 'http'
+			: 'https';
 		$http_url    = ( $http_url ) ? $http_url : $scheme .
-				'://' . $_SERVER['HTTP_HOST'] .
-				':' .
-				$_SERVER['SERVER_PORT'] .
-				$_SERVER['REQUEST_URI'];
+		                                           '://' . $_SERVER['HTTP_HOST'] .
+		                                           ':' .
+		                                           $_SERVER['SERVER_PORT'] .
+		                                           $_SERVER['REQUEST_URI'];
 		$http_method = ( $http_method ) ? $http_method : $_SERVER['REQUEST_METHOD'];
 
 		// We weren't handed any parameters, so let's find the ones relevant to
@@ -273,9 +273,9 @@ class YWPOAuthRequest {
 			// It's a POST request of the proper content-type, so parse POST
 			// parameters and add those overriding any duplicates from GET
 			if ( $http_method == "POST"
-					&& isset( $request_headers['Content-Type'] )
-					&& strstr( $request_headers['Content-Type'],
-						'application/x-www-form-urlencoded' )
+			     && isset( $request_headers['Content-Type'] )
+			     && strstr( $request_headers['Content-Type'],
+					'application/x-www-form-urlencoded' )
 			) {
 				$post_data  = YWPOAuthUtil::parse_parameters(
 					file_get_contents( self::$POST_INPUT )
@@ -300,12 +300,14 @@ class YWPOAuthRequest {
 	/**
 	 * pretty much a helper function to set up the request
 	 */
-	public static function from_consumer_and_token( $consumer, $token, $http_method, $http_url, $parameters = NULL ) {
+	public static function from_consumer_and_token( $consumer, $token, $http_method, $http_url, $parameters = null ) {
 		$parameters = ( $parameters ) ? $parameters : array();
-		$defaults   = array( "oauth_version"      => YWPOAuthRequest::$version,
-												 "oauth_nonce"        => YWPOAuthRequest::generate_nonce(),
-												 "oauth_timestamp"    => YWPOAuthRequest::generate_timestamp(),
-												 "oauth_consumer_key" => $consumer->key );
+		$defaults   = array(
+			"oauth_version"      => YWPOAuthRequest::$version,
+			"oauth_nonce"        => YWPOAuthRequest::generate_nonce(),
+			"oauth_timestamp"    => YWPOAuthRequest::generate_timestamp(),
+			"oauth_consumer_key" => $consumer->key
+		);
 		if ( $token ) {
 			$defaults['oauth_token'] = $token->key;
 		}
@@ -316,22 +318,22 @@ class YWPOAuthRequest {
 	}
 
 	public function set_parameter( $name, $value, $allow_duplicates = true ) {
-		if ( $allow_duplicates && isset( $this->parameters[$name] ) ) {
+		if ( $allow_duplicates && isset( $this->parameters[ $name ] ) ) {
 			// We have already added parameter(s) with this name, so add to the list
-			if ( is_scalar( $this->parameters[$name] ) ) {
+			if ( is_scalar( $this->parameters[ $name ] ) ) {
 				// This is the first duplicate, so transform scalar (string)
 				// into an array so we can add the duplicates
-				$this->parameters[$name] = array( $this->parameters[$name] );
+				$this->parameters[ $name ] = array( $this->parameters[ $name ] );
 			}
 
-			$this->parameters[$name][] = $value;
+			$this->parameters[ $name ][] = $value;
 		} else {
-			$this->parameters[$name] = $value;
+			$this->parameters[ $name ] = $value;
 		}
 	}
 
 	public function get_parameter( $name ) {
-		return isset( $this->parameters[$name] ) ? $this->parameters[$name] : null;
+		return isset( $this->parameters[ $name ] ) ? $this->parameters[ $name ] : null;
 	}
 
 	public function get_parameters() {
@@ -339,7 +341,7 @@ class YWPOAuthRequest {
 	}
 
 	public function unset_parameter( $name ) {
-		unset( $this->parameters[$name] );
+		unset( $this->parameters[ $name ] );
 	}
 
 	/**
@@ -398,7 +400,7 @@ class YWPOAuthRequest {
 		$path   = ( isset( $parts['path'] ) ) ? $parts['path'] : '';
 
 		if ( ( $scheme == 'https' && $port != '443' )
-				|| ( $scheme == 'http' && $port != '80' )
+		     || ( $scheme == 'http' && $port != '80' )
 		) {
 			$host = "$host:$port";
 		}
@@ -448,9 +450,9 @@ class YWPOAuthRequest {
 			}
 			$out .= ( $first ) ? ' ' : ',';
 			$out .= YWPOAuthUtil::urlencode_rfc3986( $k ) .
-					'="' .
-					YWPOAuthUtil::urlencode_rfc3986( $v ) .
-					'"';
+			        '="' .
+			        YWPOAuthUtil::urlencode_rfc3986( $v ) .
+			        '"';
 			$first = false;
 		}
 
@@ -508,8 +510,8 @@ class YWPOAuthServer {
 	}
 
 	public function add_signature_method( $signature_method ) {
-		$this->signature_methods[$signature_method->get_name()] =
-				$signature_method;
+		$this->signature_methods[ $signature_method->get_name() ] =
+			$signature_method;
 	}
 
 	// high level functions
@@ -524,7 +526,7 @@ class YWPOAuthServer {
 		$consumer = $this->get_consumer( $request );
 
 		// no token required for the initial token request
-		$token = NULL;
+		$token = null;
 
 		$this->check_signature( $request, $consumer, $token );
 
@@ -591,8 +593,8 @@ class YWPOAuthServer {
 	 */
 	private function get_signature_method( $request ) {
 		$signature_method = $request instanceof YWPOAuthRequest
-				? $request->get_parameter( "oauth_signature_method" )
-				: NULL;
+			? $request->get_parameter( "oauth_signature_method" )
+			: null;
 
 		if ( ! $signature_method ) {
 			// According to chapter 7 ("Accessing Protected Ressources") the signature-method
@@ -610,7 +612,7 @@ class YWPOAuthServer {
 			);
 		}
 
-		return $this->signature_methods[$signature_method];
+		return $this->signature_methods[ $signature_method ];
 	}
 
 	/**
@@ -618,8 +620,8 @@ class YWPOAuthServer {
 	 */
 	private function get_consumer( $request ) {
 		$consumer_key = $request instanceof YWPOAuthRequest
-				? $request->get_parameter( "oauth_consumer_key" )
-				: NULL;
+			? $request->get_parameter( "oauth_consumer_key" )
+			: null;
 
 		if ( ! $consumer_key ) {
 			throw new YWPOAuthException( "Invalid consumer key" );
@@ -638,8 +640,8 @@ class YWPOAuthServer {
 	 */
 	private function get_token( $request, $consumer, $token_type = "access" ) {
 		$token_field = $request instanceof YWPOAuthRequest
-				? $request->get_parameter( 'oauth_token' )
-				: NULL;
+			? $request->get_parameter( 'oauth_token' )
+			: null;
 
 		$token = $this->data_store->lookup_token(
 			$consumer, $token_type, $token_field
@@ -658,11 +660,11 @@ class YWPOAuthServer {
 	private function check_signature( $request, $consumer, $token ) {
 		// this should probably be in a different method
 		$timestamp = $request instanceof YWPOAuthRequest
-				? $request->get_parameter( 'oauth_timestamp' )
-				: NULL;
+			? $request->get_parameter( 'oauth_timestamp' )
+			: null;
 		$nonce     = $request instanceof YWPOAuthRequest
-				? $request->get_parameter( 'oauth_nonce' )
-				: NULL;
+			? $request->get_parameter( 'oauth_nonce' )
+			: null;
 
 		$this->check_timestamp( $timestamp );
 		$this->check_nonce( $consumer, $token, $nonce, $timestamp );
@@ -785,7 +787,7 @@ class YWPOAuthUtil {
 		$params = array();
 		if ( preg_match_all( '/(' . ( $only_allow_oauth_parameters ? 'oauth_' : '' ) . '[a-z_-]*)=(:?"([^"]*)"|([^,]*))/', $header, $matches ) ) {
 			foreach ( $matches[1] as $i => $h ) {
-				$params[$h] = YWPOAuthUtil::urldecode_rfc3986( empty( $matches[3][$i] ) ? $matches[4][$i] : $matches[3][$i] );
+				$params[ $h ] = YWPOAuthUtil::urldecode_rfc3986( empty( $matches[3][ $i ] ) ? $matches[4][ $i ] : $matches[3][ $i ] );
 			}
 			if ( isset( $params['realm'] ) ) {
 				unset( $params['realm'] );
@@ -808,12 +810,12 @@ class YWPOAuthUtil {
 			// request
 			$out = array();
 			foreach ( $headers AS $key => $value ) {
-				$key       = str_replace(
+				$key         = str_replace(
 					" ",
 					"-",
 					ucwords( strtolower( str_replace( "-", " ", $key ) ) )
 				);
-				$out[$key] = $value;
+				$out[ $key ] = $value;
 			}
 		} else {
 			// otherwise we don't have apache and are just going to have to hope
@@ -831,12 +833,12 @@ class YWPOAuthUtil {
 					// this is chaos, basically it is just there to capitalize the first
 					// letter of every word that is not an initial HTTP and strip HTTP
 					// code from przemek
-					$key       = str_replace(
+					$key         = str_replace(
 						" ",
 						"-",
 						ucwords( strtolower( str_replace( "_", " ", substr( $key, 5 ) ) ) )
 					);
-					$out[$key] = $value;
+					$out[ $key ] = $value;
 				}
 			}
 		}
@@ -860,19 +862,19 @@ class YWPOAuthUtil {
 			$parameter = YWPOAuthUtil::urldecode_rfc3986( $split[0] );
 			$value     = isset( $split[1] ) ? YWPOAuthUtil::urldecode_rfc3986( $split[1] ) : '';
 
-			if ( isset( $parsed_parameters[$parameter] ) ) {
+			if ( isset( $parsed_parameters[ $parameter ] ) ) {
 				// We have already recieved parameter(s) with this name, so add to the list
 				// of parameters with this name
 
-				if ( is_scalar( $parsed_parameters[$parameter] ) ) {
+				if ( is_scalar( $parsed_parameters[ $parameter ] ) ) {
 					// This is the first duplicate, so transform scalar (string) into an array
 					// so we can add the duplicates
-					$parsed_parameters[$parameter] = array( $parsed_parameters[$parameter] );
+					$parsed_parameters[ $parameter ] = array( $parsed_parameters[ $parameter ] );
 				}
 
-				$parsed_parameters[$parameter][] = $value;
+				$parsed_parameters[ $parameter ][] = $value;
 			} else {
-				$parsed_parameters[$parameter] = $value;
+				$parsed_parameters[ $parameter ] = $value;
 			}
 		}
 
