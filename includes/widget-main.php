@@ -362,30 +362,33 @@ class Yelp_Widget extends WP_Widget {
 	 */
 	function update( $new_instance, $old_instance ) {
 		$instance                          = $old_instance;
+
 		$instance['title']                 = strip_tags( $new_instance['title'] );
 		$instance['display_option']        = strip_tags( $new_instance['display_option'] );
 		$instance['term']                  = strip_tags( $new_instance['term'] );
 		$instance['id']                    = strip_tags( $new_instance['id'] );
 		$instance['location']              = strip_tags( $new_instance['location'] );
-		$instance['display_address']       = strip_tags( $new_instance['display_address'] );
-		$instance['display_phone']         = strip_tags( $new_instance['display_phone'] );
-		$instance['disable_business_info'] = strip_tags( $new_instance['disable_business_info'] );
+		$instance['display_address']       = ! empty( $new_instance['display_address'] ) ? strip_tags( $new_instance['display_address'] ) : '';
+		$instance['display_phone']         = ! empty( $new_instance['display_phone'] ) ? strip_tags( $new_instance['display_phone'] ) : '';
+		$instance['disable_business_info'] = ! empty( $new_instance['disable_business_info'] ) ? strip_tags( $new_instance['disable_business_info'] ) : '';
 		$instance['limit']                 = strip_tags( $new_instance['limit'] );
 		$instance['profile_img_size']      = strip_tags( $new_instance['profile_img_size'] );
 		$instance['sort']                  = strip_tags( $new_instance['sort'] );
-		$instance['display_reviews']       = strip_tags( $new_instance['display_reviews'] );
+		$instance['display_reviews']       = ! empty( $new_instance['display_reviews'] ) ? strip_tags( $new_instance['display_reviews'] ) : '';
 		$instance['review_filter']         = strip_tags( $new_instance['review_filter'] );
-		$instance['hide_rating']           = strip_tags( $new_instance['hide_rating'] );
-		$instance['hide_read_more']        = strip_tags( $new_instance['hide_read_more'] );
+		$instance['hide_rating']           = ! empty( $new_instance['hide_rating'] ) ? strip_tags( $new_instance['hide_rating'] ) : '';
+		$instance['hide_read_more']        = ! empty( $new_instance['hide_read_more'] ) ? strip_tags( $new_instance['hide_read_more'] ) : '';
 		$instance['custom_read_more']      = strip_tags( $new_instance['custom_read_more'] );
 		$instance['review_avatar_size']    = strip_tags( $new_instance['review_avatar_size'] );
-		$instance['display_google_map']    = strip_tags( $new_instance['display_google_map'] );
+		$instance['display_google_map']    = ! empty( $new_instance['display_google_map'] ) ? strip_tags( $new_instance['display_google_map'] ) : '';
 		$instance['google_map_position']   = strip_tags( $new_instance['google_map_position'] );
-		$instance['disable_map_scroll']    = strip_tags( $new_instance['disable_map_scroll'] );
-		$instance['disable_title_output']  = strip_tags( $new_instance['disable_title_output'] );
-		$instance['target_blank']          = strip_tags( $new_instance['target_blank'] );
-		$instance['no_follow']             = strip_tags( $new_instance['no_follow'] );
+		$instance['disable_map_scroll']    = ! empty( $new_instance['disable_map_scroll'] ) ? strip_tags( $new_instance['disable_map_scroll'] ) : '';
+		$instance['disable_title_output']  = ! empty( $new_instance['disable_title_output'] ) ? strip_tags( $new_instance['disable_title_output'] ) : '';
+		$instance['target_blank']          = ! empty( $new_instance['target_blank'] ) ? strip_tags( $new_instance['target_blank'] ) : '';
+		$instance['no_follow']             = ! empty( $new_instance['no_follow'] ) ? strip_tags( $new_instance['no_follow'] ) : '';
 		$instance['cache']                 = strip_tags( $new_instance['cache'] );
+
+
 
 		return $instance;
 	}
@@ -422,6 +425,7 @@ class Yelp_Widget extends WP_Widget {
 		$noFollow          = ! isset( $instance['no_follow'] ) ? '' : esc_attr( $instance['no_follow'] );
 		$cache             = ! isset( $instance['cache'] ) ? '' : esc_attr( $instance['cache'] );
 		$transient         = urlencode( $displayOption . $term . $id . $location . $limit . $sort . $displayGoogleMap . $reviewsImgSize . $reviewsOption );
+
 
 		/**
 		 * @var: Get API Option: either Search or Business
