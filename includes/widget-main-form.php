@@ -324,17 +324,13 @@
 
 	<!-- Open Links in New Window -->
 	<p>
-		<input id="<?php echo $this->get_field_id( 'target_blank' ); ?>" name="<?php echo $this->get_field_name( 'target_blank' ); ?>" type="checkbox" value="1" <?php checked( '1', $targetBlank ); ?> <?php if ( empty( $targetBlank ) ) {
-			echo "checked='checked'";
-		} ?>/>
+		<input id="<?php echo $this->get_field_id( 'target_blank' ); ?>" name="<?php echo $this->get_field_name( 'target_blank' ); ?>" type="checkbox" value="1" <?php checked( '1', $targetBlank ); ?> />
 		<label for="<?php echo $this->get_field_id( 'target_blank' ); ?>"><?php _e( 'Open Links in New Window', 'ywp' ); ?>
 			<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'This option will add target=\'_blank\' to the widget\'s links. This is useful to keep users on your website.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
 	</p>
 	<!-- No Follow Links -->
 	<p>
-		<input id="<?php echo $this->get_field_id( 'no_follow' ); ?>" name="<?php echo $this->get_field_name( 'no_follow' ); ?>" type="checkbox" value="1" <?php checked( '1', $noFollow ); ?> <?php if ( empty( $noFollow ) ) {
-			echo "checked='checked'";
-		} ?> />
+		<input id="<?php echo $this->get_field_id( 'no_follow' ); ?>" name="<?php echo $this->get_field_name( 'no_follow' ); ?>" type="checkbox" value="1" <?php checked( '1', $noFollow ); ?> />
 		<label for="<?php echo $this->get_field_id( 'no_follow' ); ?>"><?php _e( 'No Follow Links', 'ywp' ); ?>
 			<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'This option will add rel=\'nofollow\' to the widget\'s outgoing links. This option may be useful for SEO.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
 	</p>
