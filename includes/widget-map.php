@@ -124,6 +124,7 @@ class Yelp_Widget_Map extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 
 		$instance                    = $old_instance;
+		$instance['title']    		 = strip_tags( $new_instance['title'] );
 		$instance['map_location']    = strip_tags( $new_instance['map_location'] );
 		$instance['map_search_term'] = strip_tags( $new_instance['map_search_term'] );
 
