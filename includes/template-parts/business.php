@@ -39,64 +39,68 @@ $x = 0; ?>
 		} ?>">
 
 
-			<?php foreach ( $businesses[0]->reviews as $review ) {
+			<?php
 
-				//Review Filter
-				if ( $reviewFilter == 'none' || $review->rating >= intval( $reviewFilter ) ) {
-					?>
+			if (!empty($businesses[0]->reviews)) {
+				foreach ( $businesses[0]->reviews as $review ) {
 
-					<div class="yelp-review yelper-avatar-<?php echo $reviewsImgSize; ?> clearfix ">
+					//Review Filter
+					if ( $reviewFilter == 'none' || $review->rating >= intval( $reviewFilter ) ) {
+						?>
 
-						<div class="yelp-review-avatar">
-							<img src="<?php echo $review->user->image_url; ?>" <?php
-							switch ( $reviewsImgSize ) {
-								case '100x100':
-									echo "width='100' height='100'";
-									break;
-								case '80x80':
-									echo "width='80' height='80'";
-									break;
-								case '60x60':
-									echo "width='60' height='60'";
-									break;
-								case '40x40':
-									echo "width='40' height='40'";
-									break;
-								default:
-									echo "width='60' height='60'";
-							} ?> alt="<?php echo $review->user->name; ?>'s Review" />
-							<span class="name"><?php echo $review->user->name; ?></span>
-						</div>
+						<div class="yelp-review yelper-avatar-<?php echo $reviewsImgSize; ?> clearfix ">
 
-
-						<div class="yelp-review-excerpt">
-
-							<?php if ( $hideRating !== '1' ) { ?>
-								<img src="<?php echo $review->rating_image_url; ?>" alt="<?php echo $review->rating; ?> Stars" />
-								<time><?php echo date( 'n/j/Y', $review->time_created ); ?></time>
-							<?php } ?>
-							<div class="yelp-review-excerpt-text">
-								<?php echo wpautop( $review->excerpt ); ?>
+							<div class="yelp-review-avatar">
+								<img src="<?php echo $review->user->image_url; ?>" <?php
+								switch ( $reviewsImgSize ) {
+									case '100x100':
+										echo "width='100' height='100'";
+										break;
+									case '80x80':
+										echo "width='80' height='80'";
+										break;
+									case '60x60':
+										echo "width='60' height='60'";
+										break;
+									case '40x40':
+										echo "width='40' height='40'";
+										break;
+									default:
+										echo "width='60' height='60'";
+								} ?> alt="<?php echo $review->user->name; ?>'s Review" />
+								<span class="name"><?php echo $review->user->name; ?></span>
 							</div>
-							<?php
-							//Read More Review
-							if ( $review->id && $hideReadMore !== "1" ) {
-								if ( ! empty( $customReadMore ) ) {
-									$reviewMoreText = $customReadMore;
-								} else {
-									$reviewMoreText = __( 'Read Full Review', 'ywp' );
-								}
 
-								?>
-								<a href="<?php echo esc_attr( $businesses[ $x ]->url ) . "#review_" . $review->id; ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?> title="<?php echo $reviewMoreText; ?>"><?php echo $reviewMoreText; ?></a>
-							<?php } ?>
+
+							<div class="yelp-review-excerpt">
+
+								<?php if ( $hideRating !== '1' ) { ?>
+									<img src="<?php echo $review->rating_image_url; ?>" alt="<?php echo $review->rating; ?> Stars" />
+									<time><?php echo date( 'n/j/Y', $review->time_created ); ?></time>
+								<?php } ?>
+								<div class="yelp-review-excerpt-text">
+									<?php echo wpautop( $review->excerpt ); ?>
+								</div>
+								<?php
+								//Read More Review
+								if ( $review->id && $hideReadMore !== "1" ) {
+									if ( ! empty( $customReadMore ) ) {
+										$reviewMoreText = $customReadMore;
+									} else {
+										$reviewMoreText = __( 'Read Full Review', 'ywp' );
+									}
+
+									?>
+									<a href="<?php echo esc_attr( $businesses[ $x ]->url ) . "#review_" . $review->id; ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?> title="<?php echo $reviewMoreText; ?>"><?php echo $reviewMoreText; ?></a>
+								<?php } ?>
+
+							</div>
 
 						</div>
 
-					</div>
-
-				<?php } //end if review filter ?>
-			<?php } //end foreach ?>
+					<?php } //end if review filter ?>
+				<?php } //end foreach ?>
+			<?php } //end if reviews ?>
 
 		</div>
 
