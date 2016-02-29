@@ -477,7 +477,7 @@ class Yelp_Widget extends WP_Widget {
 	 * @created    : 03/06/13
 	 */
 	public static function ywp_profile_image_size( $profileImgSize, $choice ) {
-		if ( $choice == 'size' ) {
+		if ( !empty( $choice ) && $choice == 'size' ) {
 			//Set profile image size
 			switch ( $profileImgSize ) {
 				case '40x40':

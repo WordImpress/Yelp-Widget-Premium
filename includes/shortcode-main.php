@@ -31,7 +31,7 @@ class Yelp_Shortcode extends Yelp_Widget {
 			'avatar'             => '60x60',
 			'target_blank'       => '1',
 			'no_follow'          => '1',
-			'profile_image_size' => '60x60',
+			'profile_image_size' => $profileImgSize,
 			'align'              => 'right',
 			'width'              => '250px',
 			'cache'              => '1 Day',
@@ -57,17 +57,20 @@ class Yelp_Shortcode extends Yelp_Widget {
 		//Display Reviews if true
 		$reviews = check_shortcode_value( $reviews );
 
+		//Filter Reviews if specified
+		$reviewFilter = check_shortcode_value( $reviewFilter );
+
+		//Adjust Profile Image Size if provided
+		$profileImgSize = check_shortcode_value( $profileImgSize );
+
 		//Hide More Review if specified
 		$hide_read_more = check_shortcode_value( $hide_read_more );
-
 
 		//Handle links opening
 		$target_blank = check_shortcode_value( $target_blank );
 
-
 		//Handle No Follow
 		$no_follow = check_shortcode_value( $no_follow );
-
 
 		/*
 		 * Set up our Widget instance array
@@ -111,7 +114,7 @@ class Yelp_Shortcode extends Yelp_Widget {
 				'display_google_map'  => empty( $map ) ? '' : $map,
 				'disable_map_scroll'  => empty( $map_disable_scroll ) ? '' : $map_disable_scroll,
 				'google_map_position' => empty( $atts['map_position'] ) ? '' : $atts['map_position'],
-				'profile_img_size'    => empty( $profile_image_size ) ? '' : $profile_image_size,
+				'profile_img_size'    => empty( $profileImgSize ) ? '' : $profileImgSize,
 				'align'               => empty( $align ) ? '' : $align,
 				'width'               => empty( $width ) ? '' : $width,
 				'cache'               => empty( $cache ) ? '' : $cache
