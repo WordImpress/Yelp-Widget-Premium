@@ -227,12 +227,10 @@ class Yelp_Widget extends WP_Widget {
 
 		ywp_debug_view( $signed_url );
 
-
 		// Cache: cache option is enabled
-		if ( $cache != 'None' ) {
+		if ( strtolower( $cache ) != 'none' ) {
 
 			$transient = urlencode( $displayOption . $term . $id . $location . $limit . $sort . $displayGoogleMap . $reviewsImgSize . $reviewsOption );
-
 
 			$response = get_transient( $transient );
 
@@ -361,7 +359,7 @@ class Yelp_Widget extends WP_Widget {
 	 * @SEE WP_Widget::update
 	 */
 	function update( $new_instance, $old_instance ) {
-		$instance                          = $old_instance;
+		$instance = $old_instance;
 
 		$instance['title']                 = strip_tags( $new_instance['title'] );
 		$instance['display_option']        = strip_tags( $new_instance['display_option'] );
@@ -387,7 +385,6 @@ class Yelp_Widget extends WP_Widget {
 		$instance['target_blank']          = ! empty( $new_instance['target_blank'] ) ? strip_tags( $new_instance['target_blank'] ) : '';
 		$instance['no_follow']             = ! empty( $new_instance['no_follow'] ) ? strip_tags( $new_instance['no_follow'] ) : '';
 		$instance['cache']                 = strip_tags( $new_instance['cache'] );
-
 
 
 		return $instance;
@@ -438,7 +435,7 @@ class Yelp_Widget extends WP_Widget {
 			//the user has not properly configured plugin so display a warning
 			?>
 			<div class="alert alert-red"><?php _e( 'Please input your Yelp API information in the <a href="options-general.php?page=yelp_widget">plugin settings</a> page prior to enabling Yelp Widget Pro.', 'ywp' ); ?></div>
-		<?php
+			<?php
 		} //The user has properly inputted Yelp API info so output widget form so output the widget contents
 		else {
 
