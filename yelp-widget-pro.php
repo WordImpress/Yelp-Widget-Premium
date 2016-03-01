@@ -31,38 +31,6 @@ if ( ! class_exists( 'YWPOAuthToken', false ) ) {
 }
 
 /**
- * Logic to check for updated version of Yelp Widget Pro Premium
- * if the user has a valid license key and email
- */
-$options = get_option( 'yelp_widget_settings' );
-$theme   = wp_get_theme();
-if ( isset( $options['yelp_widget_premium_license_status'] ) && $options['yelp_widget_premium_license_status'] == "1" || $theme["Name"] == 'Delicias' ) {
-
-}
-
-
-/**
- * Debug function.
- *
- * returns handy data
- *
- * @since: 1.5.7
- *
- * @param $what
- */
-function ywp_debug_view( $what ) {
-	if ( SCRIPT_DEBUG == true ) {
-		echo '<pre>';
-		if ( is_array( $what ) ) {
-			print_r( $what );
-		} else {
-			var_dump( $what );
-		}
-		echo '</pre>';
-	}
-}
-
-/*
  * Get the Widget and Shortcode
  */
 if ( ! class_exists( 'Yelp_Widget' ) ) {
