@@ -3,17 +3,27 @@
  * Plugin Name: Yelp Widget Premium
  * Plugin URI: http://wordimpress.com/wordpress-plugin-development/yelp-widget-pro/
  * Description: Easily display Yelp business ratings with a simple and intuitive WordPress widget.
- * Version: 1.9.3.8
- * Author: Devin Walker, Matt Cromwell
+ * Version: 1.9.4
+ * Author: WordImpress
  * Author URI: http://wordimpress.com/
  * License: GPLv2
  */
 
-define( 'YELP_PLUGIN_NAME', 'yelp-widget-pro' );
-define( 'YELP_PLUGIN_NAME_PLUGIN', plugin_basename( __FILE__ ) );
-define( 'YELP_WIDGET_PRO_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( 'YELP_WIDGET_PRO_URL', plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
-define( 'YWP_SETTINGS_URL', admin_url( 'options-general.php?page=yelp_widget' ) );
+if ( ! defined( 'YELP_PLUGIN_NAME' ) ) {
+	define( 'YELP_PLUGIN_NAME', 'yelp-widget-pro' );
+}
+if ( ! defined( 'YELP_PLUGIN_NAME_PLUGIN' ) ) {
+	define( 'YELP_PLUGIN_NAME_PLUGIN', plugin_basename( __FILE__ ) );
+}
+if ( ! defined( 'YELP_WIDGET_PRO_PATH' ) ) {
+	define( 'YELP_WIDGET_PRO_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+}
+if ( ! defined( 'YELP_WIDGET_PRO_URL' ) ) {
+	define( 'YELP_WIDGET_PRO_URL', plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) );
+}
+if ( ! defined( 'YWP_SETTINGS_URL' ) ) {
+	define( 'YWP_SETTINGS_URL', admin_url( 'options-general.php?page=yelp_widget' ) );
+}
 
 /**
  * Localize the Plugin for Other Languages

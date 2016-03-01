@@ -1,10 +1,10 @@
 === Yelp Widget Premium ===
-Contributors: dlocc, wordimpress
+Contributors: wordimpress
 Donate link: http://wordimpress.com
 Tags: yelp, yelp widget, yelp shortcode, yelp api, yelp business listings, yelp reviews, yelp widget pro
 Requires at least: 3.6
 Tested up to: 4.5
-Stable tag: 1.9.3.8
+Stable tag: 1.9.4
 
 Yelp Widget Pro makes it easy for you to add business listings to your website or blog via an easy-to-use and intuitive widget.
 
@@ -70,8 +70,13 @@ Some themes may have very small sidebars and CSS styles that conflict or alter t
 4. How the widget looks in a website sidebar
 
 == Changelog ==
+= 1.9.4 =
+* Updated: Settings page documentation and links - https://github.com/WordImpress/Yelp-Widget-Premium/issues/5
+* Fix: Shortcode Issue: profile_image_size not working - https://github.com/WordImpress/Yelp-Widget-Premium/issues/6
+* Fix: Shortcode correctly supports review_filter (no "s") attribute now - https://github.com/WordImpress/Yelp-Widget-Premium/issues/5
+
 = 1.9.3.8 =
-* Fix: Shortcode correctly supports reviews_filter attribute now.
+* Fix: Shortcode correctly supports reviews_filter (with "s") attribute now.
 
 = 1.9.3.7 =
 * Fix: Graceful fail if business has no reviews
