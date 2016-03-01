@@ -1,5 +1,4 @@
-#Grunt
-.idea/*
+/.idea
 node_modules
 .jshintrc
 package.json
