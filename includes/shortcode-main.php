@@ -28,6 +28,7 @@ class Yelp_Shortcode extends Yelp_Widget {
 			'map_placement'      => 'below',
 			'reviews'            => '0',
 			'review_filter'      => '',
+			'reviews_filter'     => '',
 			'avatar'             => '60x60',
 			'target_blank'       => '1',
 			'no_follow'          => '1',
@@ -41,7 +42,9 @@ class Yelp_Shortcode extends Yelp_Widget {
 
 		$args = array();
 
-
+		/**
+		 * check_shortcode_value is only used for true/false values
+		 */
 		//Display Address if true
 		$address = check_shortcode_value( $address );
 
@@ -56,9 +59,6 @@ class Yelp_Shortcode extends Yelp_Widget {
 
 		//Display Reviews if true
 		$reviews = check_shortcode_value( $reviews );
-
-		//Filter Reviews if specified
-		$review_filter = check_shortcode_value( $review_filter );
 
 		//Hide More Review if specified
 		$hide_read_more = check_shortcode_value( $hide_read_more );
@@ -87,8 +87,9 @@ class Yelp_Shortcode extends Yelp_Widget {
 				'no_follow'           => empty( $no_follow ) ? '' : $no_follow,
 				'display_reviews'     => empty( $reviews ) ? '' : $reviews,
 				'review_filter'       => empty( $review_filter ) ? '' : $review_filter,
+				'reviews_filter'       => empty( $reviews_filter ) ? '' : $reviews_filter,
 				'review_avatar_size'  => empty( $avatar ) ? '' : $avatar,
-				'profile_img_size'  => empty( $profile_image_size ) ? '' : $profile_image_size,
+				'profile_img_size'    => empty( $profile_image_size ) ? '' : $profile_image_size,
 				'align'               => empty( $align ) ? '' : $align,
 				'width'               => empty( $width ) ? '' : $width,
 				'cache'               => empty( $cache ) ? '' : $cache,
@@ -118,6 +119,11 @@ class Yelp_Shortcode extends Yelp_Widget {
 				'cache'               => empty( $cache ) ? '' : $cache
 			);
 
+		}
+
+		//reviews_filter & review_filter (no "s") Backwards compatibility
+		if ( empty( $instance['review_filter'] ) && ! empty( $instance['reviews_filter'] ) ) {
+			$instance['review_filter'] = $instance['reviews_filter'];
 		}
 
 		// actual shortcode handling here
