@@ -225,59 +225,17 @@ function yelp_widget_options_form() {
 					<div id="main-sortables" class="meta-box-sortables ui-sortable">
 						<div class="postbox" id="yelp-widget-intro">
 							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Yelp Widget Pro Introductions', 'ywp' ); ?></span></h3>
+							<h3 class="hndle"><span><?php _e( 'Yelp Widget Pro Introduction', 'ywp' ); ?></span></h3>
 
 							<div class="inside">
-								<p><?php _e( 'Thanks for choosing Yelp Widget Pro! <strong>To start using Yelp Widget Pro you must have a valid Yelp API key</strong>.  Don\'t worry, it\'s <em>free</em> and very easy to get one! <strong>Having trouble?</strong> Check out the <a href="http://wordimpress.com/docs/yelp-widget-pro/#how-to-request-a-yelp-api-key" target="_blank" class="new-window">How to Request a Yelp API Key</a> screencast.', 'ywp' ); ?></p>
-
-								<p><strong><?php _e( 'Yelp Widget Pro Activation Instructions:', 'ywp' ); ?></strong>
-								</p>
+								<h3><?php _e( 'Thanks for choosing Yelp Widget Pro!', 'ywp'); ?></h3>
+ 								<p><strong><?php _e('There\'s just 3 easy steps to getting started with Yelp Widget Pro:', 'ywp'); ?></strong></p>
 
 								<ol>
-									<li><?php _e( 'Sign into Yelp or create an account if you don\'t have one already', 'ywp' ); ?></li>
-									<li><?php _e( 'Once logged in, <a href="http://www.yelp.com/developers/getting_started/api_access" target="_blank" class="new-window">sign up for API access', 'ywp' ); ?></a></li>
-									<li><?php _e( 'After you have been granted an API key copy-and-paste the API v2.0 information into the appropriate fields below', 'ywp' ); ?></li>
-									<li><?php _e( 'Click update to activate and begin using Yelp Widget Pro', 'ywp' ); ?></li>
+									<li><?php _e( 'Activate your license in the sidebar to the right. Check out our <a href="https://wordimpress.com/frequent-customer-questions/" target="_blank">FAQ</a> if you have questions about that.', 'ywp' ); ?></li>
+									<li><?php _e( 'Decide whether you\'ll create a backup API or not. This isn\'t required. Read below for details.', 'ywp' ); ?></a></li>
+									<li><?php _e( 'Head over to your Widgets area, or read about how to use <a href="https://wordimpress.com/documentation/yelp-widget-pro/shortcode-explanation-and-usage/" target="_blank">the Shortcode</a> to integrate your Yelp Reviews now.', 'ywp' ); ?></li>
 								</ol>
-
-								<p>
-									<strong><?php _e( 'Like this plugin?  Give it a like on Facebook:', 'ywp' ); ?></strong>
-								</p>
-
-								<div class="social-items-wrap">
-
-									<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FWordImpress%2F353658958080509&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=220596284639969" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-
-									<a href="https://twitter.com/wordimpress" class="twitter-follow-button" data-show-count="false">Follow @wordimpress</a>
-									<script>!function ( d, s, id ) {
-											var js, fjs = d.getElementsByTagName( s )[0], p = /^http:/.test( d.location ) ? 'http' : 'https';
-											if ( !d.getElementById( id ) ) {
-												js = d.createElement( s );
-												js.id = id;
-												js.src = p + '://platform.twitter.com/widgets.js';
-												fjs.parentNode.insertBefore( js, fjs );
-											}
-										}( document, 'script', 'twitter-wjs' );</script>
-									<div class="google-plus">
-										<!-- Place this tag where you want the +1 button to render. -->
-										<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="200" data-href="https://plus.google.com/117062083910623146392"></div>
-
-
-										<!-- Place this tag after the last +1 button tag. -->
-										<script type="text/javascript">
-											(function () {
-												var po = document.createElement( 'script' );
-												po.type = 'text/javascript';
-												po.async = true;
-												po.src = 'https://apis.google.com/js/plusone.js';
-												var s = document.getElementsByTagName( 'script' )[0];
-												s.parentNode.insertBefore( po, s );
-											})();
-										</script>
-									</div>
-									<!--/.google-plus -->
-								</div>
-								<!--/.social-items-wrap -->
 
 							</div>
 							<!-- /.inside -->
@@ -298,7 +256,7 @@ function yelp_widget_options_form() {
 
 	?>
 								<div class="api-info">
-									<p><?php _e( 'Yelp Widget Pro has our API Key integrated into it automatically. This allows you to show up to 3 reviews on your site at a time. Read about why we did this here.', 'ywp' ); ?></p>
+									<p><?php _e( 'Yelp Widget Pro has our API Key integrated into it automatically. This allows you to show up to 3 reviews on your site at a time. <a href="https://wordimpress.com/support/topic/yelp-widget-pro-now-supports-3-reviews/" target="_blank">Read about why we did this here</a>.', 'ywp' ); ?></p>
 
 									<p><?php _e( 'There is a small chance that the cumulative amount of API calls made to our integrated API Key will reach the max amount that Yelp allows. If that happens the widget will break regardless of whether you are showing reviews or not.', 'ywp' ); ?></p>
 
@@ -313,6 +271,47 @@ function yelp_widget_options_form() {
 	$backupkey = empty( $options['enable_backup_key'] ) ? '' : $options['enable_backup_key'];
 	checked( 1, $backupkey ); ?> />
 									</div>
+								</div>
+								<div>
+									<p>
+										<strong><?php _e( 'Like this plugin?  Give it a like on Facebook:', 'ywp' ); ?></strong>
+									</p>
+
+									<div class="social-items-wrap">
+
+										<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FWordImpress%2F353658958080509&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=220596284639969" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+
+										<a href="https://twitter.com/wordimpress" class="twitter-follow-button" data-show-count="false">Follow @wordimpress</a>
+										<script>!function ( d, s, id ) {
+												var js, fjs = d.getElementsByTagName( s )[0], p = /^http:/.test( d.location ) ? 'http' : 'https';
+												if ( !d.getElementById( id ) ) {
+													js = d.createElement( s );
+													js.id = id;
+													js.src = p + '://platform.twitter.com/widgets.js';
+													fjs.parentNode.insertBefore( js, fjs );
+												}
+											}( document, 'script', 'twitter-wjs' );</script>
+										<div class="google-plus">
+											<!-- Place this tag where you want the +1 button to render. -->
+											<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="200" data-href="https://plus.google.com/117062083910623146392"></div>
+
+
+											<!-- Place this tag after the last +1 button tag. -->
+											<script type="text/javascript">
+												(function () {
+													var po = document.createElement( 'script' );
+													po.type = 'text/javascript';
+													po.async = true;
+													po.src = 'https://apis.google.com/js/plusone.js';
+													var s = document.getElementsByTagName( 'script' )[0];
+													s.parentNode.insertBefore( po, s );
+												})();
+											</script>
+										</div>
+										<!--/.google-plus -->
+									</div>
+									<!--/.social-items-wrap -->
+
 								</div>
 								<?php
 	if ( $backupkey == 1 ) {

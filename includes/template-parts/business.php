@@ -39,7 +39,9 @@ $x = 0; ?>
 		} ?>">
 
 
-			<?php foreach ( $businesses[0]->reviews as $review ) {
+			<?php
+			if ($businesses[0]->review_count > 0) {
+			foreach ( $businesses[0]->reviews as $review ) {
 
 				//Review Filter
 				if ( $reviewFilter == 'none' || $review->rating >= intval( $reviewFilter ) ) {
@@ -97,6 +99,8 @@ $x = 0; ?>
 
 				<?php } //end if review filter ?>
 			<?php } //end foreach ?>
+
+		<?php } //end if review_count > 0 ?>
 
 		</div>
 
