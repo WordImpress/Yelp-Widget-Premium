@@ -27,11 +27,11 @@ class Yelp_Shortcode extends Yelp_Widget {
 			'map_disable_scroll' => 'false',
 			'map_placement'      => 'below',
 			'reviews'            => '0',
-			'review_filter'     => '',
+			'review_filter'      => '',
 			'avatar'             => '60x60',
 			'target_blank'       => '1',
 			'no_follow'          => '1',
-			'profile_image_size' => $profileImgSize,
+			'profile_image_size' => '',
 			'align'              => 'right',
 			'width'              => '250px',
 			'cache'              => '1 Day',
@@ -58,10 +58,7 @@ class Yelp_Shortcode extends Yelp_Widget {
 		$reviews = check_shortcode_value( $reviews );
 
 		//Filter Reviews if specified
-		$reviewFilter = check_shortcode_value( $reviewFilter );
-
-		//Adjust Profile Image Size if provided
-		$profileImgSize = check_shortcode_value( $profileImgSize );
+		$review_filter = check_shortcode_value( $review_filter );
 
 		//Hide More Review if specified
 		$hide_read_more = check_shortcode_value( $hide_read_more );
@@ -72,7 +69,7 @@ class Yelp_Shortcode extends Yelp_Widget {
 		//Handle No Follow
 		$no_follow = check_shortcode_value( $no_follow );
 
-		/*
+		/**
 		 * Set up our Widget instance array
 		 */
 		//Business API
@@ -89,8 +86,9 @@ class Yelp_Shortcode extends Yelp_Widget {
 				'target_blank'        => empty( $target_blank ) ? '' : $target_blank,
 				'no_follow'           => empty( $no_follow ) ? '' : $no_follow,
 				'display_reviews'     => empty( $reviews ) ? '' : $reviews,
-                'review_filter'       => empty( $review_filter ) ? '' : $review_filter,
+				'review_filter'       => empty( $review_filter ) ? '' : $review_filter,
 				'review_avatar_size'  => empty( $avatar ) ? '' : $avatar,
+				'profile_img_size'  => empty( $profile_image_size ) ? '' : $profile_image_size,
 				'align'               => empty( $align ) ? '' : $align,
 				'width'               => empty( $width ) ? '' : $width,
 				'cache'               => empty( $cache ) ? '' : $cache,
@@ -114,7 +112,7 @@ class Yelp_Shortcode extends Yelp_Widget {
 				'display_google_map'  => empty( $map ) ? '' : $map,
 				'disable_map_scroll'  => empty( $map_disable_scroll ) ? '' : $map_disable_scroll,
 				'google_map_position' => empty( $atts['map_position'] ) ? '' : $atts['map_position'],
-				'profile_img_size'    => empty( $profileImgSize ) ? '' : $profileImgSize,
+				'profile_img_size'    => empty( $profile_image_size ) ? '' : $profile_image_size,
 				'align'               => empty( $align ) ? '' : $align,
 				'width'               => empty( $width ) ? '' : $width,
 				'cache'               => empty( $cache ) ? '' : $cache
