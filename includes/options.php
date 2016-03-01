@@ -211,7 +211,7 @@ function yelp_widget_options_form() {
 		<!-- Plugin Title -->
 		<div id="ywp-title-wrap">
 			<div id="icon-yelp" class=""></div>
-			<h2><?php _e( 'Yelp Widget Pro Settings', 'ywp' ); ?> </h2>
+			<h1><?php _e( 'Yelp Widget Pro Settings', 'ywp' ); ?> </h1>
 			<label class="label-success label">Premium Version</label>
 		</div>
 
