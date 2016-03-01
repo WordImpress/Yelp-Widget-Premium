@@ -225,8 +225,6 @@ class Yelp_Widget extends WP_Widget {
 		// Get the signed URL
 		$signed_url = $oauthrequest->to_url();
 
-		ywp_debug_view( $signed_url );
-
 		// Cache: cache option is enabled
 		if ( strtolower( $cache ) != 'none' ) {
 
