@@ -1,6 +1,8 @@
 <?php
 /**
- *  Admin options page. Creates a page to set your OAuth settings for the Yelp API v2.
+ * Yelp Settings Admin Options Page
+ *
+ * @description: Creates a page to set your OAuth settings for the Yelp API v2
  */
 
 register_activation_hook( __FILE__, 'yelp_widget_activate' );
@@ -18,7 +20,7 @@ if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 
 
 global $ywplicencing, $store_url, $item_name, $yelp_plugin_meta;
-$store_url = 'http://wordimpress.com';
+$store_url = 'https://wordimpress.com';
 $item_name = 'Yelp Widget Pro';
 
 //Licence Args
@@ -38,9 +40,8 @@ $ywplicencing = new Yelp_Widget_Pro_Licensing( $licence_args );
 /**
  * Licensing
  */
-add_action( 'admin_init', 'edd_sl_wordimpress_updater' );
-
-function edd_sl_wordimpress_updater() {
+add_action( 'admin_init', 'yelp_sl_wordimpress_updater' );
+function yelp_sl_wordimpress_updater() {
 	global $store_url, $item_name;
 	$yelp_plugin_meta = get_plugin_data( YELP_WIDGET_PRO_PATH . '/' . YELP_PLUGIN_NAME . '.php', false );
 	$options          = get_option( 'edd_yelp_license_key' );
@@ -48,7 +49,7 @@ function edd_sl_wordimpress_updater() {
 
 	// setup the updater
 	$edd_updater = new EDD_SL_Plugin_Updater( $store_url, YELP_PLUGIN_NAME_PLUGIN, array(
-			'version'   => $yelp_plugin_meta["Version"], // current version number
+			'version'   => $yelp_plugin_meta['Version'], // current version number
 			'license'   => $licence_key, // license key (used get_option above to retrieve from DB)
 			'item_name' => $item_name, // name of this plugin
 			'author'    => 'Devin Walker' // author of this plugin
@@ -69,9 +70,7 @@ function yelp_widget_uninstall() {
 
 // Run function when plugin is activated
 function yelp_widget_activate() {
-
 	$options = get_option( 'yelp_widget_settings' );
-
 }
 
 //Yelp Options Page
@@ -228,8 +227,10 @@ function yelp_widget_options_form() {
 							<h3 class="hndle"><span><?php _e( 'Yelp Widget Pro Introduction', 'ywp' ); ?></span></h3>
 
 							<div class="inside">
-								<h3><?php _e( 'Thanks for choosing Yelp Widget Pro!', 'ywp'); ?></h3>
- 								<p><strong><?php _e('There\'s just 3 easy steps to getting started with Yelp Widget Pro:', 'ywp'); ?></strong></p>
+								<h3><?php _e( 'Thanks for choosing Yelp Widget Pro!', 'ywp' ); ?></h3>
+								<p>
+									<strong><?php _e( 'There\'s just 3 easy steps to getting started with Yelp Widget Pro:', 'ywp' ); ?></strong>
+								</p>
 
 								<ol>
 									<li><?php _e( 'Activate your license in the sidebar to the right. Check out our <a href="https://wordimpress.com/frequent-customer-questions/" target="_blank">FAQ</a> if you have questions about that.', 'ywp' ); ?></li>
@@ -248,13 +249,13 @@ function yelp_widget_options_form() {
 
 							<div class="inside">
 								<?php
-	// Tells WordPress that the options we registered are being handled by this form
-	settings_fields( 'yelp_widget_settings' );
+								// Tells WordPress that the options we registered are being handled by this form
+								settings_fields( 'yelp_widget_settings' );
 
-	// Retrieve stored options, if any
-	$options = get_option( 'yelp_widget_settings' );
+								// Retrieve stored options, if any
+								$options = get_option( 'yelp_widget_settings' );
 
-	?>
+								?>
 								<div class="api-info">
 									<p><?php _e( 'Yelp Widget Pro has our API Key integrated into it automatically. This allows you to show up to 3 reviews on your site at a time. <a href="https://wordimpress.com/support/topic/yelp-widget-pro-now-supports-3-reviews/" target="_blank">Read about why we did this here</a>.', 'ywp' ); ?></p>
 
@@ -268,8 +269,8 @@ function yelp_widget_options_form() {
 									</div>
 									<div class="controls">
 										<input type="checkbox" id="enable_backup_key" name="yelp_widget_settings[enable_backup_key]" value="1" <?php
-	$backupkey = empty( $options['enable_backup_key'] ) ? '' : $options['enable_backup_key'];
-	checked( 1, $backupkey ); ?> />
+										$backupkey = empty( $options['enable_backup_key'] ) ? '' : $options['enable_backup_key'];
+										checked( 1, $backupkey ); ?> />
 									</div>
 								</div>
 								<div>
@@ -314,12 +315,12 @@ function yelp_widget_options_form() {
 
 								</div>
 								<?php
-	if ( $backupkey == 1 ) {
-		$display = 'style="display:block"';
-	} else {
-		$display = 'style="display:none"';
-	}
-	?>
+								if ( $backupkey == 1 ) {
+									$display = 'style="display:block"';
+								} else {
+									$display = 'style="display:none"';
+								}
+								?>
 								<div class="enable-backup" <?php echo $display; ?>>
 									<div class="control-group">
 										<div class="control-label">
@@ -374,8 +375,8 @@ function yelp_widget_options_form() {
 									</div>
 									<div class="controls">
 										<input type="checkbox" id="yelp_widget_disable_css" name="yelp_widget_settings[yelp_widget_disable_css]" value="1" <?php
-	$cssOption = empty( $options['yelp_widget_disable_css'] ) ? '' : $options['yelp_widget_disable_css'];
-	checked( 1, $cssOption ); ?> />
+										$cssOption = empty( $options['yelp_widget_disable_css'] ) ? '' : $options['yelp_widget_disable_css'];
+										checked( 1, $cssOption ); ?> />
 									</div>
 								</div>
 								<!--/.control-group -->
@@ -391,54 +392,53 @@ function yelp_widget_options_form() {
 							</div>
 						</div>
 
-							<!-- /.metabox-holder -->
+						<!-- /.metabox-holder -->
 		</form>
 
-					</div>
-					<!-- /#main-sortables -->
-				</div>
-				<!-- /.postbox-container -->
-				<div class="alignright" style="width:24%">
-					<div id="sidebar-sortables" class="meta-box-sortables ui-sortable">
+	</div>
+	<!-- /#main-sortables -->
+	</div>
+	<!-- /.postbox-container -->
+	<div class="alignright" style="width:24%">
+		<div id="sidebar-sortables" class="meta-box-sortables ui-sortable">
 
-						<div id="yelp-licence" class="postbox">
-							<?php
-	/**
-	 * Output Licensing Fields
-	 */
-	global $ywplicencing;
-	if ( class_exists( 'Yelp_Widget_Pro_Licensing' ) ) {
-		$ywplicencing->edd_wordimpress_license_page();
-	}
-	?>
-						</div>
-
-						<div id="yelp-widget-pro-support" class="postbox">
-							<div class="handlediv" title="Click to toggle"><br></div>
-							<h3 class="hndle"><span><?php _e( 'Need Support?', 'ywp' ); ?></span></h3>
-
-							<div class="inside">
-								<p><?php _e( 'If you have any problems with this plugin or ideas for improvements or enhancements, please use the WordImpress support forum: <a href="http://wordimpress.com/support/forum/yelp-widget-pro/" target="_blank" class="new-window">Support Forums</a>. Please note, support is prioritized for <a href="http://wordimpress.com/plugins/yelp-widget-pro/" title="Upgrade to Yelp Widget Premium" target="_blank" class="new-window">Premium Users</a>.', 'ywp' ); ?></p>
-							</div>
-							<!-- /.inside -->
-						</div>
-						<!-- /.yelp-widget-pro-support -->
-
-					</div>
-					<!-- /.sidebar-sortables -->
-					<div class="wip-buttons">
-						<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank"><img src="<?php echo YELP_WIDGET_PRO_URL; ?>/includes/images/bundle-banner-300x300.png" /></a>
-						<a href="https://wordimpress.com/" class="wordimpress-link" target="_blank"></a>
-					</div>
-
-				</div>
-				<!-- /.alignright -->
+			<div id="yelp-licence" class="postbox">
+				<?php
+				/**
+				 * Output Licensing Fields
+				 */
+				global $ywplicencing;
+				if ( class_exists( 'Yelp_Widget_Pro_Licensing' ) ) {
+					$ywplicencing->edd_wordimpress_license_page();
+				}
+				?>
 			</div>
 
+			<div id="yelp-widget-pro-support" class="postbox">
+				<div class="handlediv" title="Click to toggle"><br></div>
+				<h3 class="hndle"><span><?php _e( 'Need Support?', 'ywp' ); ?></span></h3>
+
+				<div class="inside">
+					<p><?php _e( 'If you have any problems with this plugin or ideas for improvements or enhancements, please use the WordImpress support forum: <a href="http://wordimpress.com/support/forum/yelp-widget-pro/" target="_blank" class="new-window">Support Forums</a>. Please note, support is prioritized for <a href="http://wordimpress.com/plugins/yelp-widget-pro/" title="Upgrade to Yelp Widget Premium" target="_blank" class="new-window">Premium Users</a>.', 'ywp' ); ?></p>
+				</div>
+				<!-- /.inside -->
+			</div>
+			<!-- /.yelp-widget-pro-support -->
+
+		</div>
+		<!-- /.sidebar-sortables -->
+		<div class="wip-buttons">
+			<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank"><img src="<?php echo YELP_WIDGET_PRO_URL; ?>/includes/images/bundle-banner-300x300.png" /></a>
+			<a href="https://wordimpress.com/" class="wordimpress-link" target="_blank"></a>
+		</div>
+
+	</div>
+	<!-- /.alignright -->
+	</div>
 
 
 	</div><!-- /#wrap -->
 
-<?php
+	<?php
 } //end yelp_widget_options_form
 ?>

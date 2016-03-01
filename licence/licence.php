@@ -255,91 +255,91 @@ class Yelp_Widget_Pro_Licensing {
 			<div class="inside">
 				<?php if ( $status !== false && $status == 'valid' ) { ?>
 
-					<?php if ( $legacySupport != true ) { ?>
-						<div class="license-stats">
-							<p><strong><?php _e( 'License Status:', 'ywp' ); ?></strong>
-								<span style="color: #468847;"><?php echo strtoupper( $license['license_status'] ); ?></span>
-								<strong>(<?php echo $this->time_left_on_license( $license['license_expiration'] );
-									_e( ' Days Remaining', 'ywp' ); ?>)</strong></p>
+				<?php if ( $legacySupport != true ) { ?>
+				<div class="license-stats">
+					<p><strong><?php _e( 'License Status:', 'ywp' ); ?></strong>
+						<span style="color: #468847;"><?php echo strtoupper( $license['license_status'] ); ?></span>
+						<strong>(<?php echo $this->time_left_on_license( $license['license_expiration'] );
+							_e( ' Days Remaining', 'ywp' ); ?>)</strong></p>
 
-							<p>
-								<?php
-								$daysleft = $this->time_left_on_license( $license['license_expiration'] );
-								if ($daysleft < '16'){ ?>
+					<p>
+						<?php
+						$daysleft = $this->time_left_on_license( $license['license_expiration'] );
+						if ( $daysleft < '16' ){ ?>
 
-							<div class="alert alert-warning license">
-								<p>Your license is expiring soon. Would you like to renew your license at 25% off the original price?
-									<a href="https://wordimpress.com/plugins/yelp-widget-pro" target="_blank">Click Here</a> and click the "Renewing a license key?" link at the checkout page.<br />
-							</div>
-							<br />
-							<?php } ?>
-							<strong><?php _e( 'License Expiration:', 'ywp' ); ?></strong> <?php echo $license['license_expiration']; ?>
-							</p>
+						<div class="alert alert-warning license">
+					<p>Your license is expiring soon. Would you like to renew your license at 25% off the original price?
+						<a href="https://wordimpress.com/plugins/yelp-widget-pro" target="_blank">Click Here</a> and click the "Renewing a license key?" link at the checkout page.<br />
+				</div>
+			<br />
+			<?php } ?>
+				<strong><?php _e( 'License Expiration:', 'ywp' ); ?></strong> <?php echo $license['license_expiration']; ?>
+				</p>
 
-							<p>
-								<strong><?php _e( 'License Owner:', 'ywp' ); ?></strong> <?php echo $license['license_name']; ?>
-							</p>
+				<p>
+					<strong><?php _e( 'License Owner:', 'ywp' ); ?></strong> <?php echo $license['license_name']; ?>
+				</p>
 
-							<p>
-								<strong><?php _e( 'License Email:', 'ywp' ); ?></strong> <?php echo $license['license_email']; ?>
-							</p>
+				<p>
+					<strong><?php _e( 'License Email:', 'ywp' ); ?></strong> <?php echo $license['license_email']; ?>
+				</p>
 
-							<p>
-								<strong><?php _e( 'License Payment ID:', 'ywp' ); ?></strong> <?php echo $license['license_payment_id']; ?>
-							</p>
-						</div>
-					<?php } ?>
+				<p>
+					<strong><?php _e( 'License Payment ID:', 'ywp' ); ?></strong> <?php echo $license['license_payment_id']; ?>
+				</p>
+			</div>
+			<?php } ?>
 
-					<p class="alert alert-success license-status"><?php _e( 'Your license is active and you are receiving updates.', 'ywp' ); ?></p>
+			<p class="alert alert-success license-status"><?php _e( 'Your license is active and you are receiving updates.', 'ywp' ); ?></p>
 
-				<?php
-				} //Reached Activation?
-				elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license['license_error'] == 'no_activations_left' ) {
-					?>
+			<?php
+			} //Reached Activation?
+			elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license['license_error'] == 'no_activations_left' ) {
+				?>
 
-					<p class="alert alert-red license-status"><?php _e( 'The license you entered has reached the activation limit. To purchase more licenses please visit WordImpress.', 'ywp' ); ?></p>
+				<p class="alert alert-red license-status"><?php _e( 'The license you entered has reached the activation limit. To purchase more licenses please visit WordImpress.', 'ywp' ); ?></p>
 
-				<?php } elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license["license_error"] == 'missing' ) { ?>
+			<?php } elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license["license_error"] == 'missing' ) { ?>
 
-					<p class="alert alert-red license-status"><?php _e( 'There was a problem with the license you entered. Please check that your license key is active and valid then reenter it below. If you are having trouble please contact support for assistance.', 'ywp' ); ?></p>
+				<p class="alert alert-red license-status"><?php _e( 'There was a problem with the license you entered. Please check that your license key is active and valid then reenter it below. If you are having trouble please contact support for assistance.', 'ywp' ); ?></p>
 
-				<?php } else { ?>
+			<?php } else { ?>
 
-					<p class="alert alert-red license-status"><?php _e( 'Activate your license to receive automatic plugin updates for the life of your license.', 'ywp' ); ?></p>
+				<p class="alert alert-red license-status"><?php _e( 'Activate your license to receive automatic plugin updates for the life of your license.', 'ywp' ); ?></p>
 
+			<?php } ?>
+
+
+			<form method="post" action="options.php">
+
+				<?php settings_fields( $this->licence_key_setting ); ?>
+
+				<input id="<?php echo $this->licence_key_option; ?>[license_key]" name="<?php echo $this->licence_key_option; ?>[license_key]" <?php echo ( $status !== false && $status == 'valid' ) ? 'type="password"' : 'type="text"'; ?> class="licence-input <?php echo ( $status !== false && $status == 'valid' ) ? ' license-active' : ' license-inactive'; ?>" value="<?php if ( $status !== false && $status == 'valid' ) {
+					echo $license['license_key'];
+				} ?>" autocomplete="off" />
+				<label class="description licence-label" for="<?php echo $this->licence_key_option; ?>"><?php if ( $status !== false && $status == 'valid' ) {
+						_e( 'Your licence is active and valid.', 'ywp' );
+					} else {
+						_e( 'Enter your license key to receive updates and support', 'ywp' );
+					} ?></label>
+
+
+				<?php if ( $status !== false && $status == 'valid' ) { ?>
+					<?php wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
+					<input type="submit" class="button-secondary deactivate-license-btn" name="edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ywp' ); ?>" />
+					<?php
+				} else {
+					wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
+					<input type="submit" class="button-secondary activate-license-btn" name="edd_license_activate" value="<?php _e( 'Activate License', 'ywp' ); ?>" />
 				<?php } ?>
 
 
-				<form method="post" action="options.php">
+				<?php //submit_button(); ?>
 
-					<?php settings_fields( $this->licence_key_setting ); ?>
-
-					<input id="<?php echo $this->licence_key_option; ?>[license_key]" name="<?php echo $this->licence_key_option; ?>[license_key]" <?php echo ( $status !== false && $status == 'valid' ) ? 'type="password"' : 'type="text"'; ?> class="licence-input <?php echo ( $status !== false && $status == 'valid' ) ? ' license-active' : ' license-inactive'; ?>" value="<?php if ( $status !== false && $status == 'valid' ) {
-						echo $license['license_key'];
-					} ?>" autocomplete="off" />
-					<label class="description licence-label" for="<?php echo $this->licence_key_option; ?>"><?php if ( $status !== false && $status == 'valid' ) {
-							_e( 'Your licence is active and valid.', 'ywp' );
-						} else {
-							_e( 'Enter your license key to receive updates and support', 'ywp' );
-						} ?></label>
-
-
-					<?php if ( $status !== false && $status == 'valid' ) { ?>
-						<?php wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
-						<input type="submit" class="button-secondary deactivate-license-btn" name="edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ywp' ); ?>" />
-					<?php
-					} else {
-						wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
-						<input type="submit" class="button-secondary activate-license-btn" name="edd_license_activate" value="<?php _e( 'Activate License', 'ywp' ); ?>" />
-					<?php } ?>
-
-
-					<?php //submit_button(); ?>
-
-				</form>
-			</div>
+			</form>
 		</div>
-	<?php
+		</div>
+		<?php
 	}
 
 
