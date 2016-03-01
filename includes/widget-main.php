@@ -1,15 +1,10 @@
 <?php
-/**
- * widget-main.php
- * @Description: Main Yelp widget class
- */
-
 
 /**
- * Adds Yelp Widget Pro Widget
+ * Yelp_Widget
+ * @description: Main Yelp widget class that adds Yelp Widget Pro Widget
  */
 class Yelp_Widget extends WP_Widget {
-
 
 	/**
 	 * Register widget with WordPress.
@@ -136,7 +131,7 @@ class Yelp_Widget extends WP_Widget {
 		$options = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists
 
 		// Base unsigned URL
-		$unsigned_url = "http://api.yelp.com/v2/";
+		$unsigned_url = 'http://api.yelp.com/v2/';
 
 		if ( empty( $options['enable_backup_key'] ) ) {
 			// Token object built using the OAuth library
@@ -150,15 +145,16 @@ class Yelp_Widget extends WP_Widget {
 			$yelp_widget_consumer_secret = '1eQpHwSO38jMSsI37QOjBWuroeQ';
 
 		} else {
+
 			// Token object built using the OAuth library
-			$yelp_widget_token        = $options["yelp_widget_token"];
-			$yelp_widget_token_secret = $options["yelp_widget_token_secret"];
+			$yelp_widget_token        = $options['yelp_widget_token'];
+			$yelp_widget_token_secret = $options['yelp_widget_token_secret'];
 
 			$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
 
 			// Consumer object built using the OAuth library
-			$yelp_widget_consumer_key    = $options["yelp_widget_consumer_key"];
-			$yelp_widget_consumer_secret = $options["yelp_widget_consumer_secret"];
+			$yelp_widget_consumer_key    = $options['yelp_widget_consumer_key'];
+			$yelp_widget_consumer_secret = $options['yelp_widget_consumer_secret'];
 		}
 		$consumer = new YWPOAuthConsumer( $yelp_widget_consumer_key, $yelp_widget_consumer_secret );
 
@@ -241,25 +237,25 @@ class Yelp_Widget extends WP_Widget {
 
 				//Assign Time to appropriate Math
 				switch ( $expiration ) {
-					case "1 Hour":
+					case '1 Hour':
 						$expiration = 3600;
 						break;
-					case "3 Hours":
+					case '3 Hours':
 						$expiration = 3600 * 3;
 						break;
-					case "6 Hours":
+					case '6 Hours':
 						$expiration = 3600 * 6;
 						break;
-					case "12 Hours":
+					case '12 Hours':
 						$expiration = 60 * 60 * 12;
 						break;
-					case "1 Day":
+					case '1 Day':
 						$expiration = 60 * 60 * 24;
 						break;
-					case "2 Days":
+					case '2 Days':
 						$expiration = 60 * 60 * 48;
 						break;
-					case "1 Week":
+					case '1 Week':
 						$expiration = 60 * 60 * 168;
 						break;
 				}
@@ -353,8 +349,14 @@ class Yelp_Widget extends WP_Widget {
 
 
 	/**
-	 * @DESC: Saves the widget options
-	 * @SEE WP_Widget::update
+	 * Update Widget
+	 *
+	 * @description: Saves the widget options
+	 *
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 *
+	 * @return array
 	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -390,8 +392,13 @@ class Yelp_Widget extends WP_Widget {
 
 
 	/**
-	 * Back-end widget form.
-	 * @see WP_Widget::form()
+	 * Widget Form
+	 *
+	 * Back-end widget form
+	 *
+	 * @param array $instance
+	 *
+	 * @return string
 	 */
 	function form( $instance ) {
 
@@ -472,7 +479,7 @@ class Yelp_Widget extends WP_Widget {
 	 * @created    : 03/06/13
 	 */
 	public static function ywp_profile_image_size( $profileImgSize, $choice ) {
-		if ( !empty( $choice ) && $choice == 'size' ) {
+		if ( ! empty( $choice ) && $choice == 'size' ) {
 			//Set profile image size
 			switch ( $profileImgSize ) {
 				case '40x40':
@@ -549,7 +556,13 @@ class Yelp_Widget extends WP_Widget {
 add_action( 'widgets_init', create_function( '', 'register_widget( "Yelp_Widget" );' ) );
 
 /**
- * @DESC: CURLs the Yelp API with our url parameters and returns JSON response
+ * Yelp Widget cURL
+ *
+ * @description: CURLs the Yelp API with our url parameters and returns JSON response
+ *
+ * @param $signed_url
+ *
+ * @return array|bool|mixed|object
  */
 function yelp_widget_curl( $signed_url ) {
 
@@ -576,13 +589,16 @@ function yelp_widget_curl( $signed_url ) {
 	}
 
 	// Handle Yelp response data
-	return $response;
+	return apply_filters( 'yelp_api_response', $response );
 
 }
 
 /**
  * Function update http for SSL
  *
+ * @param $data
+ *
+ * @return mixed
  */
 function yelp_update_http_for_ssl( $data ) {
 
