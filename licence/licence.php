@@ -134,6 +134,31 @@ class Yelp_Widget_Pro_Licensing {
 
 			// make sure the response came back okay
 			if ( is_wp_error( $response ) ) {
+
+				//There was an error so output it
+				if ( is_object( $response ) && isset( $response->errors ) ) {
+
+					//Loop through response errors
+					foreach ( $response->errors as $errors ) {
+
+						//Output each error
+						foreach ( $errors as $error ) {
+
+							//Check for SSL error to provide more verbose explanation
+							if ( $error == 'SSL connect error' ) {
+								add_settings_error( 'yelp_widget', 'yelp_license_activation_error', __( 'License Activation Error: ', 'ywp' ) . $error . '. ' . __( 'This can be easily fixed by contacting your website host and asking them to upgrade your server PHP version to 5.3+ and cURL to 7.29+', 'ywp' ) );
+							} else {
+								//Output all other
+								add_settings_error( 'yelp_widget', 'yelp_license_activation_error', __( 'License Activation Error: ' ) . $error );
+							}
+
+
+						}
+
+					}
+
+				}
+
 				return false;
 			}
 
@@ -269,9 +294,9 @@ class Yelp_Widget_Pro_Licensing {
 
 						<div class="alert alert-warning license">
 					<p>Your license is expiring soon. Would you like to renew your license at 25% off the original price?
-						<a href="https://wordimpress.com/plugins/yelp-widget-pro" target="_blank">Click Here</a> and click the "Renewing a license key?" link at the checkout page.<br />
+						<a href="https://wordimpress.com/plugins/yelp-widget-pro" target="_blank">Click Here</a> and click the "Renewing a license key?" link at the checkout page.<br/>
 				</div>
-			<br />
+			<br/>
 			<?php } ?>
 				<strong><?php _e( 'License Expiration:', 'ywp' ); ?></strong> <?php echo $license['license_expiration']; ?>
 				</p>
@@ -316,7 +341,7 @@ class Yelp_Widget_Pro_Licensing {
 
 				<input id="<?php echo $this->licence_key_option; ?>[license_key]" name="<?php echo $this->licence_key_option; ?>[license_key]" <?php echo ( $status !== false && $status == 'valid' ) ? 'type="password"' : 'type="text"'; ?> class="licence-input <?php echo ( $status !== false && $status == 'valid' ) ? ' license-active' : ' license-inactive'; ?>" value="<?php if ( $status !== false && $status == 'valid' ) {
 					echo $license['license_key'];
-				} ?>" autocomplete="off" />
+				} ?>" autocomplete="off"/>
 				<label class="description licence-label" for="<?php echo $this->licence_key_option; ?>"><?php if ( $status !== false && $status == 'valid' ) {
 						_e( 'Your licence is active and valid.', 'ywp' );
 					} else {
@@ -326,11 +351,11 @@ class Yelp_Widget_Pro_Licensing {
 
 				<?php if ( $status !== false && $status == 'valid' ) { ?>
 					<?php wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
-					<input type="submit" class="button-secondary deactivate-license-btn" name="edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ywp' ); ?>" />
+					<input type="submit" class="button-secondary deactivate-license-btn" name="edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ywp' ); ?>"/>
 					<?php
 				} else {
 					wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
-					<input type="submit" class="button-secondary activate-license-btn" name="edd_license_activate" value="<?php _e( 'Activate License', 'ywp' ); ?>" />
+					<input type="submit" class="button-secondary activate-license-btn" name="edd_license_activate" value="<?php _e( 'Activate License', 'ywp' ); ?>"/>
 				<?php } ?>
 
 
