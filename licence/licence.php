@@ -8,6 +8,11 @@
 class Yelp_Widget_Pro_Licensing {
 
 
+	/**
+	 * Yelp_Widget_Pro_Licensing constructor.
+	 *
+	 * @param $licence_args
+	 */
 	function __construct( $licence_args ) {
 
 		$this->plugin_basename     = $licence_args['plugin_basename'];
@@ -77,11 +82,11 @@ class Yelp_Widget_Pro_Licensing {
 	 * Register assets
 	 *
 	 * Loads JS and CSS for licence form
-	 *
 	 */
 	function register_licence_assets( $hook ) {
 
 		if ( $hook == $this->settings_page ) {
+
 			//JS for AJAX Activation
 			wp_register_script( 'wordimpress_licencing_js', plugins_url( 'licence/assets/js/licence.js', dirname( __FILE__ ) ) );
 			wp_enqueue_script( 'wordimpress_licencing_js' );
@@ -92,108 +97,114 @@ class Yelp_Widget_Pro_Licensing {
 					'ajax_url' => admin_url( 'admin-ajax.php' )
 				)
 			);
+			
 
 			//CSS
-			wp_register_style( 'wordimpress_licencing_css', plugins_url( 'licence/assets/css/licence.css', dirname( __FILE__ ) ) );
+			wp_register_style( 'wordimpress_licencing_css', plugins_url( 'licence/assets/css/license.css', dirname( __FILE__ ) ) );
 			wp_enqueue_style( 'wordimpress_licencing_css' );
 
 		}
 
 	}
 
-	/************************************
-	 * this illustrates how to activate
-	 * a license key
-	 *************************************/
+	/**
+	 * Activate License
+	 *
+	 * @return bool
+	 */
 	function edd_wordimpress_activate_license() {
 
 		// listen for our activate button to be clicked
-		if ( isset( $_POST['edd_license_activate'] ) ) {
+		if ( ! isset( $_POST['edd_license_activate'] ) ) {
+			return false;
+		}
 
-			//run a quick security check
-			if ( ! check_admin_referer( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ) ) {
-				return false;
-			} // get out if we didn't click the Activate button
+		//Only on Yelp Options Page do we activate Licenses
+		if ( $_POST['option_page'] !== 'ywp_licence_setting' ) {
+			return false;
+		}
 
-			// retrieve the license from the database
-			$license = $this->get_license();
+		//run a quick security check; get out if we didn't click the Activate button
+		if ( ! check_admin_referer( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ) ) {
+			return false;
+		}
 
-			// data to send in our API request
-			$api_params = array(
-				'edd_action' => 'activate_license',
-				'license'    => $license,
-				'item_name'  => urlencode( $this->item_name ) // the name of our product in EDD
-			);
+		// retrieve the license from the database
+		$license = $this->get_license();
 
-			// Call the WordImpress EDD API.
-			$response = wp_remote_post( $this->store_url, array(
-				'timeout'   => 120,
-				'sslverify' => false,
-				'body'      => $api_params
-			) );
+		// data to send in our API request
+		$api_params = array(
+			'edd_action' => 'activate_license',
+			'license'    => $license,
+			'item_name'  => urlencode( $this->item_name ) // the name of our product in EDD
+		);
 
-			// make sure the response came back okay
-			if ( is_wp_error( $response ) ) {
+		// Call the WordImpress EDD API.
+		$response = wp_remote_post( esc_url_raw( add_query_arg( $api_params, $this->store_url ) ), array( 'timeout'   => 15,
+		                                                                                                  'sslverify' => false
+		) );
 
-				//There was an error so output it
-				if ( is_object( $response ) && isset( $response->errors ) ) {
+		// make sure the response came back okay
+		if ( is_wp_error( $response ) ) {
 
-					//Loop through response errors
-					foreach ( $response->errors as $errors ) {
+			//There was an error so output it
+			if ( is_object( $response ) && isset( $response->errors ) ) {
 
-						//Output each error
-						foreach ( $errors as $error ) {
+				//Loop through response errors
+				foreach ( $response->errors as $errors ) {
 
-							//Check for SSL error to provide more verbose explanation
-							if ( $error == 'SSL connect error' ) {
-								add_settings_error( 'yelp_widget', 'yelp_license_activation_error', __( 'License Activation Error: ', 'ywp' ) . $error . '. ' . __( 'This can be easily fixed by contacting your website host and asking them to upgrade your server PHP version to 5.3+ and cURL to 7.29+', 'ywp' ) );
-							} else {
-								//Output all other
-								add_settings_error( 'yelp_widget', 'yelp_license_activation_error', __( 'License Activation Error: ' ) . $error );
-							}
+					//Output each error
+					foreach ( $errors as $error ) {
 
-
+						//Check for SSL error to provide more verbose explanation
+						if ( $error == 'SSL connect error' ) {
+							add_settings_error( 'yelp_widget', 'yelp_license_activation_error', __( 'License Activation Error: ', 'ywp' ) . $error . '. ' . __( 'This can be easily fixed by contacting your website host and asking them to upgrade your server PHP version to 5.3+ and cURL to 7.39+', 'ywp' ) );
+						} else {
+							//Output all other
+							add_settings_error( 'yelp_widget', 'yelp_license_activation_error', __( 'License Activation Error: ' ) . $error );
 						}
+
 
 					}
 
 				}
 
-				return false;
 			}
 
-			// decode the license data
-			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-			// $license_data->license will be either "active" or "inactive"
-			update_option( $this->licence_key_option,
-				array(
-					'license_key'        => $license,
-					'license_item_name'  => $license_data->item_name,
-					'license_expiration' => $license_data->expires,
-					'license_status'     => $license_data->license,
-					'license_name'       => $license_data->customer_name,
-					'license_email'      => $license_data->customer_email,
-					'license_payment_id' => $license_data->payment_id,
-					'license_error'      => isset( $license_data->error ) ? $license_data->error : '',
-				)
-			);
-
-
+			return false;
 		}
+
+		// decode the license data
+		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+		// $license_data->license will be either "active" or "inactive"
+		update_option( $this->licence_key_option,
+			array(
+				'license_key'        => $license,
+				'license_item_name'  => $license_data->item_name,
+				'license_expiration' => $license_data->expires,
+				'license_status'     => $license_data->license,
+				'license_name'       => $license_data->customer_name,
+				'license_email'      => $license_data->customer_email,
+				'license_payment_id' => $license_data->payment_id,
+				'license_error'      => isset( $license_data->error ) ? $license_data->error : '',
+			)
+		);
+
 	}
 
 
-	/***********************************************
-	 * Illustrates how to deactivate a license key.
-	 * This will descrease the site count
-	 ***********************************************/
-
+	/**
+	 * Deactivate License
+	 *
+	 * @param bool $plugin_deactivate
+	 *
+	 * @return bool|void
+	 */
 	function edd_wordimpress_deactivate_license( $plugin_deactivate = false ) {
 
 		// listen for our activate button to be clicked
 		if ( isset( $_POST['option_page'] ) && $_POST['option_page'] === $this->licence_key_setting && isset( $_POST['edd_license_deactivate'] ) || isset( $_POST['option_page'] ) && $_POST['option_page'] === $this->licence_key_setting && $plugin_deactivate === true ) {
-
 
 			// run a quick security check
 			if ( ! current_user_can( 'activate_plugins' ) && ! check_admin_referer( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ) ) {
@@ -280,90 +291,93 @@ class Yelp_Widget_Pro_Licensing {
 			<div class="inside">
 				<?php if ( $status !== false && $status == 'valid' ) { ?>
 
-				<?php if ( $legacySupport != true ) { ?>
-				<div class="license-stats">
-					<p><strong><?php _e( 'License Status:', 'ywp' ); ?></strong>
-						<span style="color: #468847;"><?php echo strtoupper( $license['license_status'] ); ?></span>
-						<strong>(<?php echo $this->time_left_on_license( $license['license_expiration'] );
-							_e( ' Days Remaining', 'ywp' ); ?>)</strong></p>
+					<?php if ( $legacySupport != true ) { ?>
+						<div class="license-stats">
+							<p><strong><?php _e( 'License Status:', 'ywp' ); ?></strong>
+								<span style="color: #468847;"><?php echo strtoupper( $license['license_status'] ); ?></span>
+								(<?php echo $this->time_left_on_license( $license['license_expiration'] );
+								_e( ' Days Remaining', 'ywp' ); ?>)
+							</p>
 
-					<p>
-						<?php
-						$daysleft = $this->time_left_on_license( $license['license_expiration'] );
-						if ( $daysleft < '16' ){ ?>
+							<?php
+							$daysleft = $this->time_left_on_license( $license['license_expiration'] );
+							if ( $daysleft < '16' ) { ?>
 
-						<div class="alert alert-warning license">
-					<p>Your license is expiring soon. Would you like to renew your license at 25% off the original price?
-						<a href="https://wordimpress.com/plugins/yelp-widget-pro" target="_blank">Click Here</a> and click the "Renewing a license key?" link at the checkout page.<br/>
-				</div>
-			<br/>
-			<?php } ?>
-				<strong><?php _e( 'License Expiration:', 'ywp' ); ?></strong> <?php echo $license['license_expiration']; ?>
-				</p>
+								<div class="alert alert-warning license">
+									<p>Your license is expiring soon. Would you like to renew your license at 25% off the original price?
+										<a href="https://wordimpress.com/plugins/yelp-widget-pro" target="_blank">Click Here</a> and click the "Renewing a license key?" link at the checkout page.
+									</p>
+								</div>
+								<br/>
+							<?php } ?>
+							<p>
+								<strong><?php _e( 'License Expiration:', 'ywp' ); ?></strong> <?php echo $license['license_expiration']; ?>
+							</p>
 
-				<p>
-					<strong><?php _e( 'License Owner:', 'ywp' ); ?></strong> <?php echo $license['license_name']; ?>
-				</p>
+							<p>
+								<strong><?php _e( 'License Owner:', 'ywp' ); ?></strong> <?php echo $license['license_name']; ?>
+							</p>
 
-				<p>
-					<strong><?php _e( 'License Email:', 'ywp' ); ?></strong> <?php echo $license['license_email']; ?>
-				</p>
+							<p>
+								<strong><?php _e( 'License Email:', 'ywp' ); ?></strong> <?php echo $license['license_email']; ?>
+							</p>
 
-				<p>
-					<strong><?php _e( 'License Payment ID:', 'ywp' ); ?></strong> <?php echo $license['license_payment_id']; ?>
-				</p>
-			</div>
-			<?php } ?>
+							<p>
+								<strong><?php _e( 'License Payment ID:', 'ywp' ); ?></strong> <?php echo $license['license_payment_id']; ?>
+							</p>
+						</div>
+					<?php } ?>
 
-			<p class="alert alert-success license-status"><?php _e( 'Your license is active and you are receiving updates.', 'ywp' ); ?></p>
+					<p class="alert alert-success license-status"><?php _e( 'Your license is active and you are receiving updates.', 'ywp' ); ?></p>
 
-			<?php
-			} //Reached Activation?
-			elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license['license_error'] == 'no_activations_left' ) {
-				?>
-
-				<p class="alert alert-red license-status"><?php _e( 'The license you entered has reached the activation limit. To purchase more licenses please visit WordImpress.', 'ywp' ); ?></p>
-
-			<?php } elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license["license_error"] == 'missing' ) { ?>
-
-				<p class="alert alert-red license-status"><?php _e( 'There was a problem with the license you entered. Please check that your license key is active and valid then reenter it below. If you are having trouble please contact support for assistance.', 'ywp' ); ?></p>
-
-			<?php } else { ?>
-
-				<p class="alert alert-red license-status"><?php _e( 'Activate your license to receive automatic plugin updates for the life of your license.', 'ywp' ); ?></p>
-
-			<?php } ?>
-
-
-			<form method="post" action="options.php">
-
-				<?php settings_fields( $this->licence_key_setting ); ?>
-
-				<input id="<?php echo $this->licence_key_option; ?>[license_key]" name="<?php echo $this->licence_key_option; ?>[license_key]" <?php echo ( $status !== false && $status == 'valid' ) ? 'type="password"' : 'type="text"'; ?> class="licence-input <?php echo ( $status !== false && $status == 'valid' ) ? ' license-active' : ' license-inactive'; ?>" value="<?php if ( $status !== false && $status == 'valid' ) {
-					echo $license['license_key'];
-				} ?>" autocomplete="off"/>
-				<label class="description licence-label" for="<?php echo $this->licence_key_option; ?>"><?php if ( $status !== false && $status == 'valid' ) {
-						_e( 'Your licence is active and valid.', 'ywp' );
-					} else {
-						_e( 'Enter your license key to receive updates and support', 'ywp' );
-					} ?></label>
-
-
-				<?php if ( $status !== false && $status == 'valid' ) { ?>
-					<?php wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
-					<input type="submit" class="button-secondary deactivate-license-btn" name="edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ywp' ); ?>"/>
 					<?php
-				} else {
-					wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
-					<input type="submit" class="button-secondary activate-license-btn" name="edd_license_activate" value="<?php _e( 'Activate License', 'ywp' ); ?>"/>
+				} //Reached Activation?
+				elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license['license_error'] == 'no_activations_left' ) {
+					?>
+
+					<p class="alert alert-red license-status"><?php _e( 'The license you entered has reached the activation limit. To purchase more licenses please visit WordImpress.', 'ywp' ); ?></p>
+
+				<?php } elseif ( $status == 'invalid' && isset( $license['license_error'] ) && $license["license_error"] == 'missing' ) { ?>
+
+					<p class="alert alert-red license-status"><?php _e( 'There was a problem with the license you entered. Please check that your license key is active and valid then reenter it below. If you are having trouble please contact support for assistance.', 'ywp' ); ?></p>
+
+				<?php } else { ?>
+
+					<p class="alert alert-red license-status"><?php _e( 'Activate your license to receive automatic plugin updates for the life of your license.', 'ywp' ); ?></p>
+
 				<?php } ?>
 
 
-				<?php //submit_button(); ?>
+				<form method="post" action="<?php echo get_permalink(); ?>">
 
-			</form>
-		</div>
-		</div>
+					<?php settings_fields( $this->licence_key_setting ); ?>
+
+					<input id="<?php echo $this->licence_key_option; ?>[license_key]" name="<?php echo $this->licence_key_option; ?>[license_key]" <?php echo ( $status !== false && $status == 'valid' ) ? 'type="password"' : 'type="text"'; ?> class="licence-input <?php echo ( $status !== false && $status == 'valid' ) ? ' license-active' : ' license-inactive'; ?>" value="<?php if ( $status !== false && $status == 'valid' ) {
+						echo $license['license_key'];
+					} ?>" autocomplete="off" placeholder="<?php esc_attr_e( 'Enter license key here', 'facebook-reviews-pro' ); ?>"/>
+
+					<label class="description licence-label" for="<?php echo $this->licence_key_option; ?>">
+						<?php if ( $status !== false && $status == 'valid' ) {
+							_e( 'Your licence is active and valid.', 'ywp' );
+						} ?>
+					</label>
+
+
+					<?php if ( $status !== false && $status == 'valid' ) { ?>
+						<?php wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
+						<input type="submit" class="button-secondary deactivate-license-btn" name="edd_license_deactivate" value="<?php _e( 'Deactivate License', 'ywp' ); ?>"/>
+						<?php
+					} else {
+						wp_nonce_field( 'edd_wordimpress_nonce', 'edd_wordimpress_nonce' ); ?>
+						<input type="submit" class="button-primary activate-license-btn" name="edd_license_activate" value="<?php _e( 'Activate License', 'ywp' ); ?>"/>
+					<?php } ?>
+
+
+					<?php //submit_button(); ?>
+
+				</form>
+			</div><!--/.inside -->
+		</div><!--/.edd-wordimpress-license-wrap -->
 		<?php
 	}
 
@@ -391,52 +405,6 @@ class Yelp_Widget_Pro_Licensing {
 		$datediff  = abs( $now - $your_date );
 
 		return floor( $datediff / ( 60 * 60 * 24 ) );
-	}
-
-
-	/************************************
-	 * this illustrates how to check if
-	 * a license key is still valid
-	 * the updater does this for you,
-	 * so this is only needed if you
-	 * want to do something custom
-	 *************************************/
-
-	function edd_sample_check_license() {
-
-		global $wp_version;
-
-		$license = trim( get_option( $this->licence_key_option ) );
-
-		$api_params = array(
-			'edd_action' => 'check_license',
-			'license'    => $license,
-			'item_name'  => urlencode( $this->item_name )
-		);
-
-		// Call the WordImpress EDD API.
-		$response = wp_remote_post( $this->store_url, array(
-			'timeout'   => 120,
-			'sslverify' => false,
-			'body'      => $api_params
-		) );
-
-
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-
-		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-		if ( $license_data->license == 'valid' ) {
-			echo 'valid';
-			exit;
-			// this license is still valid
-		} else {
-			echo 'invalid';
-			exit;
-			// this license is no longer valid
-		}
 	}
 
 	/**

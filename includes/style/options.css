@@ -37,16 +37,6 @@
 	display: inline-block;
 }
 
-.settings_page_yelp_widget #api-options input[type="text"] {
-	width: 280px;
-}
-
-.settings_page_yelp_widget input.button-primary {
-	clear: left;
-	width: auto;
-	display: block;
-}
-
 .help-block {
 	color: #999;
 	font-size: 85%;
