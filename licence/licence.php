@@ -24,8 +24,8 @@ class Yelp_Widget_Pro_Licensing {
 		$this->licence_key_status  = $licence_args['licence_key_status']; //legacy
 
 		add_action( 'admin_init', array( $this, 'edd_wordimpress_register_option' ) );
-		add_action( 'admin_init', array( $this, 'edd_wordimpress_activate_license' ) );
-		add_action( 'admin_init', array( $this, 'edd_wordimpress_deactivate_license' ) );
+		add_action( 'admin_init', array( $this, 'activate_license' ) );
+		add_action( 'admin_init', array( $this, 'deactivate_license' ) );
 
 		//enqueue Licence assets
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_licence_assets' ) );
@@ -127,7 +127,7 @@ class Yelp_Widget_Pro_Licensing {
 	 *
 	 * @return bool
 	 */
-	function edd_wordimpress_activate_license() {
+	function activate_license() {
 
 		// listen for our activate button to be clicked
 		if ( ! isset( $_POST['edd_license_activate'] ) ) {
@@ -217,7 +217,7 @@ class Yelp_Widget_Pro_Licensing {
 	 *
 	 * @return bool|void
 	 */
-	function edd_wordimpress_deactivate_license( $plugin_deactivate = false ) {
+	function deactivate_license( $plugin_deactivate = false ) {
 
 		// listen for our activate button to be clicked
 		if ( isset( $_POST['option_page'] ) && $_POST['option_page'] === $this->licence_key_setting && isset( $_POST['edd_license_deactivate'] ) || isset( $_POST['option_page'] ) && $_POST['option_page'] === $this->licence_key_setting && $plugin_deactivate === true ) {
@@ -427,6 +427,8 @@ class Yelp_Widget_Pro_Licensing {
 	 * Disable license on deactivation
 	 *
 	 * @see: http://wordpress.stackexchange.com/questions/25910/uninstall-activate-deactivate-a-plugin-typical-features-how-to/25979#25979
+	 *
+	 * @return bool|void
 	 */
 	public function plugin_deactivated() {
 		// This will run when the plugin is deactivated, use to delete the database
@@ -436,7 +438,7 @@ class Yelp_Widget_Pro_Licensing {
 		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 		check_admin_referer( "deactivate-plugin_{$plugin}" );
 
-		return $this->edd_wordimpress_deactivate_license( $plugin_deactivate = true );
+		return $this->deactivate_license( $plugin_deactivate = true );
 	}
 
 
