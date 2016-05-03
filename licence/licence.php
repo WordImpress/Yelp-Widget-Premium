@@ -35,31 +35,45 @@ class Yelp_Widget_Pro_Licensing {
 		register_deactivation_hook( $this->plugin_basename, array( $this, 'plugin_deactivated' ) );
 
 		//Admin Notices
-		add_action( 'admin_notices', array( $this, 'edd_wordimpress_license_admin_notices' ) );
-		add_action( 'admin_init', array( $this, 'edd_wordimpress_license_admin_notices_ignore' ) );
+		add_action( 'admin_notices', array( $this, 'license_admin_notice' ) );
+		add_action( 'admin_init', array( $this, 'license_admin_notices_ignore' ) );
 
 	}
 
 	/**
 	 * Admin Notices for Licensing
 	 */
-	function edd_wordimpress_license_admin_notices() {
+	function license_admin_notice() {
+
 		global $current_user;
+
 		$user_id = $current_user->ID;
+
 		// Check that the user hasn't already clicked to ignore the message and that they have appropriate permissions
 		if ( ! get_user_meta( $user_id, $this->licence_key_setting . '_license_ignore_notice' ) && current_user_can( 'install_plugins' ) ) {
 			//check for license
 			$license = get_option( $this->licence_key_option );
 			$status  = isset( $license["license_status"] ) ? $license["license_status"] : 'invalid';
-			//display notice if no license valid or found
 
+			//display notice if no license valid or found
 			if ( $status == 'invalid' || empty( $status ) ) {
-				echo '<div class="updated error"><p>';
-				parse_str( $_SERVER['QUERY_STRING'], $params ); //ensures we're not redirect for admin pages using query string; ie '?=opentablewidget'
-				printf( __( 'Please <a href="options-general.php?page=yelp_widget">activate your license</a> for ' . $this->item_name . ' to receive support and updates. | <a href="%1$s" rel="nofollow">Hide Notice</a>' ),
-					'?' . http_build_query( array_merge( $params, array( $this->licence_key_setting . '_license_ignore_notice' => '0' ) ) )
+
+				//ensures we're not redirect to admin pages using query string; ie '?=yelp_widget
+				parse_str( $_SERVER['QUERY_STRING'], $params );
+
+				$message = sprintf( __( 'Thank you for using %3$s. Please %1$sactivate your license%2$s for %3$s to receive support and updates. | %4$sHide Notice%2$s' ),
+					'<a href="options-general.php?page=yelp_widget">',
+					'</a>',
+					$this->item_name,
+					'<a href="?' . http_build_query( array_merge( $params, array( $this->licence_key_setting . '_license_ignore_notice' => '0' ) ) ) . '">'
 				);
-				echo "</p></div>";
+
+				echo '<div class="updated error"><p>';
+
+				echo $message;
+
+				echo '</p></div>';
+
 			}
 
 		}
@@ -68,10 +82,11 @@ class Yelp_Widget_Pro_Licensing {
 	/**
 	 * Set Usermeta to ignore the
 	 */
-	function edd_wordimpress_license_admin_notices_ignore() {
+	function license_admin_notices_ignore() {
 		global $current_user;
+
 		$user_id = $current_user->ID;
-		/* If user clicks to ignore the notice, add that to their user meta */
+		//If user clicks to ignore the notice, add that to their user meta
 		if ( isset( $_GET[ $this->licence_key_setting . '_license_ignore_notice' ] ) && $_GET[ $this->licence_key_setting . '_license_ignore_notice' ] == '0' ) {
 			add_user_meta( $user_id, $this->licence_key_setting . '_license_ignore_notice', 'true', true );
 		}
@@ -97,7 +112,7 @@ class Yelp_Widget_Pro_Licensing {
 					'ajax_url' => admin_url( 'admin-ajax.php' )
 				)
 			);
-			
+
 
 			//CSS
 			wp_register_style( 'wordimpress_licencing_css', plugins_url( 'licence/assets/css/license.css', dirname( __FILE__ ) ) );
@@ -140,8 +155,9 @@ class Yelp_Widget_Pro_Licensing {
 		);
 
 		// Call the WordImpress EDD API.
-		$response = wp_remote_post( esc_url_raw( add_query_arg( $api_params, $this->store_url ) ), array( 'timeout'   => 15,
-		                                                                                                  'sslverify' => false
+		$response = wp_remote_post( esc_url_raw( add_query_arg( $api_params, $this->store_url ) ), array(
+			'timeout'   => 15,
+			'sslverify' => false
 		) );
 
 		// make sure the response came back okay
