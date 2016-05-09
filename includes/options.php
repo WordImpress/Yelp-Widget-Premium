@@ -257,11 +257,9 @@ function yelp_widget_options_form() {
 
 								?>
 								<div class="api-info">
-									<p><?php _e( 'Yelp Widget Pro has our API Key integrated into it automatically. This allows you to show up to 3 reviews on your site at a time. <a href="https://wordimpress.com/support/topic/yelp-widget-pro-now-supports-3-reviews/" target="_blank">Read about why we did this here</a>.', 'ywp' ); ?></p>
+									<p><?php _e( 'Yelp Widget Pro has an existing Yelp API Key integrated into it. This API key allows you to display up to 3 reviews on your site at a time. As well, you do not have to request your own API key, which can be confusing for some users.', 'ywp' ); ?></p>
 
-									<p><?php _e( 'There is a small chance that the cumulative amount of API calls made to our integrated API Key will reach the max amount that Yelp allows. If that happens the widget will break regardless of whether you are showing reviews or not.', 'ywp' ); ?></p>
-
-									<p><?php _e( 'To avoid that, we\'re providing you the ability to integrate your own API Key here as a backup. This means that as long as our API is working well, you\'ll be using that. But if you encounter an error that says the API daily limit has been reached, you can enable your backup key for the remainder of the day (remember, the limit Yelp imposes is daily, so you can enable our key again the next day). Keep in mind that if you created your key sometime after June 2014, you will only be able to show one review at a time, instead of 3 -- this is the limit that Yelp imposes on the API, it is restricted by the plugin at all.', 'ywp' ); ?></p>
+									<p><?php _e( 'If you would like to implement your own Yelp API key you may do so below. This prevents the chance that the daily cumulative amount of API calls made to our integrated API Key will reach the max amount that Yelp allows. Keep in mind that if you created your key sometime after June 2014, you will only be able to show one review at a time, instead of 3 -- this is the limit that Yelp imposes on the API, the number of reviews displayed is not restricted by the plugin at all.', 'ywp' ); ?></p>
 								</div>
 								<div>
 									<div class="control-label">
