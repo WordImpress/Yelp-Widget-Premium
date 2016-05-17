@@ -38,6 +38,32 @@ class Yelp_Widget_Pro_Licensing {
 		add_action( 'admin_notices', array( $this, 'license_admin_notice' ) );
 		add_action( 'admin_init', array( $this, 'license_admin_notices_ignore' ) );
 
+		//Support for old cURL versions
+		add_action( 'http_api_curl', array( $this, 'curl_settings' ), 10, 3 );
+
+	}
+
+
+	/**
+	 * Support for old curl versions
+	 * 
+	 * @see: 
+	 *
+	 * @param $cr
+	 * @param $request
+	 * @param $url
+	 */
+	public function curl_settings( &$cr, $request, $url ) {
+
+		$option = get_option( 'yelp_license_retry' );
+
+		if ( $option != true || $url != $this->store_url ) {
+			return;
+		}
+
+
+		curl_setopt( $cr, CURLOPT_SSLVERSION, 1 );
+
 	}
 
 	/**
@@ -125,9 +151,11 @@ class Yelp_Widget_Pro_Licensing {
 	/**
 	 * Activate License
 	 *
+	 * @param bool $retry
+	 *
 	 * @return bool
 	 */
-	function activate_license() {
+	function activate_license( $retry = false ) {
 
 		// listen for our activate button to be clicked
 		if ( ! isset( $_POST['edd_license_activate'] ) ) {
@@ -163,6 +191,15 @@ class Yelp_Widget_Pro_Licensing {
 		// make sure the response came back okay
 		if ( is_wp_error( $response ) ) {
 
+			//Retry with legacy cURL options
+			//@see: http://pastebin.com/BRTefVjZ
+			if ( $response->get_error_code() == 'http_request_failed' && $retry == false ) {
+
+				update_option( 'yelp_license_retry', true );
+				$this->activate_license( true );
+
+			}
+
 			//There was an error so output it
 			if ( is_object( $response ) && isset( $response->errors ) ) {
 
@@ -192,6 +229,8 @@ class Yelp_Widget_Pro_Licensing {
 
 		// decode the license data
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+		//make sure license option is false
+		update_option( 'yelp_license_retry', false );
 
 		// $license_data->license will be either "active" or "inactive"
 		update_option( $this->licence_key_option,
