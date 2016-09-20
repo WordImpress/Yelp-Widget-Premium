@@ -72,6 +72,8 @@ Some themes may have very small sidebars and CSS styles that conflict or alter t
 == Changelog ==
 = 1.9.5 =
 * Updated: Google Maps API Key setting added to support new Google Maps requirement
+* Updated: Cleaned up enqueing of Google Maps API
+* Tweak: Better conditional enqueueing of Google Maps API based on widget settings
 
 = 1.9.4 =
 * Updated: Settings page documentation and links - https://github.com/WordImpress/Yelp-Widget-Premium/issues/5

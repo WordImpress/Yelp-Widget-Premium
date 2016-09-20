@@ -83,9 +83,8 @@ class Yelp_Widget extends WP_Widget {
 			'ywpURL'  => YELP_WIDGET_PRO_URL,
 		);
 
-		//Load Google Maps API only if option to disable is NOT set
-		if ( ! isset( $settings["yelp_widget_disable_gmap"] ) || $settings["yelp_widget_disable_gmap"] == 0 ) {
-			wp_enqueue_script( 'google_maps_api_ypr', 'https://maps.googleapis.com/maps/api/js?&key=' . $settings['yelp_widget_maps_api'] . '&callback=initMap', null, null, false );		}
+		// Register the Maps API for conditional use in the Widget
+		wp_register_script( 'google_maps_api_ypr', 'https://maps.googleapis.com/maps/api/js?key=' . $settings['yelp_widget_maps_api'], null, null, false );
 
 		//Yelp Widget Pro JS
 		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps' . $suffix . '.js', dirname( __FILE__ ) );
@@ -270,6 +269,11 @@ class Yelp_Widget extends WP_Widget {
 			//No Cache option enabled;
 			$response = yelp_widget_curl( $signed_url );
 
+		}
+
+		//Load Google Maps API only if option to disable is NOT set
+		if ( $instance['display_google_map'] ) {
+			wp_enqueue_script( 'google_maps_api_ypr' );
 		}
 
 		/*
