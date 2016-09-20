@@ -369,6 +369,18 @@ function yelp_widget_options_form() {
 							<div class="inside">
 								<div class="control-group">
 									<div class="control-label">
+										<label for="yelp_widget_disable_css">Google Maps API Key:<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'This is necessary to embed Google Maps in your widgets.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
+									</div>
+									<div class="controls">
+										<?php
+										$ywpMapsAPI = empty( $options['yelp_widget_maps_api'] ) ? '' : $options['yelp_widget_maps_api']; ?>
+
+										<p><input type="text" id="yelp_widget_maps_api" name="yelp_widget_settings[yelp_widget_maps_api]" value="<?php echo $ywpMapsAPI; ?>" size="45"/><br />
+											<small><a href="https://wordimpress.com/documentation/yelp-widget-pro/create-maps-api-key/" target="_blank">Read our doc on creating your Google Maps API Key here</a></small></p>
+									</div>
+								</div>
+								<div class="control-group">
+									<div class="control-label">
 										<label for="yelp_widget_disable_css">Disable Plugin CSS Output:<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'Disabling the widget\'s CSS output is useful for more complete control over customizing the widget styles. Helpful for integration into custom theme designs.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
 									</div>
 									<div class="controls">
