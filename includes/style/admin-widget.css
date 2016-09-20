@@ -89,6 +89,31 @@
 	margin-right: 10px;
 }
 
+.ywp-notice {
+	background: #fff;
+	border-left: 4px solid #fff;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	margin: 15px 0;
+	padding: 6px;
+}
+
+.ywp-notice p {
+	margin: 0 0 10px 10px;
+}
+
+.ywp-notice p a.button {
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+
+	text-decoration: none;
+	color: initial;
+}
+
+.ywp-notice.warning {
+	border-color: orange;
+}
 /*!
  * Bootstrap v2.2.1
  *

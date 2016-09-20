@@ -241,6 +241,10 @@
 
 <div class="advanced-options toggle-item">
 
+	<?php $options = get_option( 'yelp_widget_settings' );
+		// Only Display if a Google Maps API key is present in Yelp Widget Pro Settings
+		if (!empty($options['yelp_widget_maps_api'])) {
+	?>
 	<!-- Display Google Map checkbox -->
 	<p>
 		<input id="<?php echo $this->get_field_id( 'display_google_map' ); ?>" name="<?php echo $this->get_field_name( 'display_google_map' ); ?>" type="checkbox" value="1" <?php checked( '1', $displayGoogleMap ); ?>/>
@@ -265,10 +269,16 @@
 		} ?>><span class="yelp-method-label"><?php _e( 'Below Results', 'ywp' ); ?></span><br>
 		<input type="radio" name="<?php echo $this->get_field_name( 'google_map_position' ); ?>" value="above" <?php checked( 'above', $googleMapPosition ); ?>><span class="yelp-method-label"><?php _e( 'Above Results', 'ywp' ); ?></span>
 	</p>
+	<?php } else {
+		// If Maps API Key is NOT present, inform the user where to go: ?>
+		<div class="ywp-notice warning">
+			<p><strong>Warning: No Maps API Key Present.</strong></p>
+			<p>To use this feature, you have to have a Google Maps API Key in your Yelp Settings.</p>
+			<p><a href="<?php echo admin_url( 'options-general.php?page=yelp_widget' );?>" class="button">Go to Settings</a></p>
+		</div>
 
-
+	<?php }?>
 </div>
-
 
 <h4 class="yelp-toggler"><?php _e( 'Advanced Options:', 'ywp' ); ?><span></span></h4>
 
