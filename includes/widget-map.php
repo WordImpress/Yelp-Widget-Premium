@@ -42,7 +42,7 @@ class Yelp_Widget_Map extends WP_Widget {
 
 		//Load Google Maps API
 		if ( ! isset( $options["yelp_widget_disable_gmap"] ) || $options["yelp_widget_disable_gmap"] == 0 ) {
-			wp_enqueue_script( 'google_maps_api', 'https://maps.googleapis.com/maps/api/js?sensor=false' );
+			wp_enqueue_script( 'google_maps_api', 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=' . $options['yelp_widget_maps_api'], null, null, false );
 		}
 
 		$cssURL   = plugins_url( '/includes/style/yelp-map-search' . $suffix . '.css', dirname( __FILE__ ) );
