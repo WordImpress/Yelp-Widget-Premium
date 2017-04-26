@@ -35,10 +35,14 @@ class Yelp_Widget_Map extends WP_Widget {
 
 		/* Get our options */
 		$options                     = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists
-		$yelp_widget_consumer_key    = $options['yelp_widget_consumer_key'];
-		$yelp_widget_consumer_secret = $options['yelp_widget_consumer_secret'];
-		$yelp_widget_token           = $options['yelp_widget_token'];
-		$yelp_widget_token_secret    = $options['yelp_widget_token_secret'];
+
+		// Token object built using the OAuth library
+		$yelp_widget_token        = 'Z3J0Ecxir8c-Vx1_dHDlVnVFOvmWrQ5T';
+		$yelp_widget_token_secret = 'qx2cpAUz6UHnAlu53tcWOdH2LNg';
+
+		// Consumer object built using the OAuth library
+		$yelp_widget_consumer_key    = 'NLzpDyRu35JeHhOzQAIHuQ';
+		$yelp_widget_consumer_secret = '1eQpHwSO38jMSsI37QOjBWuroeQ';
 
 		$cssURL   = plugins_url( '/includes/style/yelp-map-search' . $suffix . '.css', dirname( __FILE__ ) );
 		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search' . $suffix . '.js', dirname( __FILE__ ) );
