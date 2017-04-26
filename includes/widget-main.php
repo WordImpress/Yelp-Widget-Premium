@@ -114,7 +114,7 @@ class Yelp_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget()
 	 *
-	 * @param array $args     Widget arguments.
+	 * @param array $args Widget arguments.
 	 * @param array $instance Saved values from database.
 	 *
 	 * @return  output html
@@ -190,7 +190,7 @@ class Yelp_Widget extends WP_Widget {
 		//Build URL Parameters
 		$urlparams = array(
 			'term'     => $term,
-			'id'       => $id,
+			'id'       => sanitize_title( $id ),
 			'location' => $location,
 			'limit'    => $limit,
 			'sort'     => $sort
@@ -442,7 +442,7 @@ class Yelp_Widget extends WP_Widget {
 		if ( ( ! empty( $apiOptions["enable_backup_key"] ) ) && ( empty( $apiOptions["yelp_widget_consumer_key"] ) || empty( $apiOptions["yelp_widget_consumer_secret"] ) || empty( $apiOptions["yelp_widget_token"] ) || empty( $apiOptions["yelp_widget_token_secret"] ) ) ) {
 			//the user has not properly configured plugin so display a warning
 			?>
-			<div class="alert alert-red"><?php _e( 'Please input your Yelp API information in the <a href="options-general.php?page=yelp_widget">plugin settings</a> page prior to enabling Yelp Widget Pro.', 'ywp' ); ?></div>
+            <div class="alert alert-red"><?php _e( 'Please input your Yelp API information in the <a href="options-general.php?page=yelp_widget">plugin settings</a> page prior to enabling Yelp Widget Pro.', 'ywp' ); ?></div>
 			<?php
 		} //The user has properly inputted Yelp API info so output widget form so output the widget contents
 		else {
@@ -568,7 +568,7 @@ add_action( 'widgets_init', create_function( '', 'register_widget( "Yelp_Widget"
  * @return array|bool|mixed|object
  */
 function yelp_widget_curl( $signed_url ) {
-
+    
 	// Send Yelp API Call using WP's HTTP API
 	$data = wp_remote_get( $signed_url );
 
