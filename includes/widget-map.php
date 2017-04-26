@@ -150,19 +150,7 @@ class Yelp_Widget_Map extends WP_Widget {
 		 */
 		$apiOptions = get_option( 'yelp_widget_settings' );
 
-		//Verify that the API values have been inputed prior to output
-		if ( empty( $apiOptions["yelp_widget_consumer_key"] ) || empty( $apiOptions["yelp_widget_consumer_secret"] ) || empty( $apiOptions["yelp_widget_token"] ) || empty( $apiOptions["yelp_widget_token_secret"] ) ) {
-			//the user has not properly configured plugin so display a warning
-			?>
-			<div class="alert alert-red"><?php _e( 'Please input your Yelp API information in the <a href="options-general.php?page=yelp_widget">plugin settings</a> page prior to enabling Yelp Widget Pro.', 'ywp' ); ?></div>
-		<?php
-		} //The user has properly inputted Yelp API info so output widget form so output the widget contents
-		else {
-
-			include( 'widget-map-form.php' );
-
-		} //endif check for Yelp API key inputs
-
+		include( 'widget-map-form.php' );
 
 	} //end form function
 
