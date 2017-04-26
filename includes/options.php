@@ -243,7 +243,7 @@ function yelp_widget_options_form() {
 
 								<ol>
 									<li><?php _e( 'Activate your license in the sidebar to the right. Check out our <a href="https://wordimpress.com/frequent-customer-questions/" target="_blank">FAQ</a> if you have questions about that.', 'ywp' ); ?></li>
-									<li><?php _e( 'Decide whether you\'ll create a backup API or not. This isn\'t required. Read below for details.', 'ywp' ); ?></a></li>
+									<li><?php _e( 'Learn the difference between <a href="https://wordimpress.com/documentation/yelp-widget-pro/search-business-request-methods-expalined/" target="_blank">Search and Business display methods</a>.', 'ywp' ); ?></a></li>
 									<li><?php _e( 'Head over to your Widgets area, or read about how to use <a href="https://wordimpress.com/documentation/yelp-widget-pro/shortcode-explanation-and-usage/" target="_blank">the Shortcode</a> to integrate your Yelp Reviews now.', 'ywp' ); ?></li>
 								</ol>
 
