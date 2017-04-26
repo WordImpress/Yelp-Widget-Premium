@@ -77,8 +77,8 @@ function yelp_widget_activate() {
 function yelp_widget_add_options_page() {
 	// Add the menu option under Settings, shows up as "Yelp API Settings" (second param)
 	$page = add_submenu_page( 'options-general.php', //The parent page of this menu
-		__( 'Yelp Widget Pro Settings', 'ywp' ), //The Menu Title
-		__( 'Yelp Widget Pro', 'ywp' ), //The Page Title
+		__( 'Yelp Widget Pro Settings', 'ywp' ), //The Page Title
+		__( 'Yelp Reviews', 'ywp' ), //The Menu Title
 		'manage_options', // The capability required for access to this item
 		'yelp_widget', // the slug to use for the page in the URL
 		'yelp_widget_options_form' ); // The function to call to render the page
@@ -216,6 +216,15 @@ function yelp_widget_options_form() {
 
 		<form id="yelp-settings" method="post" action="options.php">
 
+			<?php
+			// Tells WordPress that the options we registered are being handled by this form
+			settings_fields( 'yelp_widget_settings' );
+
+			// Retrieve stored options, if any
+			$options = get_option( 'yelp_widget_settings' );
+
+			?>
+
 			<div class="metabox-holder">
 
 				<div class="postbox-container" style="width:75%">
@@ -234,133 +243,49 @@ function yelp_widget_options_form() {
 
 								<ol>
 									<li><?php _e( 'Activate your license in the sidebar to the right. Check out our <a href="https://wordimpress.com/frequent-customer-questions/" target="_blank">FAQ</a> if you have questions about that.', 'ywp' ); ?></li>
-									<li><?php _e( 'Decide whether you\'ll create a backup API or not. This isn\'t required. Read below for details.', 'ywp' ); ?></a></li>
+									<li><?php _e( 'Learn the difference between <a href="https://wordimpress.com/documentation/yelp-widget-pro/search-business-request-methods-expalined/" target="_blank">Search and Business display methods</a>.', 'ywp' ); ?></a></li>
 									<li><?php _e( 'Head over to your Widgets area, or read about how to use <a href="https://wordimpress.com/documentation/yelp-widget-pro/shortcode-explanation-and-usage/" target="_blank">the Shortcode</a> to integrate your Yelp Reviews now.', 'ywp' ); ?></li>
 								</ol>
+
+								<div class="social-items-wrap">
+
+									<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FWordImpress%2F353658958080509&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=220596284639969" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+
+									<a href="https://twitter.com/wordimpress" class="twitter-follow-button" data-show-count="false">Follow @wordimpress</a>
+									<script>!function ( d, s, id ) {
+											var js, fjs = d.getElementsByTagName( s )[0], p = /^http:/.test( d.location ) ? 'http' : 'https';
+											if ( !d.getElementById( id ) ) {
+												js = d.createElement( s );
+												js.id = id;
+												js.src = p + '://platform.twitter.com/widgets.js';
+												fjs.parentNode.insertBefore( js, fjs );
+											}
+										}( document, 'script', 'twitter-wjs' );</script>
+									<div class="google-plus">
+										<!-- Place this tag where you want the +1 button to render. -->
+										<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="200" data-href="https://plus.google.com/117062083910623146392"></div>
+
+
+										<!-- Place this tag after the last +1 button tag. -->
+										<script type="text/javascript">
+											(function () {
+												var po = document.createElement( 'script' );
+												po.type = 'text/javascript';
+												po.async = true;
+												po.src = 'https://apis.google.com/js/plusone.js';
+												var s = document.getElementsByTagName( 'script' )[0];
+												s.parentNode.insertBefore( po, s );
+											})();
+										</script>
+									</div>
+									<!--/.google-plus -->
+								</div>
+								<!--/.social-items-wrap -->
 
 							</div>
 							<!-- /.inside -->
 						</div>
 						<!-- /#yelp-widget-intro -->
-
-						<div class="postbox" id="api-options">
-
-							<h3 class="hndle"><span><?php _e( 'Yelp API v2.0 Information', 'ywp' ); ?></span></h3>
-
-							<div class="inside">
-								<?php
-								// Tells WordPress that the options we registered are being handled by this form
-								settings_fields( 'yelp_widget_settings' );
-
-								// Retrieve stored options, if any
-								$options = get_option( 'yelp_widget_settings' );
-
-								?>
-								<div class="api-info">
-									<p><?php _e( 'Yelp Widget Pro has an existing Yelp API Key integrated into it. This API key allows you to display up to 3 reviews on your site at a time. As well, you do not have to request your own API key, which can be confusing for some users.', 'ywp' ); ?></p>
-
-									<p><?php _e( 'If you would like to implement your own Yelp API key you may do so below. This prevents the chance that the daily cumulative amount of API calls made to our integrated API Key will reach the max amount that Yelp allows. Keep in mind that if you created your key sometime after June 2014, you will only be able to show one review at a time, instead of 3 -- this is the limit that Yelp imposes on the API, the number of reviews displayed is not restricted by the plugin at all.', 'ywp' ); ?></p>
-								</div>
-								<div>
-									<div class="control-label">
-										<label for="enable_backup_key"><?php _e( 'Enable Backup API Key?', 'ywp' ); ?>:</label>
-									</div>
-									<div class="controls">
-										<input type="checkbox" id="enable_backup_key" name="yelp_widget_settings[enable_backup_key]" value="1" <?php
-										$backupkey = empty( $options['enable_backup_key'] ) ? '' : $options['enable_backup_key'];
-										checked( 1, $backupkey ); ?> />
-									</div>
-								</div>
-								<div>
-									<p>
-										<strong><?php _e( 'Like this plugin?  Give it a like on Facebook:', 'ywp' ); ?></strong>
-									</p>
-
-									<div class="social-items-wrap">
-
-										<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FWordImpress%2F353658958080509&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=220596284639969" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-
-										<a href="https://twitter.com/wordimpress" class="twitter-follow-button" data-show-count="false">Follow @wordimpress</a>
-										<script>!function ( d, s, id ) {
-												var js, fjs = d.getElementsByTagName( s )[0], p = /^http:/.test( d.location ) ? 'http' : 'https';
-												if ( !d.getElementById( id ) ) {
-													js = d.createElement( s );
-													js.id = id;
-													js.src = p + '://platform.twitter.com/widgets.js';
-													fjs.parentNode.insertBefore( js, fjs );
-												}
-											}( document, 'script', 'twitter-wjs' );</script>
-										<div class="google-plus">
-											<!-- Place this tag where you want the +1 button to render. -->
-											<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="200" data-href="https://plus.google.com/117062083910623146392"></div>
-
-
-											<!-- Place this tag after the last +1 button tag. -->
-											<script type="text/javascript">
-												(function () {
-													var po = document.createElement( 'script' );
-													po.type = 'text/javascript';
-													po.async = true;
-													po.src = 'https://apis.google.com/js/plusone.js';
-													var s = document.getElementsByTagName( 'script' )[0];
-													s.parentNode.insertBefore( po, s );
-												})();
-											</script>
-										</div>
-										<!--/.google-plus -->
-									</div>
-									<!--/.social-items-wrap -->
-
-								</div>
-								<?php
-								if ( $backupkey == 1 ) {
-									$display = 'style="display:block"';
-								} else {
-									$display = 'style="display:none"';
-								}
-								?>
-								<div class="enable-backup" <?php echo $display; ?>>
-									<div class="control-group">
-										<div class="control-label">
-											<label for="yelp_widget_consumer_key"><?php _e( 'Consumer Key', 'ywp' ); ?>: </label>
-										</div>
-										<div class="controls">
-											<input type="text" id="yelp_widget_consumer_key" name="yelp_widget_settings[yelp_widget_consumer_key]" value="<?php echo yelp_widget_option( 'yelp_widget_consumer_key', $options ); ?>" />
-										</div>
-									</div>
-
-									<div class="control-group">
-										<div class="control-label">
-											<label for="yelp_widget_consumer_secret"><?php _e( 'Consumer Secret', 'ywp' ); ?>: </label>
-										</div>
-										<div class="controls">
-											<input type="text" id="yelp_widget_consumer_secret" name="yelp_widget_settings[yelp_widget_consumer_secret]" value="<?php echo yelp_widget_option( 'yelp_widget_consumer_secret', $options ); ?>" />
-										</div>
-									</div>
-
-									<div class="control-group">
-										<div class="control-label">
-											<label for="yelp_widget_token"><?php _e( 'Token', 'ywp' ); ?>: </label>
-										</div>
-										<div class="controls">
-											<input type="text" id="yelp_widget_token" name="yelp_widget_settings[yelp_widget_token]" value="<?php echo yelp_widget_option( 'yelp_widget_token', $options ); ?>" />
-										</div>
-									</div>
-
-									<div class="control-group">
-										<div class="control-label">
-											<label for="yelp_widget_token_secret"><?php _e( 'Token Secret', 'ywp' ); ?>: </label>
-										</div>
-										<div class="controls">
-											<input type="text" id="yelp_widget_token_secret" name="yelp_widget_settings[yelp_widget_token_secret]" value="<?php echo yelp_widget_option( 'yelp_widget_token_secret', $options ); ?>" />
-										</div>
-									</div>
-								</div>
-								<!-- end enable-backup -->
-							</div>
-							<!-- /.inside -->
-						</div>
-						<!-- /#api-settings -->
 
 						<div class="postbox" id="yelp-widget-options">
 

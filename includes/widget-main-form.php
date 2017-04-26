@@ -348,6 +348,6 @@
 </div>
 
 <p class="ywp-widget-footer-links">
-	<a href="http://wordimpress.com/docs/yelp-widget-pro/" target="_blank" class="new-window"><?php _e( 'Plugin Documentation', 'ywp' ); ?></a>
-	<a href="http://wordimpress.com/support/forum/yelp-widget-pro/yelp-widget-pro-premium-priority-support/" target="_blank" class="new-window"><?php _e( 'Priority Support', 'ywp' ); ?></a>
+	<a href="https://wordimpress.com/docs/yelp-widget-pro/" target="_blank" class="new-window"><?php _e( 'Plugin Documentation', 'ywp' ); ?></a>
+	<a href="https://wordimpress.com/support/" target="_blank" class="new-window"><?php _e( 'Priority Support', 'ywp' ); ?></a>
 </p>
