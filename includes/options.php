@@ -216,6 +216,15 @@ function yelp_widget_options_form() {
 
 		<form id="yelp-settings" method="post" action="options.php">
 
+			<?php
+			// Tells WordPress that the options we registered are being handled by this form
+			settings_fields( 'yelp_widget_settings' );
+
+			// Retrieve stored options, if any
+			$options = get_option( 'yelp_widget_settings' );
+
+			?>
+
 			<div class="metabox-holder">
 
 				<div class="postbox-container" style="width:75%">
