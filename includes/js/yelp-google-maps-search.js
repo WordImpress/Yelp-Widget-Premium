@@ -482,10 +482,9 @@ var auth = {
 	accessToken      : ywpMapParams.accessToken,
 	accessTokenSecret: ywpMapParams.accessTokenSecret,
 	serviceProvider  : {
-		signatureMethod: "HMAC-SHA1"
+		signatureMethod: "hmac-sha1"
 	}
 };
-
 var map;
 var icon;
 var markersArray = [];
@@ -515,22 +514,20 @@ jQuery.noConflict();
 			var location = ywpSearchMapsParent.attr( 'data-map-location' );
 
 
-			//Get Lat Long from Address
+            //Get Lat Long from Address
 			geocoder.geocode( {'address': location}, function ( results, status ) {
 
-				if ( status == google.maps.GeocoderStatus.OK ) {
+				if ( status === google.maps.GeocoderStatus.OK ) {
 
 					var geoLoc = results[0].geometry.location;
 					var myLatitude = geoLoc.lat();
 					var myLongitude = geoLoc.lng();
-
 
 					var mapOptions = {
 						zoom     : 10,
 						center   : new google.maps.LatLng( myLatitude, myLongitude ),
 						mapTypeId: google.maps.MapTypeId.ROADMAP
 					};
-
 
 					map = new google.maps.Map( $ywpSearchMaps[index], mapOptions );
 
@@ -557,7 +554,8 @@ jQuery.noConflict();
 })( jQuery );
 
 /**
- * Handles the search feature for the Google map
+ * Handles the search feature for the Google map.
+ *
  * @param term
  * @param location
  * @param map
@@ -570,14 +568,14 @@ function yelpMapDataInit( term, location, map ) {
 		tokenSecret   : auth.accessTokenSecret
 	};
 
-	parameters = [];
-	parameters.push( ['term', term] );
+	var parameters = [];
+    parameters.push( ['term', term] );
 	parameters.push( ['location', location] );
 	parameters.push( ['callback', 'cb'] );
 	parameters.push( ['oauth_consumer_key', auth.consumerKey] );
 	parameters.push( ['oauth_consumer_secret', auth.consumerSecret] );
-	parameters.push( ['oauth_token', auth.accessToken] );
-	parameters.push( ['oauth_signature_method', 'HMAC-SHA1'] );
+    parameters.push( ['oauth_token', auth.accessToken] );
+    parameters.push( ['oauth_signature_method', 'HMAC-SHA1'] );
 
 	var message = {
 		'action'    : 'http://api.yelp.com/v2/search',
@@ -591,18 +589,22 @@ function yelpMapDataInit( term, location, map ) {
 	var parameterMap = OAuth.getParameterMap( message.parameters );
 	parameterMap.oauth_signature = OAuth.percentEncode( parameterMap.oauth_signature );
 
-
 	jQuery.ajax( {
 		url          : message.action,
 		data         : parameterMap,
-		cache        : true,
 		dataType     : 'jsonp',
-		jsonpCallback: 'cb',
-		success      : function ( data, textStats, XMLHttpRequest ) {
+        jsonpCallback: 'cb',
+        async        : 'false',
+        cache        : true,
+        success      : function ( data, textStats, XMLHttpRequest ) {
 			clearOverlays();
 			handleSearchResults( data, map );
 		}
-	} );
+	} ).done(function( data ) {
+        if ( console && console.log ) {
+            console.log( "Sample of data:", data.slice( 0, 100 ) );
+        }
+    });
 
 
 }
@@ -667,6 +669,9 @@ function geocodeAddress( address, index, map, biz ) {
 	} );
 }
 
+function cb(data) {
+    console.log("cb: " + JSON.stringify(data));
+}
 
 /**
  * Creates a marker for the given business and point
