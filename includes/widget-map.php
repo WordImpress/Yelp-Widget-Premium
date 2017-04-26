@@ -48,7 +48,8 @@ class Yelp_Widget_Map extends WP_Widget {
 		wp_enqueue_style( 'yelp-map-widget-css' );
 
 		//Map jS
-
+		wp_register_script( 'google_maps_api_ypr', 'https://maps.googleapis.com/maps/api/js?key=' . $options['yelp_widget_maps_api'], null, null, false );
+		wp_enqueue_script( 'google_maps_api_ypr' );
 		wp_register_script( 'yelp_widget_map_js', $mapJSurl, array( 'jquery' ) );
 		wp_enqueue_script( 'yelp_widget_map_js' );
 
