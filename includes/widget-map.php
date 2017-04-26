@@ -35,10 +35,14 @@ class Yelp_Widget_Map extends WP_Widget {
 
 		/* Get our options */
 		$options                     = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists
-		$yelp_widget_consumer_key    = $options['yelp_widget_consumer_key'];
-		$yelp_widget_consumer_secret = $options['yelp_widget_consumer_secret'];
-		$yelp_widget_token           = $options['yelp_widget_token'];
-		$yelp_widget_token_secret    = $options['yelp_widget_token_secret'];
+
+		// Token object built using the OAuth library
+		$yelp_widget_token        = 'Z3J0Ecxir8c-Vx1_dHDlVnVFOvmWrQ5T';
+		$yelp_widget_token_secret = 'qx2cpAUz6UHnAlu53tcWOdH2LNg';
+
+		// Consumer object built using the OAuth library
+		$yelp_widget_consumer_key    = 'NLzpDyRu35JeHhOzQAIHuQ';
+		$yelp_widget_consumer_secret = '1eQpHwSO38jMSsI37QOjBWuroeQ';
 
 		$cssURL   = plugins_url( '/includes/style/yelp-map-search' . $suffix . '.css', dirname( __FILE__ ) );
 		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps-search' . $suffix . '.js', dirname( __FILE__ ) );
@@ -48,7 +52,8 @@ class Yelp_Widget_Map extends WP_Widget {
 		wp_enqueue_style( 'yelp-map-widget-css' );
 
 		//Map jS
-
+		wp_register_script( 'google_maps_api_ypr', 'https://maps.googleapis.com/maps/api/js?key=' . $options['yelp_widget_maps_api'], null, null, false );
+		wp_enqueue_script( 'google_maps_api_ypr' );
 		wp_register_script( 'yelp_widget_map_js', $mapJSurl, array( 'jquery' ) );
 		wp_enqueue_script( 'yelp_widget_map_js' );
 
@@ -145,19 +150,7 @@ class Yelp_Widget_Map extends WP_Widget {
 		 */
 		$apiOptions = get_option( 'yelp_widget_settings' );
 
-		//Verify that the API values have been inputed prior to output
-		if ( empty( $apiOptions["yelp_widget_consumer_key"] ) || empty( $apiOptions["yelp_widget_consumer_secret"] ) || empty( $apiOptions["yelp_widget_token"] ) || empty( $apiOptions["yelp_widget_token_secret"] ) ) {
-			//the user has not properly configured plugin so display a warning
-			?>
-			<div class="alert alert-red"><?php _e( 'Please input your Yelp API information in the <a href="options-general.php?page=yelp_widget">plugin settings</a> page prior to enabling Yelp Widget Pro.', 'ywp' ); ?></div>
-		<?php
-		} //The user has properly inputted Yelp API info so output widget form so output the widget contents
-		else {
-
-			include( 'widget-map-form.php' );
-
-		} //endif check for Yelp API key inputs
-
+		include( 'widget-map-form.php' );
 
 	} //end form function
 

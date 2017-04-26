@@ -35,5 +35,5 @@
 </div>
 
 <p>
-	<a href="http://wordimpress.com/tag/yelp-widget-pro/" target="_blank" class="new-window"><?php _e( 'Plugin Documentation', 'ywp' ); ?></a><br /><a href="http://wordimpress.com/support/forum/yelp-widget-pro/yelp-widget-pro-premium-priority-support/" target="_blank" class="new-window"><?php _e( 'Priority Support', 'ywp' ); ?></a>
+	<a href="http://wordimpress.com/tag/yelp-widget-pro/" target="_blank" class="new-window"><?php _e( 'Plugin Documentation', 'ywp' ); ?></a><br /><a href="https://wordimpress.com/support/" target="_blank" class="new-window"><?php _e( 'Priority Support', 'ywp' ); ?></a>
 </p>
