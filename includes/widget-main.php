@@ -553,9 +553,6 @@ class Yelp_Widget extends WP_Widget {
 
 }
 
-/*
- * @DESC: Register Twitter Widget Pro widget
- */
 add_action( 'widgets_init', create_function( '', 'register_widget( "Yelp_Widget" );' ) );
 
 /**
@@ -568,7 +565,7 @@ add_action( 'widgets_init', create_function( '', 'register_widget( "Yelp_Widget"
  * @return array|bool|mixed|object
  */
 function yelp_widget_curl( $signed_url ) {
-    
+
 	// Send Yelp API Call using WP's HTTP API
 	$data = wp_remote_get( $signed_url );
 
