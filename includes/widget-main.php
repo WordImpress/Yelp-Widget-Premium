@@ -594,6 +594,77 @@ function yelp_widget_curl( $signed_url ) {
 }
 
 /**
+ * Retrieves search results based on a search term and location.
+ *
+ * @since 1.9.6
+ *
+ * @param string $key      Yelp Fusion API Key.
+ * @param string $term     The search term, usually a business name.
+ * @param string $location The location within which to search.
+ * @param string $limit    Number of businesses to return.
+ * @param string $sort_by  Optional. Sort the results by one of the these modes:
+ *                         best_match, rating, review_count or distance. Defaults to best_match.
+ * @return array Associative array containing the response body.
+ */
+function yelp_widget_fusion_search( $key, $term, $location, $limit, $sort_by ) {
+	switch ( $sort_by ) {
+		case '0':
+			$sort_by = 'best_match';
+			break;
+		case '1':
+			$sort_by = 'distance';
+			break;
+		case '2':
+			$sort_by = 'rating';
+			break;
+		default:
+			$sort_by = 'best_match';
+	}
+
+	$url = add_query_arg(
+		array(
+			'term'     => $term,
+			'location' => $location,
+			'limit'    => $limit,
+			'sort_by'  => $sort_by,
+		),
+		'https://api.yelp.com/v3/businesses/search'
+	);
+
+	$args = array(
+		'user-agent'     => '',
+		'headers' => array(
+			'authorization' => 'Bearer ' . $key,
+		),
+	);
+
+	$response = yelp_widget_fusion_get( $url, $args );
+
+	return $response;
+}
+
+/**
+ * Retrieves a response from a safe HTTP request using the GET method.
+ *
+ * @since 1.9.6
+ *
+ * @see wp_safe_remote_get()
+ *
+ * @return array Associative array containing the response body.
+ */
+function yelp_widget_fusion_get( $url, $args = array() ) {
+	$response = wp_safe_remote_get( $url, $args );
+
+	if ( is_wp_error( $response ) ) {
+		return false;
+	}
+
+	$body = wp_remote_retrieve_body( $response );
+
+	return json_decode( $body, true );
+}
+
+/**
  * Function update http for SSL
  *
  * @param $data
