@@ -18,7 +18,7 @@
 	<div class="info clearfix">
 		<a class="name" <?php echo $targetBlank . $noFollow; ?> href="<?php echo esc_attr( $businesses[ $x ]->url ); ?>" title="<?php echo esc_attr( $businesses[ $x ]->name ); ?> Yelp page"><?php echo $businesses[ $x ]->name; ?></a>
 
-		<img class="rating" src="<?php echo esc_attr( $businesses[ $x ]->rating_img_url ); ?>" alt="<?php echo $businesses[ $x ]->name; ?>" title="<?php echo $businesses[ $x ]->name; ?> Yelp Rating" />
+		<!--<img class="rating" src="<?php echo esc_attr( $businesses[ $x ]->rating_img_url ); ?>" alt="<?php echo $businesses[ $x ]->name; ?>" title="<?php echo $businesses[ $x ]->name; ?> Yelp Rating" />-->
 
 		<span class="review-count"><?php echo esc_attr( $businesses[ $x ]->review_count ); ?> <?php _e( 'reviews', 'ywp' ); ?></span>
 
