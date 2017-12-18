@@ -292,14 +292,21 @@ function yelp_widget_options_form() {
 							<h3 class="hndle"><span>Yelp Widget Pro Settings</span></h3>
 
 							<div class="inside">
-								<div class="control-group">
+									<div class="control-group">
 									<div class="control-label">
-										<label for="yelp_widget_disable_css">Google Maps API Key:<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'This is necessary to embed Google Maps in your widgets.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
+										<label for="yelp_widget_fusion_api">Yelp Fusion API Key:<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'This is necessary to get reviews from Yelp.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
 									</div>
 									<div class="controls">
-										<?php
-										$ywpMapsAPI = empty( $options['yelp_widget_maps_api'] ) ? '' : $options['yelp_widget_maps_api']; ?>
-
+										<?php $ywpFusionAPI = empty( $options['yelp_widget_fusion_api'] ) ? '' : $options['yelp_widget_fusion_api']; ?>
+										<p><input type="text" id="yelp_widget_fusion_api" name="yelp_widget_settings[yelp_widget_fusion_api]" value="<?php echo $ywpFusionAPI; ?>" size="45"/><br />
+									</div>
+								</div>
+								<div class="control-group">
+									<div class="control-label">
+										<label for="yelp_widget_maps_api">Google Maps API Key:<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'This is necessary to embed Google Maps in your widgets.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
+									</div>
+									<div class="controls">
+										<?php $ywpMapsAPI = empty( $options['yelp_widget_maps_api'] ) ? '' : $options['yelp_widget_maps_api']; ?>
 										<p><input type="text" id="yelp_widget_maps_api" name="yelp_widget_settings[yelp_widget_maps_api]" value="<?php echo $ywpMapsAPI; ?>" size="45"/><br />
 											<small><a href="https://wordimpress.com/documentation/yelp-widget-pro/create-maps-api-key/" target="_blank">Read our doc on creating your Google Maps API Key here</a></small></p>
 									</div>
