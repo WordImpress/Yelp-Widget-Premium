@@ -659,9 +659,18 @@ function yelp_widget_fusion_get( $url, $args = array() ) {
 		return false;
 	}
 
-	$body = wp_remote_retrieve_body( $response );
+	$body = json_decode( $response['body'] );
 
-	return json_decode( $body, true );
+
+	$response = yelp_update_http_for_ssl( $response );
+	$response = json_decode( $response['body'] );
+
+	/**
+	 * Filters the Yelp Fusion API response.
+	 *
+	 * @since 1.9.6
+	 */
+	return apply_filters( 'yelp_fusion_api_response', $response );
 }
 
 /**
