@@ -619,12 +619,45 @@ function yelp_widget_fusion_search( $key, $term, $location, $limit, $sort_by ) {
  *
  * @since 1.9.6
  *
+ * @param string $key             Yelp Fusion API Key.
+ * @param string $id              The Yelp business ID.
+ * @param int    $reviews_option  1 if reviews should be displayed. 0 otherwise.
+ * @return array Associative array containing the response body.
+ */
+function yelp_widget_fusion_get_business( $key, $id, $reviews_option = 0 ) {
+	$url = 'https://api.yelp.com/v3/businesses/' . $id;
+
+	$args = array(
+		'user-agent'     => '',
+		'headers' => array(
+			'authorization' => 'Bearer ' . $key,
+		),
+	);
+
+	$response = yelp_widget_fusion_get( $url, $args );
+
+	if ( $reviews_option ) {
+		$reviews_response = yelp_fusion_get_reviews( $key, $id );
+
+		if ( ! empty( $reviews_response ) and isset( $reviews_response->reviews[0] ) ) {
+			$response->reviews = $reviews_response->reviews;
+		}
+	}
+
+	return $response;
+}
+
+/**
+ * Retrieves reviews based on Yelp business ID.
+ *
+ * @since 1.9.6
+ *
  * @param string $key Yelp Fusion API Key.
  * @param string $id  The Yelp business ID.
  * @return array Associative array containing the response body.
  */
-function yelp_widget_fusion_get_business( $key, $id ) {
-	$url = 'https://api.yelp.com/v3/businesses/' . $id;
+function yelp_fusion_get_reviews( $key, $id ) {
+	$url = 'https://api.yelp.com/v3/businesses/' . $id . '/reviews';
 
 	$args = array(
 		'user-agent'     => '',
