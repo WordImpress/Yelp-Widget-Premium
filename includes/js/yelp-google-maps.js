@@ -60,40 +60,6 @@ jQuery( function ( $ ) {
 
 		}
 
-		//No coordinates in JSON so geocode address
-		else {
-			//get biz address for geocoding
-			var bizAddress = jsonArray.results[0].location.display_address[0] + ", " + jsonArray.results[0].location.display_address[1];
-
-			//geocode that beast
-			geocoder.geocode( {'address': bizAddress}, function ( results, status ) {
-
-				//Result is OK
-				if ( status == google.maps.GeocoderStatus.OK ) {
-
-					myLatLng = new google.maps.LatLng( results[0].geometry.location.lat(), results[0].geometry.location.lng() );
-					//initialize map
-					var mapOptions = {
-						scrollwheel: scrollOption,
-						zoom       : 10,
-						center     : myLatLng,
-						mapTypeId  : google.maps.MapTypeId.ROADMAP
-					};
-					map = new google.maps.Map( $ywpMaps[index], mapOptions );
-
-					//Event Listener for Markers
-					google.maps.event.addDomListener( map, 'idle', function () {
-						var mapBounds = map.getBounds();
-						updateMap( mapBounds, jsonArray, map );
-					} );
-
-				} else {
-
-					console.log( 'Geocode was not successful for the following reason: ' + status );
-
-				}
-
-			} );
 
 		}
 
