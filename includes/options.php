@@ -143,7 +143,7 @@ function ywp_add_plugin_page_links( $links, $file ) {
 
 function ywp_add_plugin_meta_links( $meta, $file ) {
 	if ( $file == YELP_PLUGIN_NAME_PLUGIN ) {
-		$meta[] = "<a href='http://wordpress.org/support/view/plugin-reviews/yelp-widget-pro' target='_blank' title='" . __( 'Rate Yelp Widget Pro', 'ywp' ) . "'>" . __( 'Rate Plugin', 'ywp' ) . "</a>";
+		$meta[] = "<a href='http://wordpress.org/support/view/plugin-reviews/yelp-widget-pro' target='_blank' rel='noopener noreferrer' title='" . __( 'Rate Yelp Widget Pro', 'ywp' ) . "'>" . __( 'Rate Plugin', 'ywp' ) . "</a>";
 		$meta[] = __( 'Premium Version', 'ywp' );
 	}
 
@@ -155,7 +155,7 @@ function ywp_get_support_forum_link( $linkText = '' ) {
 		$linkText = __( 'Support', 'ywp' );
 	}
 
-	return '<a href="http://wordimpress.com/support/forum/yelp-widget-pro/" target="_blank" title="Get Support">' . $linkText . '</a>';
+	return '<a href="http://wordimpress.com/support/forum/yelp-widget-pro/" target="_blank" rel="noopener noreferrer" title="Get Support">' . $linkText . '</a>';
 }
 
 function ywp_get_options_link( $linkText = '' ) {
@@ -236,13 +236,17 @@ function yelp_widget_options_form() {
 							<div class="inside">
 								<h3><?php _e( 'Thanks for choosing Yelp Widget Pro!', 'ywp' ); ?></h3>
 								<p>
-									<strong><?php _e( 'There\'s just 3 easy steps to getting started with Yelp Widget Pro:', 'ywp' ); ?></strong>
+									<strong><?php _e( 'To get started, follow the steps below:', 'ywp' ); ?></strong>
 								</p>
 
 								<ol>
-									<li><?php _e( 'Activate your license in the sidebar to the right. Check out our <a href="https://wordimpress.com/frequent-customer-questions/" target="_blank">FAQ</a> if you have questions about that.', 'ywp' ); ?></li>
-									<li><?php _e( 'Learn the difference between <a href="https://wordimpress.com/documentation/yelp-widget-pro/search-business-request-methods-expalined/" target="_blank">Search and Business display methods</a>.', 'ywp' ); ?></a></li>
-									<li><?php _e( 'Head over to your Widgets area, or read about how to use <a href="https://wordimpress.com/documentation/yelp-widget-pro/shortcode-explanation-and-usage/" target="_blank">the Shortcode</a> to integrate your Yelp Reviews now.', 'ywp' ); ?></li>
+
+									<li><?php _e( 'First, <a href="https://www.yelp.com/developers/v3/manage_app" target="_blank" rel="noopener noreferrer">create your own Yelp app</a>. The app is required to access your reviews.', 'ywp' ); ?></li>
+									<li><?php _e( 'Once you\'ve created the app, copy the API Key from the <a href="https://www.yelp.com/developers/v3/manage_app" target="_blank" rel="noopener noreferrer">My App</a> page. Save it in the Yelp API Key field below.', 'ywp' ); ?></li>
+									<li><?php _e( 'To optionally display maps alongside your reviews, follow the docs to <a href="https://wordimpress.com/documentation/yelp-widget-pro/create-maps-api-key/" target="_blank" rel="noopener noreferrer">create your own Google Maps API Key</a>.', 'ywp' ); ?></li>
+									<li><?php _e( 'Activate your plugin license in the sidebar to the right. Check out our <a href="https://wordimpress.com/frequent-customer-questions/" target="_blank" rel="noopener noreferrer">FAQ</a> if you have questions about that.', 'ywp' ); ?></li>
+									<li><?php _e( 'Learn the difference between <a href="https://wordimpress.com/documentation/yelp-widget-pro/search-business-request-methods-expalined/" target="_blank" rel="noopener noreferrer">Search and Business display methods</a>.', 'ywp' ); ?></a></li>
+									<li><?php _e( 'Head over to your Widgets area, or read about how to use <a href="https://wordimpress.com/documentation/yelp-widget-pro/shortcode-explanation-and-usage/" target="_blank" rel="noopener noreferrer">the Shortcode</a> to integrate your Yelp Reviews now.', 'ywp' ); ?></li>
 								</ol>
 
 								<div class="social-items-wrap">
@@ -292,11 +296,12 @@ function yelp_widget_options_form() {
 							<div class="inside">
 									<div class="control-group">
 									<div class="control-label">
-										<label for="yelp_widget_fusion_api">Yelp Fusion API Key:<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'This is necessary to get reviews from Yelp.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
+										<label for="yelp_widget_fusion_api">Yelp API Key:<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/help.png' ?>" title="<?php _e( 'This is necessary to get reviews from Yelp.', 'ywp' ); ?>" class="tooltip-info" width="16" height="16" /></label>
 									</div>
 									<div class="controls">
 										<?php $ywpFusionAPI = empty( $options['yelp_widget_fusion_api'] ) ? '' : $options['yelp_widget_fusion_api']; ?>
 										<p><input type="text" id="yelp_widget_fusion_api" name="yelp_widget_settings[yelp_widget_fusion_api]" value="<?php echo $ywpFusionAPI; ?>" size="45"/><br />
+										<small><a href="https://www.yelp.com/developers/v3/manage_app" target="_blank" rel="noopener noreferrer">Get a Yelp API Key by creating your own Yelp App</a></small></p>
 									</div>
 								</div>
 								<div class="control-group">
@@ -306,7 +311,7 @@ function yelp_widget_options_form() {
 									<div class="controls">
 										<?php $ywpMapsAPI = empty( $options['yelp_widget_maps_api'] ) ? '' : $options['yelp_widget_maps_api']; ?>
 										<p><input type="text" id="yelp_widget_maps_api" name="yelp_widget_settings[yelp_widget_maps_api]" value="<?php echo $ywpMapsAPI; ?>" size="45"/><br />
-											<small><a href="https://wordimpress.com/documentation/yelp-widget-pro/create-maps-api-key/" target="_blank">Read our doc on creating your Google Maps API Key here</a></small></p>
+										<small><a href="https://wordimpress.com/documentation/yelp-widget-pro/create-maps-api-key/" target="_blank" rel="noopener noreferrer">Read our doc on creating your Google Maps API Key here</a></small></p>
 									</div>
 								</div>
 								<div class="control-group">
@@ -359,7 +364,7 @@ function yelp_widget_options_form() {
 				<h3 class="hndle"><span><?php _e( 'Need Support?', 'ywp' ); ?></span></h3>
 
 				<div class="inside">
-					<p><?php _e( 'If you have any problems with this plugin or ideas for improvements or enhancements, please use the WordImpress support forum: <a href="http://wordimpress.com/support/forum/yelp-widget-pro/" target="_blank" class="new-window">Support Forums</a>. Please note, support is prioritized for <a href="http://wordimpress.com/plugins/yelp-widget-pro/" title="Upgrade to Yelp Widget Premium" target="_blank" class="new-window">Premium Users</a>.', 'ywp' ); ?></p>
+					<p><?php _e( 'If you have any problems with this plugin or ideas for improvements or enhancements, please use the WordImpress support forum: <a href="http://wordimpress.com/support/forum/yelp-widget-pro/" target="_blank" rel="noopener noreferrer" class="new-window">Support Forums</a>. Please note, support is prioritized for <a href="http://wordimpress.com/plugins/yelp-widget-pro/" title="Upgrade to Yelp Widget Premium" target="_blank" class="new-window">Premium Users</a>.', 'ywp' ); ?></p>
 				</div>
 				<!-- /.inside -->
 			</div>
@@ -368,8 +373,8 @@ function yelp_widget_options_form() {
 		</div>
 		<!-- /.sidebar-sortables -->
 		<div class="wip-buttons">
-			<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank"><img src="<?php echo YELP_WIDGET_PRO_URL; ?>/includes/images/bundle-banner-300x300.png" /></a>
-			<a href="https://wordimpress.com/" class="wordimpress-link" target="_blank"></a>
+			<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank" rel="noopener noreferrer"><img src="<?php echo YELP_WIDGET_PRO_URL; ?>/includes/images/bundle-banner-300x300.png" /></a>
+			<a href="https://wordimpress.com/" class="wordimpress-link" target="_blank" rel="noopener noreferrer"></a>
 		</div>
 
 	</div>
