@@ -128,37 +128,6 @@ class Yelp_Widget extends WP_Widget {
 		/* Get our options */
 		$options = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists
 
-		// Base unsigned URL
-		$unsigned_url = 'http://api.yelp.com/v2/';
-
-		if ( empty( $options['enable_backup_key'] ) ) {
-			// Token object built using the OAuth library
-			$yelp_widget_token        = 'Z3J0Ecxir8c-Vx1_dHDlVnVFOvmWrQ5T';
-			$yelp_widget_token_secret = 'qx2cpAUz6UHnAlu53tcWOdH2LNg';
-
-			$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
-
-			// Consumer object built using the OAuth library
-			$yelp_widget_consumer_key    = 'NLzpDyRu35JeHhOzQAIHuQ';
-			$yelp_widget_consumer_secret = '1eQpHwSO38jMSsI37QOjBWuroeQ';
-
-		} else {
-
-			// Token object built using the OAuth library
-			$yelp_widget_token        = $options['yelp_widget_token'];
-			$yelp_widget_token_secret = $options['yelp_widget_token_secret'];
-
-			$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
-
-			// Consumer object built using the OAuth library
-			$yelp_widget_consumer_key    = $options['yelp_widget_consumer_key'];
-			$yelp_widget_consumer_secret = $options['yelp_widget_consumer_secret'];
-		}
-		$consumer = new YWPOAuthConsumer( $yelp_widget_consumer_key, $yelp_widget_consumer_secret );
-
-		// Yelp uses HMAC SHA1 encoding
-		$signature_method = new YWPOAuthSignatureMethod_HMAC_SHA1();
-
 		//Yelp Widget Options
 		$title             = empty( $instance['title'] ) ? '' : apply_filters( 'widget_title', $instance['title'] );
 		$displayOption     = ! isset( $instance['display_option'] ) ? 0 : $instance['display_option'];
