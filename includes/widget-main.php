@@ -644,6 +644,30 @@ function yelp_widget_fusion_search( $key, $term, $location, $limit, $sort_by ) {
 }
 
 /**
+ * Retrieves business details based on Yelp business ID.
+ *
+ * @since 1.9.6
+ *
+ * @param string $key Yelp Fusion API Key.
+ * @param string $id  The Yelp business ID.
+ * @return array Associative array containing the response body.
+ */
+function yelp_widget_fusion_get_business( $key, $id ) {
+	$url = 'https://api.yelp.com/v3/businesses/' . $id;
+
+	$args = array(
+		'user-agent'     => '',
+		'headers' => array(
+			'authorization' => 'Bearer ' . $key,
+		),
+	);
+
+	$response = yelp_widget_fusion_get( $url, $args );
+
+	return $response;
+}
+
+/**
  * Retrieves a response from a safe HTTP request using the GET method.
  *
  * @since 1.9.6
