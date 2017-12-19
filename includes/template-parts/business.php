@@ -77,7 +77,7 @@ $x = 0; ?>
 									<time><?php echo date( 'n/j/Y', strtotime( $review->time_created ) ); ?></time>
 								<?php } ?>
 								<div class="yelp-review-excerpt-text">
-									<?php echo wpautop( $review->excerpt ); ?>
+									<?php echo wpautop( $review->text ); ?>
 								</div>
 								<?php
 								//Read More Review
