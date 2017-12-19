@@ -210,8 +210,10 @@ class Yelp_Widget extends WP_Widget {
 		} else {
 			// No Cache option enabled.
 			if ( $displayOption == '1' ) {
+				// Widget is in Business mode.
 				$response = yelp_widget_fusion_get_business( $fusion_api_key, $id, $reviewsOption );
 			} else {
+				// Widget is in Search mode.
 				$response = yelp_widget_fusion_search( $fusion_api_key, $term, $location, $limit, $sort );
 			}
 		}
