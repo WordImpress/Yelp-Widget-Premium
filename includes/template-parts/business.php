@@ -74,6 +74,7 @@ $x = 0; ?>
 							<div class="yelp-review-excerpt">
 
 								<?php if ( $hideRating !== '1' ) { ?>
+									<?php yelp_widget_fusion_stars( $review->rating ); ?>
 									<time><?php echo date( 'n/j/Y', strtotime( $review->time_created ) ); ?></time>
 								<?php } ?>
 								<div class="yelp-review-excerpt-text">
