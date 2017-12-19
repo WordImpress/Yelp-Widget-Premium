@@ -704,6 +704,24 @@ function yelp_widget_fusion_stars( $rating = 0 ) {
 }
 
 /**
+ * Displays responsive Yelp logo.
+ *
+ * @since 1.9.6
+ *
+ * @return string Responsive image element.
+ */
+function yelp_widget_fusion_logo() {
+	$image_name     = 'yelp-widget-logo';
+	$ext            = '.png';
+	$uri_image_name = YELP_WIDGET_PRO_URL . '/includes/images/' . $image_name;
+	$single         = $uri_image_name . $ext;
+	$double         = $uri_image_name . '@2x' . $ext;
+	$srcset         = "{$single}, {$double} 2x";
+
+	echo '<img class="ywp-logo" srcset="' . esc_attr( $srcset ) . '" src="' . esc_attr( $single ) . '" alt="Yelp logo">';
+}
+
+/**
  * Function update http for SSL
  *
  * @param $data
