@@ -17,9 +17,8 @@
 
 	<div class="info clearfix">
 		<a class="name" <?php echo $targetBlank . $noFollow; ?> href="<?php echo esc_attr( $businesses[ $x ]->url ); ?>" title="<?php echo esc_attr( $businesses[ $x ]->name ); ?> Yelp page"><?php echo $businesses[ $x ]->name; ?></a>
-
+		<?php echo yelp_widget_fusion_stars( $businesses[ $x ]->rating ); ?>
 		<span class="review-count"><?php echo esc_attr( $businesses[ $x ]->review_count ); ?> <?php _e( 'reviews', 'ywp' ); ?></span>
-
 		<a class="yelp-branding" href="<?php echo esc_attr( $businesses[ $x ]->url ); ?>" <?php echo $targetBlank . $noFollow; ?>><img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/yelp.png'; ?>" alt="<?php echo $businesses[ $x ]->name; ?> <?php _e( 'on Yelp', 'ywp' ); ?>" /></a>
 	</div>
 
