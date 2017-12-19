@@ -683,7 +683,7 @@ function yelp_widget_fusion_get( $url, $args = array() ) {
  * @param int|float $rating Numerical rating between 0 and 5 in increments of 0.5.
  * @return string Responsive image element.
  */
-function yelp_widget_fusion_stars( $rating ) {
+function yelp_widget_fusion_stars( $rating = 0 ) {
 	$ext          = '.png';
 	$floor_rating = floor( $rating );
 
