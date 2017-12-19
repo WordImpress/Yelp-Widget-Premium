@@ -125,10 +125,12 @@ class Yelp_Widget extends WP_Widget {
 
 		extract( $args );
 
-		/* Get our options */
+		// Get plugin options.
 		$options = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists
+		$fusion_api_key = isset( $options['yelp_widget_fusion_api'] ) ? $options['yelp_widget_fusion_api'] : '';
+		$maps_api_key   = isset( $options['yelp_widget_maps_api'] ) ? $options['yelp_widget_maps_api'] : '';
 
-		//Yelp Widget Options
+		// Get widget options.
 		$title             = empty( $instance['title'] ) ? '' : apply_filters( 'widget_title', $instance['title'] );
 		$displayOption     = ! isset( $instance['display_option'] ) ? 0 : $instance['display_option'];
 		$term              = empty( $instance['term'] ) ? '' : $instance['term'];
