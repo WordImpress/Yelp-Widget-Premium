@@ -676,6 +676,34 @@ function yelp_widget_fusion_get( $url, $args = array() ) {
 }
 
 /**
+ * Generates a star image based on numerical rating.
+ *
+ * @since 1.9.6
+ *
+ * @param int|float $rating Numerical rating between 0 and 5 in increments of 0.5.
+ * @return string Responsive image element.
+ */
+function yelp_widget_fusion_stars( $rating ) {
+	$ext          = '.png';
+	$floor_rating = floor( $rating );
+
+	if ( $rating !== $floor_rating ) {
+		$image_name = $floor_rating . '_half';
+	} else {
+		$image_name = $floor_rating;
+	}
+
+	$uri_image_name = YELP_WIDGET_PRO_URL . '/includes/images/stars/regular_' . $image_name;
+	$single         = $uri_image_name . $ext;
+	$double         = $uri_image_name . '@2x' . $ext;
+	$triple         = $uri_image_name . '@3x' . $ext;
+	$srcset         = "{$single}, {$double} 2x, {$triple} 3x";
+	$decimal_rating = number_format( $rating, 1, '.', '' );
+
+	echo '<img class="rating" srcset="' . esc_attr( $srcset ) . '" src="' . esc_attr( $single ) . '" title="' . $decimal_rating . ' star rating" alt="' . $decimal_rating . ' star rating">';
+}
+
+/**
  * Function update http for SSL
  *
  * @param $data
