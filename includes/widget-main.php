@@ -687,7 +687,7 @@ function yelp_widget_fusion_stars( $rating = 0 ) {
 	$ext          = '.png';
 	$floor_rating = floor( $rating );
 
-	if ( $rating !== $floor_rating ) {
+	if ( $rating != $floor_rating ) {
 		$image_name = $floor_rating . '_half';
 	} else {
 		$image_name = $floor_rating;
