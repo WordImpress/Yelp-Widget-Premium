@@ -74,7 +74,6 @@ $x = 0; ?>
 							<div class="yelp-review-excerpt">
 
 								<?php if ( $hideRating !== '1' ) { ?>
-									<img src="<?php echo $review->rating_image_url; ?>" alt="<?php echo $review->rating; ?> Stars" />
 									<time><?php echo date( 'n/j/Y', $review->time_created ); ?></time>
 								<?php } ?>
 								<div class="yelp-review-excerpt-text">
