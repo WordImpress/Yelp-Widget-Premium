@@ -74,23 +74,18 @@ $x = 0; ?>
 							<div class="yelp-review-excerpt">
 
 								<?php if ( $hideRating !== '1' ) { ?>
-									<img src="<?php echo $review->rating_image_url; ?>" alt="<?php echo $review->rating; ?> Stars" />
-									<time><?php echo date( 'n/j/Y', $review->time_created ); ?></time>
+									<?php yelp_widget_fusion_stars( $review->rating ); ?>
+									<time><?php echo date( 'n/j/Y', strtotime( $review->time_created ) ); ?></time>
 								<?php } ?>
 								<div class="yelp-review-excerpt-text">
-									<?php echo wpautop( $review->excerpt ); ?>
+									<?php echo wpautop( $review->text ); ?>
 								</div>
 								<?php
 								//Read More Review
-								if ( $review->id && $hideReadMore !== "1" ) {
-									if ( ! empty( $customReadMore ) ) {
-										$reviewMoreText = $customReadMore;
-									} else {
-										$reviewMoreText = __( 'Read Full Review', 'ywp' );
-									}
-
+								if ( $hideReadMore !== "1" ) {
+									$reviewMoreText = ! empty( $customReadMore ) ? $customReadMore : __( 'Read Full Review', 'ywp' );
 									?>
-									<a href="<?php echo esc_attr( $businesses[ $x ]->url ) . "#review_" . $review->id; ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?> title="<?php echo $reviewMoreText; ?>"><?php echo $reviewMoreText; ?></a>
+									<a href="<?php echo esc_url( $review->url ); ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?>><?php echo $reviewMoreText; ?></a>
 								<?php } ?>
 
 							</div>

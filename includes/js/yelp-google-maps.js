@@ -32,81 +32,37 @@ jQuery( function ( $ ) {
 			scrollOption = false;
 		}
 
-
 		/**
 		 * Handle API long/lat. results
 		 *
 		 * Various checks to get the center LatLng for this map from Yelp API JSON results array
 		 */
-		//First check to see if a region is present
 		if ( typeof jsonArray.results[0].region !== 'undefined' ) {
-
+			// Widget is in Search mode.
 			myLatLng = new google.maps.LatLng( jsonArray.results[0].region.center.latitude, jsonArray.results[0].region.center.longitude );
-
-			//initialize map
-			var mapOptions = {
-				scrollwheel: scrollOption,
-				zoom       : 10,
-				center     : myLatLng,
-				mapTypeId  : google.maps.MapTypeId.ROADMAP
-			};
-			map = new google.maps.Map( $ywpMaps[index], mapOptions );
-
-			//Event Listener for Markers
-			google.maps.event.addDomListener( map, 'idle', function () {
-				var mapBounds = map.getBounds();
-				updateMap( mapBounds, jsonArray, map );
-			} );
-
-
+		} else if ( typeof jsonArray.results[0].coordinates !== 'undefined' ) {
+			// Widget is in Business mode.
+			myLatLng = new google.maps.LatLng( jsonArray.results[0].coordinates.latitude, jsonArray.results[0].coordinates.longitude );
 		}
 
-		//No coordinates in JSON so geocode address
-		else {
+		// Initialize map.
+		var mapOptions = {
+			scrollwheel: scrollOption,
+			zoom       : 10,
+			center     : myLatLng,
+			mapTypeId  : google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map( $ywpMaps[index], mapOptions );
 
-			//get biz address for geocoding
-			var bizAddress = jsonArray.results[0].location.address[0] + ", " + jsonArray.results[0].location.city + ", " + jsonArray.results[0].location.state_code + ", " + jsonArray.results[0].location.country_code;
+		// Add event listener for markers.
+		google.maps.event.addDomListener( map, 'idle', function () {
+			var mapBounds = map.getBounds();
+			updateMap( mapBounds, jsonArray, map );
+		} );
 
-			//geocode that beast
-			geocoder.geocode( {'address': bizAddress}, function ( results, status ) {
-
-				//Result is OK
-				if ( status == google.maps.GeocoderStatus.OK ) {
-
-					myLatLng = new google.maps.LatLng( results[0].geometry.location.lat(), results[0].geometry.location.lng() );
-					//initialize map
-					var mapOptions = {
-						scrollwheel: scrollOption,
-						zoom       : 10,
-						center     : myLatLng,
-						mapTypeId  : google.maps.MapTypeId.ROADMAP
-					};
-					map = new google.maps.Map( $ywpMaps[index], mapOptions );
-
-					//Event Listener for Markers
-					google.maps.event.addDomListener( map, 'idle', function () {
-						var mapBounds = map.getBounds();
-						updateMap( mapBounds, jsonArray, map );
-					} );
-
-				} else {
-
-					console.log( 'Geocode was not successful for the following reason: ' + status );
-
-				}
-
-			} );
-
-		}
-
-
-		//cleanup DOM
+		// Clean up DOM.
 		jQuery( $ywpMaps[index] ).parent().removeAttr( 'data-ywp-json' );
-
-
 	} );
-
-
 } );
 
 
@@ -131,11 +87,12 @@ function updateMap( mapBounds, data, map ) {
 function handleResults( data, map ) {
 
 	//Business API
-	if ( typeof data.results[0].location !== 'undefined' ) {
+	if ( typeof data.results[0].coordinates !== 'undefined' ) {
 		biz = data.results[0];
-		bizAddress = biz.location.address[0] + ", " + biz.location.city + ", " + biz.location.state_code + ", " + biz.location.country_code;
-		geocodeAddressWidget( bizAddress, 0, map, biz );
 
+		if ( typeof biz.coordinates !== 'undefined' ) {
+			createMarkerWidget( biz, new google.maps.LatLng( biz.coordinates.latitude, biz.coordinates.longitude ), map );
+		}
 	}
 
 	//Search API
@@ -143,17 +100,13 @@ function handleResults( data, map ) {
 
 		for ( var i = 0; i < data.results[0].businesses.length; i++ ) {
 			biz = data.results[0].businesses[i];
-			bizAddress = biz.location.address[0] + ", " + biz.location.city + ", " + biz.location.state_code + ", " + biz.location.country_code;
+			bizAddress = biz.location.display_address[0] + ", " + biz.location.display_address[1];
 
 			//Get Long/Lat or calculate from address
-			if ( typeof biz.location.coordinate !== 'undefined' ) {
-
-				createMarkerWidget( biz, new google.maps.LatLng( biz.location.coordinate.latitude, biz.location.coordinate.longitude ), map );
-
+			if ( typeof biz.coordinates !== 'undefined' ) {
+				createMarkerWidget( biz, new google.maps.LatLng( biz.coordinates.latitude, biz.coordinates.longitude ), map );
 			} else {
-
 				geocodeAddressWidget( bizAddress, i, map, biz );
-
 			}
 
 		}
@@ -232,8 +185,6 @@ function generateInfoWindowHtml( biz ) {
 
 	// name/url
 	text += '<a href="' + biz.url + '" target="_blank" class="marker-business-name">' + biz.name + '</a>';
-	// stars
-	text += '<div class="review-rating"><img class="ratingsimage" src="' + biz.rating_img_url_small + '"/> <span class="ywp-review-text">';
 	// reviews
 	text += biz.review_count + ' reviews</span></div>';
 

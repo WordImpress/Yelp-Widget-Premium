@@ -125,41 +125,12 @@ class Yelp_Widget extends WP_Widget {
 
 		extract( $args );
 
-		/* Get our options */
+		// Get plugin options.
 		$options = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists
+		$fusion_api_key = isset( $options['yelp_widget_fusion_api'] ) ? $options['yelp_widget_fusion_api'] : '';
+		$maps_api_key   = isset( $options['yelp_widget_maps_api'] ) ? $options['yelp_widget_maps_api'] : '';
 
-		// Base unsigned URL
-		$unsigned_url = 'http://api.yelp.com/v2/';
-
-		if ( empty( $options['enable_backup_key'] ) ) {
-			// Token object built using the OAuth library
-			$yelp_widget_token        = 'Z3J0Ecxir8c-Vx1_dHDlVnVFOvmWrQ5T';
-			$yelp_widget_token_secret = 'qx2cpAUz6UHnAlu53tcWOdH2LNg';
-
-			$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
-
-			// Consumer object built using the OAuth library
-			$yelp_widget_consumer_key    = 'NLzpDyRu35JeHhOzQAIHuQ';
-			$yelp_widget_consumer_secret = '1eQpHwSO38jMSsI37QOjBWuroeQ';
-
-		} else {
-
-			// Token object built using the OAuth library
-			$yelp_widget_token        = $options['yelp_widget_token'];
-			$yelp_widget_token_secret = $options['yelp_widget_token_secret'];
-
-			$token = new YWPOAuthToken( $yelp_widget_token, $yelp_widget_token_secret );
-
-			// Consumer object built using the OAuth library
-			$yelp_widget_consumer_key    = $options['yelp_widget_consumer_key'];
-			$yelp_widget_consumer_secret = $options['yelp_widget_consumer_secret'];
-		}
-		$consumer = new YWPOAuthConsumer( $yelp_widget_consumer_key, $yelp_widget_consumer_secret );
-
-		// Yelp uses HMAC SHA1 encoding
-		$signature_method = new YWPOAuthSignatureMethod_HMAC_SHA1();
-
-		//Yelp Widget Options
+		// Get widget options.
 		$title             = empty( $instance['title'] ) ? '' : apply_filters( 'widget_title', $instance['title'] );
 		$displayOption     = ! isset( $instance['display_option'] ) ? 0 : $instance['display_option'];
 		$term              = empty( $instance['term'] ) ? '' : $instance['term'];
@@ -187,39 +158,7 @@ class Yelp_Widget extends WP_Widget {
 		$align             = empty( $instance['align'] ) ? '' : $instance['align'];
 		$width             = empty( $instance['width'] ) ? '' : $instance['width'];
 
-		//Build URL Parameters
-		$urlparams = array(
-			'term'     => $term,
-			'id'       => sanitize_title( $id ),
-			'location' => $location,
-			'limit'    => $limit,
-			'sort'     => $sort
-		);
-
-		// Use appropriate API depending on API Request Method option
-		if ( $displayOption == '1' ) {
-			$urlparams['method'] = 'business/' . $urlparams['id'];
-			unset( $urlparams['term'], $urlparams['location'], $urlparams['id'], $urlparams['sort'] );
-		} else {
-			$urlparams['method'] = 'search';
-			unset( $urlparams['id'] );
-		}
-
-		// Set method
-		$unsigned_url = $unsigned_url . $urlparams['method'];
-
-		unset( $urlparams['method'] );
-
-		// Build OAuth Request using the OAuth PHP library. Uses the consumer and token object created above.
-		$oauthrequest = YWPOAuthRequest::from_consumer_and_token( $consumer, $token, 'GET', $unsigned_url, $urlparams );
-
-		// Sign the request
-		$oauthrequest->sign_request( $signature_method, $consumer, $token );
-
-		// Get the signed URL
-		$signed_url = $oauthrequest->to_url();
-
-		// Cache: cache option is enabled
+		// If cache option is enabled, attempt to get response from transient.
 		if ( strtolower( $cache ) != 'none' ) {
 
 			$transient = urlencode( $displayOption . $term . $id . $location . $limit . $sort . $displayGoogleMap . $reviewsImgSize . $reviewsOption );
@@ -259,16 +198,24 @@ class Yelp_Widget extends WP_Widget {
 				}
 
 				// Cache data wasn't there, so regenerate the data and save the transient
-				$response = yelp_widget_curl( $signed_url );
-				set_transient( $transient, $response, $expiration );
+				if ( $displayOption == '1' ) {
+					$response = yelp_widget_fusion_get_business( $fusion_api_key, $id, $reviewsOption );
+				} else {
+					$response = yelp_widget_fusion_search( $fusion_api_key, $term, $location, $limit, $sort );
+				}
 
+				set_transient( $transient, $response, $expiration );
 			}
 
 		} else {
-
-			//No Cache option enabled;
-			$response = yelp_widget_curl( $signed_url );
-
+			// No Cache option enabled.
+			if ( $displayOption == '1' ) {
+				// Widget is in Business mode.
+				$response = yelp_widget_fusion_get_business( $fusion_api_key, $id, $reviewsOption );
+			} else {
+				// Widget is in Search mode.
+				$response = yelp_widget_fusion_search( $fusion_api_key, $term, $location, $limit, $sort );
+			}
 		}
 
 		//Load Google Maps API only if option to disable is NOT set
@@ -531,19 +478,26 @@ class Yelp_Widget extends WP_Widget {
 	public function handle_yelp_api_error( $response ) {
 
 		$output = '<div class="yelp-error">';
-		if ( $response->error->id == 'EXCEEDED_REQS' ) {
+		if ( $response->error->code == 'EXCEEDED_REQS' ) {
 			$output .= __( 'The default Yelp API has exhausted its daily limit. Please enable your own API Key in your Yelp Widget Pro settings.', 'ywp' );
-		} elseif ( $response->error->id == 'BUSINESS_UNAVAILABLE' ) {
+		} elseif ( $response->error->code == 'BUSINESS_UNAVAILABLE' ) {
 			$output .= __( '<strong>Error:</strong> Business information is unavailable. Either you mistyped the Yelp biz ID or the business does not have any reviews.', 'ywp' );
+		} elseif ( $response->error->code == 'TOKEN_MISSING' ) {
+			$output .= sprintf(
+				__( '%1$sSetup Required:%2$s Enter a Yelp Fusion API Key in the %3$splugin settings screen.%4$s', 'ywp' ),
+				'<strong>',
+				'</strong>',
+				'<a href="' . YWP_SETTINGS_URL . '">',
+				'</a>'
+			);
 		} //output standard error
 		else {
-			if ( ! empty( $response->error->id ) ) {
-				$output .= $response->error->id . ": ";
+			if ( ! empty( $response->error->code ) ) {
+				$output .= $response->error->code . ": ";
 			}
-			if ( ! empty( $response->error->field ) ) {
-				$output .= $response->error->field . " - ";
+			if ( ! empty( $response->error->description ) ) {
+				$output .= $response->error->description;
 			}
-			$output .= $response->error->text;
 		}
 		$output .= '</div>';
 
@@ -553,9 +507,6 @@ class Yelp_Widget extends WP_Widget {
 
 }
 
-/*
- * @DESC: Register Twitter Widget Pro widget
- */
 add_action( 'widgets_init', create_function( '', 'register_widget( "Yelp_Widget" );' ) );
 
 /**
@@ -568,7 +519,7 @@ add_action( 'widgets_init', create_function( '', 'register_widget( "Yelp_Widget"
  * @return array|bool|mixed|object
  */
 function yelp_widget_curl( $signed_url ) {
-    
+
 	// Send Yelp API Call using WP's HTTP API
 	$data = wp_remote_get( $signed_url );
 
@@ -594,6 +545,189 @@ function yelp_widget_curl( $signed_url ) {
 	// Handle Yelp response data
 	return apply_filters( 'yelp_api_response', $response );
 
+}
+
+/**
+ * Retrieves search results based on a search term and location.
+ *
+ * @since 1.9.6
+ *
+ * @param string $key      Yelp Fusion API Key.
+ * @param string $term     The search term, usually a business name.
+ * @param string $location The location within which to search.
+ * @param string $limit    Number of businesses to return.
+ * @param string $sort_by  Optional. Sort the results by one of the these modes:
+ *                         best_match, rating, review_count or distance. Defaults to best_match.
+ * @return array Associative array containing the response body.
+ */
+function yelp_widget_fusion_search( $key, $term, $location, $limit, $sort_by ) {
+	switch ( $sort_by ) {
+		case '0':
+			$sort_by = 'best_match';
+			break;
+		case '1':
+			$sort_by = 'distance';
+			break;
+		case '2':
+			$sort_by = 'rating';
+			break;
+		default:
+			$sort_by = 'best_match';
+	}
+
+	$url = add_query_arg(
+		array(
+			'term'     => $term,
+			'location' => $location,
+			'limit'    => $limit,
+			'sort_by'  => $sort_by,
+		),
+		'https://api.yelp.com/v3/businesses/search'
+	);
+
+	$args = array(
+		'user-agent'     => '',
+		'headers' => array(
+			'authorization' => 'Bearer ' . $key,
+		),
+	);
+
+	$response = yelp_widget_fusion_get( $url, $args );
+
+	return $response;
+}
+
+/**
+ * Retrieves business details based on Yelp business ID.
+ *
+ * @since 1.9.6
+ *
+ * @param string $key             Yelp Fusion API Key.
+ * @param string $id              The Yelp business ID.
+ * @param int    $reviews_option  1 if reviews should be displayed. 0 otherwise.
+ * @return array Associative array containing the response body.
+ */
+function yelp_widget_fusion_get_business( $key, $id, $reviews_option = 0 ) {
+	$url = 'https://api.yelp.com/v3/businesses/' . $id;
+
+	$args = array(
+		'user-agent'     => '',
+		'headers' => array(
+			'authorization' => 'Bearer ' . $key,
+		),
+	);
+
+	$response = yelp_widget_fusion_get( $url, $args );
+
+	if ( $reviews_option ) {
+		$reviews_response = yelp_fusion_get_reviews( $key, $id );
+
+		if ( ! empty( $reviews_response ) and isset( $reviews_response->reviews[0] ) ) {
+			$response->reviews = $reviews_response->reviews;
+		}
+	}
+
+	return $response;
+}
+
+/**
+ * Retrieves reviews based on Yelp business ID.
+ *
+ * @since 1.9.6
+ *
+ * @param string $key Yelp Fusion API Key.
+ * @param string $id  The Yelp business ID.
+ * @return array Associative array containing the response body.
+ */
+function yelp_fusion_get_reviews( $key, $id ) {
+	$url = 'https://api.yelp.com/v3/businesses/' . $id . '/reviews';
+
+	$args = array(
+		'user-agent'     => '',
+		'headers' => array(
+			'authorization' => 'Bearer ' . $key,
+		),
+	);
+
+	$response = yelp_widget_fusion_get( $url, $args );
+
+	return $response;
+}
+
+/**
+ * Retrieves a response from a safe HTTP request using the GET method.
+ *
+ * @since 1.9.6
+ *
+ * @see wp_safe_remote_get()
+ *
+ * @return array Associative array containing the response body.
+ */
+function yelp_widget_fusion_get( $url, $args = array() ) {
+	$response = wp_safe_remote_get( $url, $args );
+
+	if ( is_wp_error( $response ) ) {
+		return false;
+	}
+
+	$body = json_decode( $response['body'] );
+
+
+	$response = yelp_update_http_for_ssl( $response );
+	$response = json_decode( $response['body'] );
+
+	/**
+	 * Filters the Yelp Fusion API response.
+	 *
+	 * @since 1.9.6
+	 */
+	return apply_filters( 'yelp_fusion_api_response', $response );
+}
+
+/**
+ * Generates a star image based on numerical rating.
+ *
+ * @since 1.9.6
+ *
+ * @param int|float $rating Numerical rating between 0 and 5 in increments of 0.5.
+ * @return string Responsive image element.
+ */
+function yelp_widget_fusion_stars( $rating = 0 ) {
+	$ext          = '.png';
+	$floor_rating = floor( $rating );
+
+	if ( $rating != $floor_rating ) {
+		$image_name = $floor_rating . '_half';
+	} else {
+		$image_name = $floor_rating;
+	}
+
+	$uri_image_name = YELP_WIDGET_PRO_URL . '/includes/images/stars/regular_' . $image_name;
+	$single         = $uri_image_name . $ext;
+	$double         = $uri_image_name . '@2x' . $ext;
+	$triple         = $uri_image_name . '@3x' . $ext;
+	$srcset         = "{$single}, {$double} 2x, {$triple} 3x";
+	$decimal_rating = number_format( $rating, 1, '.', '' );
+
+	echo '<img class="rating" srcset="' . esc_attr( $srcset ) . '" src="' . esc_attr( $single ) . '" title="' . $decimal_rating . ' star rating" alt="' . $decimal_rating . ' star rating">';
+}
+
+/**
+ * Displays responsive Yelp logo.
+ *
+ * @since 1.9.6
+ *
+ * @return string Responsive image element.
+ */
+function yelp_widget_fusion_logo() {
+	$image_name     = 'yelp-widget-logo';
+	$ext            = '.png';
+	$uri_image_name = YELP_WIDGET_PRO_URL . '/includes/images/' . $image_name;
+	$single         = $uri_image_name . $ext;
+	$double         = $uri_image_name . '@2x' . $ext;
+	$srcset         = "{$single}, {$double} 2x";
+
+	echo '<img class="ywp-logo" srcset="' . esc_attr( $srcset ) . '" src="' . esc_attr( $single ) . '" alt="Yelp logo">';
 }
 
 /**
