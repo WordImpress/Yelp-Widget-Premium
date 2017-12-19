@@ -476,19 +476,26 @@ class Yelp_Widget extends WP_Widget {
 	public function handle_yelp_api_error( $response ) {
 
 		$output = '<div class="yelp-error">';
-		if ( $response->error->id == 'EXCEEDED_REQS' ) {
+		if ( $response->error->code == 'EXCEEDED_REQS' ) {
 			$output .= __( 'The default Yelp API has exhausted its daily limit. Please enable your own API Key in your Yelp Widget Pro settings.', 'ywp' );
-		} elseif ( $response->error->id == 'BUSINESS_UNAVAILABLE' ) {
+		} elseif ( $response->error->code == 'BUSINESS_UNAVAILABLE' ) {
 			$output .= __( '<strong>Error:</strong> Business information is unavailable. Either you mistyped the Yelp biz ID or the business does not have any reviews.', 'ywp' );
+		} elseif ( $response->error->code == 'TOKEN_MISSING' ) {
+			$output .= sprintf(
+				__( '%1$sSetup Required:%2$s Enter a Yelp Fusion API Key in the %3$splugin settings screen.%4$s', 'ywp' ),
+				'<strong>',
+				'</strong>',
+				'<a href="' . YWP_SETTINGS_URL . '">',
+				'</a>'
+			);
 		} //output standard error
 		else {
-			if ( ! empty( $response->error->id ) ) {
-				$output .= $response->error->id . ": ";
+			if ( ! empty( $response->error->code ) ) {
+				$output .= $response->error->code . ": ";
 			}
-			if ( ! empty( $response->error->field ) ) {
-				$output .= $response->error->field . " - ";
+			if ( ! empty( $response->error->description ) ) {
+				$output .= $response->error->description;
 			}
-			$output .= $response->error->text;
 		}
 		$output .= '</div>';
 
