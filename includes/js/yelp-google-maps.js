@@ -143,12 +143,12 @@ function handleResults( data, map ) {
 
 		for ( var i = 0; i < data.results[0].businesses.length; i++ ) {
 			biz = data.results[0].businesses[i];
-			bizAddress = biz.location.address[0] + ", " + biz.location.city + ", " + biz.location.state_code + ", " + biz.location.country_code;
+			bizAddress = biz.location.display_address[0] + ", " + biz.location.display_address[1];
 
 			//Get Long/Lat or calculate from address
-			if ( typeof biz.location.coordinate !== 'undefined' ) {
+			if ( typeof biz.coordinates !== 'undefined' ) {
 
-				createMarkerWidget( biz, new google.maps.LatLng( biz.location.coordinate.latitude, biz.location.coordinate.longitude ), map );
+				createMarkerWidget( biz, new google.maps.LatLng( biz.coordinates.latitude, biz.coordinates.longitude ), map );
 
 			} else {
 
