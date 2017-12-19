@@ -81,15 +81,10 @@ $x = 0; ?>
 								</div>
 								<?php
 								//Read More Review
-								if ( $review->id && $hideReadMore !== "1" ) {
-									if ( ! empty( $customReadMore ) ) {
-										$reviewMoreText = $customReadMore;
-									} else {
-										$reviewMoreText = __( 'Read Full Review', 'ywp' );
-									}
-
+								if ( $hideReadMore !== "1" ) {
+									$reviewMoreText = ! empty( $customReadMore ) ? $customReadMore : __( 'Read Full Review', 'ywp' );
 									?>
-									<a href="<?php echo esc_attr( $businesses[ $x ]->url ) . "#review_" . $review->id; ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?> title="<?php echo $reviewMoreText; ?>"><?php echo $reviewMoreText; ?></a>
+									<a href="<?php echo esc_url( $review->url ); ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?>><?php echo $reviewMoreText; ?></a>
 								<?php } ?>
 
 							</div>
