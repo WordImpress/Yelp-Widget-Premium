@@ -39,9 +39,8 @@ jQuery( function ( $ ) {
 		 * Various checks to get the center LatLng for this map from Yelp API JSON results array
 		 */
 		//First check to see if a region is present
-		if ( typeof jsonArray.results[0].region !== 'undefined' ) {
-
-			myLatLng = new google.maps.LatLng( jsonArray.results[0].region.center.latitude, jsonArray.results[0].region.center.longitude );
+		if ( typeof jsonArray.results[0].coordinates !== 'undefined' ) {
+			myLatLng = new google.maps.LatLng( jsonArray.results[0].coordinates.latitude, jsonArray.results[0].coordinates.longitude );
 
 			//initialize map
 			var mapOptions = {
@@ -63,9 +62,8 @@ jQuery( function ( $ ) {
 
 		//No coordinates in JSON so geocode address
 		else {
-
 			//get biz address for geocoding
-			var bizAddress = jsonArray.results[0].location.address[0] + ", " + jsonArray.results[0].location.city + ", " + jsonArray.results[0].location.state_code + ", " + jsonArray.results[0].location.country_code;
+			var bizAddress = jsonArray.results[0].location.display_address[0] + ", " + jsonArray.results[0].location.display_address[1];
 
 			//geocode that beast
 			geocoder.geocode( {'address': bizAddress}, function ( results, status ) {
@@ -131,11 +129,12 @@ function updateMap( mapBounds, data, map ) {
 function handleResults( data, map ) {
 
 	//Business API
-	if ( typeof data.results[0].location !== 'undefined' ) {
+	if ( typeof data.results[0].coordinates !== 'undefined' ) {
 		biz = data.results[0];
-		bizAddress = biz.location.address[0] + ", " + biz.location.city + ", " + biz.location.state_code + ", " + biz.location.country_code;
-		geocodeAddressWidget( bizAddress, 0, map, biz );
 
+		if ( typeof biz.coordinates !== 'undefined' ) {
+			createMarkerWidget( biz, new google.maps.LatLng( biz.coordinates.latitude, biz.coordinates.longitude ), map );
+		}
 	}
 
 	//Search API
@@ -147,13 +146,9 @@ function handleResults( data, map ) {
 
 			//Get Long/Lat or calculate from address
 			if ( typeof biz.coordinates !== 'undefined' ) {
-
 				createMarkerWidget( biz, new google.maps.LatLng( biz.coordinates.latitude, biz.coordinates.longitude ), map );
-
 			} else {
-
 				geocodeAddressWidget( bizAddress, i, map, biz );
-
 			}
 
 		}
@@ -232,8 +227,6 @@ function generateInfoWindowHtml( biz ) {
 
 	// name/url
 	text += '<a href="' + biz.url + '" target="_blank" class="marker-business-name">' + biz.name + '</a>';
-	// stars
-	text += '<div class="review-rating"><img class="ratingsimage" src="' + biz.rating_img_url_small + '"/> <span class="ywp-review-text">';
 	// reviews
 	text += biz.review_count + ' reviews</span></div>';
 
