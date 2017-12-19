@@ -32,45 +32,37 @@ jQuery( function ( $ ) {
 			scrollOption = false;
 		}
 
-
 		/**
 		 * Handle API long/lat. results
 		 *
 		 * Various checks to get the center LatLng for this map from Yelp API JSON results array
 		 */
-		//First check to see if a region is present
-		if ( typeof jsonArray.results[0].coordinates !== 'undefined' ) {
+		if ( typeof jsonArray.results[0].region !== 'undefined' ) {
+			// Widget is in Search mode.
+			myLatLng = new google.maps.LatLng( jsonArray.results[0].region.center.latitude, jsonArray.results[0].region.center.longitude );
+		} else if ( typeof jsonArray.results[0].coordinates !== 'undefined' ) {
+			// Widget is in Business mode.
 			myLatLng = new google.maps.LatLng( jsonArray.results[0].coordinates.latitude, jsonArray.results[0].coordinates.longitude );
-
-			//initialize map
-			var mapOptions = {
-				scrollwheel: scrollOption,
-				zoom       : 10,
-				center     : myLatLng,
-				mapTypeId  : google.maps.MapTypeId.ROADMAP
-			};
-			map = new google.maps.Map( $ywpMaps[index], mapOptions );
-
-			//Event Listener for Markers
-			google.maps.event.addDomListener( map, 'idle', function () {
-				var mapBounds = map.getBounds();
-				updateMap( mapBounds, jsonArray, map );
-			} );
-
-
 		}
 
+		// Initialize map.
+		var mapOptions = {
+			scrollwheel: scrollOption,
+			zoom       : 10,
+			center     : myLatLng,
+			mapTypeId  : google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map( $ywpMaps[index], mapOptions );
 
-		}
+		// Add event listener for markers.
+		google.maps.event.addDomListener( map, 'idle', function () {
+			var mapBounds = map.getBounds();
+			updateMap( mapBounds, jsonArray, map );
+		} );
 
-
-		//cleanup DOM
+		// Clean up DOM.
 		jQuery( $ywpMaps[index] ).parent().removeAttr( 'data-ywp-json' );
-
-
 	} );
-
-
 } );
 
 
