@@ -158,39 +158,7 @@ class Yelp_Widget extends WP_Widget {
 		$align             = empty( $instance['align'] ) ? '' : $instance['align'];
 		$width             = empty( $instance['width'] ) ? '' : $instance['width'];
 
-		//Build URL Parameters
-		$urlparams = array(
-			'term'     => $term,
-			'id'       => sanitize_title( $id ),
-			'location' => $location,
-			'limit'    => $limit,
-			'sort'     => $sort
-		);
-
-		// Use appropriate API depending on API Request Method option
-		if ( $displayOption == '1' ) {
-			$urlparams['method'] = 'business/' . $urlparams['id'];
-			unset( $urlparams['term'], $urlparams['location'], $urlparams['id'], $urlparams['sort'] );
-		} else {
-			$urlparams['method'] = 'search';
-			unset( $urlparams['id'] );
-		}
-
-		// Set method
-		$unsigned_url = $unsigned_url . $urlparams['method'];
-
-		unset( $urlparams['method'] );
-
-		// Build OAuth Request using the OAuth PHP library. Uses the consumer and token object created above.
-		$oauthrequest = YWPOAuthRequest::from_consumer_and_token( $consumer, $token, 'GET', $unsigned_url, $urlparams );
-
-		// Sign the request
-		$oauthrequest->sign_request( $signature_method, $consumer, $token );
-
-		// Get the signed URL
-		$signed_url = $oauthrequest->to_url();
-
-		// Cache: cache option is enabled
+		// If cache option is enabled, attempt to get response from transient.
 		if ( strtolower( $cache ) != 'none' ) {
 
 			$transient = urlencode( $displayOption . $term . $id . $location . $limit . $sort . $displayGoogleMap . $reviewsImgSize . $reviewsOption );
@@ -230,16 +198,22 @@ class Yelp_Widget extends WP_Widget {
 				}
 
 				// Cache data wasn't there, so regenerate the data and save the transient
-				$response = yelp_widget_curl( $signed_url );
-				set_transient( $transient, $response, $expiration );
+				if ( $displayOption == '1' ) {
+					$response = yelp_widget_fusion_get_business( $fusion_api_key, $id, $reviewsOption );
+				} else {
+					$response = yelp_widget_fusion_search( $fusion_api_key, $term, $location, $limit, $sort );
+				}
 
+				set_transient( $transient, $response, $expiration );
 			}
 
 		} else {
-
-			//No Cache option enabled;
-			$response = yelp_widget_curl( $signed_url );
-
+			// No Cache option enabled.
+			if ( $displayOption == '1' ) {
+				$response = yelp_widget_fusion_get_business( $fusion_api_key, $id, $reviewsOption );
+			} else {
+				$response = yelp_widget_fusion_search( $fusion_api_key, $term, $location, $limit, $sort );
+			}
 		}
 
 		//Load Google Maps API only if option to disable is NOT set
