@@ -172,7 +172,7 @@ function ywp_get_options_link( $linkText = '' ) {
  */
 function yelp_widget_init( $file ) {
 	// Register the yelp_widget settings as a group
-	register_setting( 'yelp_widget_settings', 'yelp_widget_settings' );
+	register_setting( 'yelp_widget_settings', 'yelp_widget_settings', array( 'sanitize_callback' => 'yelp_widget_clean' ) );
 
 	//call register settings function
 	add_action( 'admin_init', 'yelp_widget_options_css' );
@@ -198,6 +198,21 @@ function yelp_widget_option( $setting, $options ) {
 
 }
 
+/**
+ * Recursively sanitizes a given value.
+ *
+ * @since 1.9.6
+ *
+ * @param string|array $value Value to be sanitized.
+ * @return string|array Array of clean values or single clean value.
+ */
+function yelp_widget_clean( $value ) {
+	if ( is_array( $value ) ) {
+		return array_map( 'yelp_widget_clean', $value );
+	} else {
+		return is_scalar( $value ) ? sanitize_text_field( $value ) : '';
+	}
+}
 
 // Generate the admin form
 function yelp_widget_options_form() {
