@@ -1,8 +1,6 @@
 <?php
 /**
  * Yelp Settings Admin Options Page
- *
- * @description: Creates a page to set your OAuth settings for the Yelp API v2
  */
 
 register_activation_hook( __FILE__, 'yelp_widget_activate' );
