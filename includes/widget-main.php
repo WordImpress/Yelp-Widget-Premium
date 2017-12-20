@@ -126,8 +126,12 @@ class Yelp_Widget extends WP_Widget {
 		extract( $args );
 
 		// Get plugin options.
-		$options = get_option( 'yelp_widget_settings' ); // Retrieve settings array, if it exists
-		$fusion_api_key = isset( $options['yelp_widget_fusion_api'] ) ? $options['yelp_widget_fusion_api'] : '';
+		$options = get_option( 'yelp_widget_settings' );
+
+		// As of v1.9.6, the Yelp API transitioned from v2 to v3. To ensure upgraded plugins continue to function,
+		// a backup API key has been included below. It is still highly recommended that each user set up their
+		// own Yelp app and use their own API key.
+		$fusion_api_key = isset( $options['yelp_widget_fusion_api'] ) ? $options['yelp_widget_fusion_api'] : 'u6iiKEMVJzF8hpqAaxajY-pf0bWxltr4etYBs6jo6HDpgZHQErXP8JkIGWA2ISKI2HUE9-E-3MBiYK14YXCq3fZmGPKFFjPVouU4HhQONe4AlEIct9MTVf97ZOs5WnYx';
 		$maps_api_key   = isset( $options['yelp_widget_maps_api'] ) ? $options['yelp_widget_maps_api'] : '';
 
 		// Get widget options.
