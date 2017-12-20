@@ -160,4 +160,4 @@ class Yelp_Widget_Map extends WP_Widget {
 /*
  * @DESC: Register Twitter Widget Pro widget
  */
-add_action( 'widgets_init', create_function( '', 'register_widget( "Yelp_Widget_Map" );' ) );
+// add_action( 'widgets_init', create_function( '', 'register_widget( "Yelp_Widget_Map" );' ) );
