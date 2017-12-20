@@ -45,9 +45,7 @@ if ( ! class_exists( 'YWPOAuthToken', false ) ) {
  */
 if ( ! class_exists( 'Yelp_Widget' ) ) {
 	require 'includes/widget-main.php';
-	require 'includes/widget-map.php';
 	require 'includes/shortcode-main.php';
-	require 'includes/shortcode-map.php';
 
 	if ( is_admin() ) {
 		include YELP_WIDGET_PRO_PATH . '/includes/admin.php';
