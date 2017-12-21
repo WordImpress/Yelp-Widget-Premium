@@ -75,8 +75,9 @@ class Yelp_Widget extends WP_Widget {
 
 	public static function add_yelp_widget_frontend_scripts() {
 
-		$settings = get_option( 'yelp_widget_settings' );
-		$suffix   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$options      = get_option( 'yelp_widget_settings' );
+		$maps_api_key = isset( $options['yelp_widget_maps_api'] ) ? $options['yelp_widget_maps_api'] : '';
+		$suffix       = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		$params = array(
 			'ywpPath' => YELP_WIDGET_PRO_PATH,
@@ -84,7 +85,7 @@ class Yelp_Widget extends WP_Widget {
 		);
 
 		// Register the Maps API for conditional use in the Widget
-		wp_register_script( 'google_maps_api_ypr', 'https://maps.googleapis.com/maps/api/js?key=' . $settings['yelp_widget_maps_api'], null, null, false );
+		wp_register_script( 'google_maps_api_ypr', 'https://maps.googleapis.com/maps/api/js?key=' . esc_attr( $maps_api_key ), null, null, false );
 
 		//Yelp Widget Pro JS
 		$mapJSurl = plugins_url( '/includes/js/yelp-google-maps' . $suffix . '.js', dirname( __FILE__ ) );
@@ -95,7 +96,7 @@ class Yelp_Widget extends WP_Widget {
 
 
 		//Yelp Widget Pro CSS
-		if ( ! isset( $settings["yelp_widget_disable_css"] ) || $settings["yelp_widget_disable_css"] == 0 ) {
+		if ( ! isset( $options["yelp_widget_disable_css"] ) || $options["yelp_widget_disable_css"] == 0 ) {
 
 			//Determine which version of the CSS to dish out
 			$cssURL = plugins_url( '/includes/style/yelp' . $suffix . '.css', dirname( __FILE__ ) );
@@ -223,7 +224,7 @@ class Yelp_Widget extends WP_Widget {
 		}
 
 		//Load Google Maps API only if option to disable is NOT set
-		if ( $instance['display_google_map'] ) {
+		if ( $displayGoogleMap ) {
 			wp_enqueue_script( 'google_maps_api_ypr' );
 		}
 
