@@ -128,7 +128,7 @@ class Yelp_Widget extends WP_Widget {
 		// Get plugin options.
 		$options = get_option( 'yelp_widget_settings' );
 
-		// As of v1.9.6, the Yelp API transitioned from v2 to v3. To ensure upgraded plugins continue to function,
+		// As of v2.0.0, the Yelp API transitioned from v2 to v3. To ensure upgraded plugins continue to function,
 		// a backup API key has been included below. It is still highly recommended that each user set up their
 		// own Yelp app and use their own API key.
 		$fusion_api_key = ! empty( $options['yelp_widget_fusion_api'] ) ? $options['yelp_widget_fusion_api'] : 'u6iiKEMVJzF8hpqAaxajY-pf0bWxltr4etYBs6jo6HDpgZHQErXP8JkIGWA2ISKI2HUE9-E-3MBiYK14YXCq3fZmGPKFFjPVouU4HhQONe4AlEIct9MTVf97ZOs5WnYx';
@@ -554,7 +554,7 @@ function yelp_widget_curl( $signed_url ) {
 /**
  * Retrieves search results based on a search term and location.
  *
- * @since 1.9.6
+ * @since 2.0.0
  *
  * @param string $key      Yelp Fusion API Key.
  * @param string $term     The search term, usually a business name.
@@ -604,7 +604,7 @@ function yelp_widget_fusion_search( $key, $term, $location, $limit, $sort_by ) {
 /**
  * Retrieves business details based on Yelp business ID.
  *
- * @since 1.9.6
+ * @since 2.0.0
  *
  * @param string $key             Yelp Fusion API Key.
  * @param string $id              The Yelp business ID.
@@ -637,7 +637,7 @@ function yelp_widget_fusion_get_business( $key, $id, $reviews_option = 0 ) {
 /**
  * Retrieves reviews based on Yelp business ID.
  *
- * @since 1.9.6
+ * @since 2.0.0
  *
  * @param string $key Yelp Fusion API Key.
  * @param string $id  The Yelp business ID.
@@ -661,7 +661,7 @@ function yelp_fusion_get_reviews( $key, $id ) {
 /**
  * Retrieves a response from a safe HTTP request using the GET method.
  *
- * @since 1.9.6
+ * @since 2.0.0
  *
  * @see wp_safe_remote_get()
  *
@@ -683,7 +683,7 @@ function yelp_widget_fusion_get( $url, $args = array() ) {
 	/**
 	 * Filters the Yelp Fusion API response.
 	 *
-	 * @since 1.9.6
+	 * @since 2.0.0
 	 */
 	return apply_filters( 'yelp_fusion_api_response', $response );
 }
@@ -691,7 +691,7 @@ function yelp_widget_fusion_get( $url, $args = array() ) {
 /**
  * Generates a star image based on numerical rating.
  *
- * @since 1.9.6
+ * @since 2.0.0
  *
  * @param int|float $rating Numerical rating between 0 and 5 in increments of 0.5.
  * @return string Responsive image element.
@@ -719,7 +719,7 @@ function yelp_widget_fusion_stars( $rating = 0 ) {
 /**
  * Displays responsive Yelp logo.
  *
- * @since 1.9.6
+ * @since 2.0.0
  *
  * @return string Responsive image element.
  */

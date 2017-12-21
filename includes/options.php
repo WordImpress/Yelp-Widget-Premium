@@ -201,7 +201,7 @@ function yelp_widget_option( $setting, $options ) {
 /**
  * Recursively sanitizes a given value.
  *
- * @since 1.9.6
+ * @since 2.0.0
  *
  * @param string|array $value Value to be sanitized.
  * @return string|array Array of clean values or single clean value.
