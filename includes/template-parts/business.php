@@ -43,8 +43,6 @@ $x = 0; ?>
 			/**
 			 * Display Reviews
 			 */
-
-
 			if ( isset( $businesses[0]->review_count ) && isset( $businesses[0]->reviews ) ) {
 
 				foreach ( $businesses[0]->reviews as $review ) {
