@@ -1,7 +1,7 @@
 <?php
 /**
- * @description: Display Single Yelp Business using the Yelp Business API
- *  Only one business returned via this Yelp API
+ * Display Single Yelp Business using the Yelp Business API
+ *
  * @api        : http://www.yelp.com/developers/documentation/v2/business
  * @created    : 03/06/13
  * @since      1.2
@@ -40,17 +40,26 @@ $x = 0; ?>
 
 
 			<?php
-			if ( $businesses[0]->review_count > 0 ) {
+			/**
+			 * Display Reviews
+			 */
+
+
+			if ( isset( $businesses[0]->review_count ) && isset( $businesses[0]->reviews ) ) {
+
 				foreach ( $businesses[0]->reviews as $review ) {
 
 					//Review Filter
-					if ( $reviewFilter == 'none' || $review->rating >= intval( $reviewFilter ) ) {
+					if ( $reviewFilter == 'none' || $review->rating >= intval( $reviewFilter ) ) :
+
+						$review_avatar = ! empty( $review->user->image_url ) ? $review->user->image_url : YELP_WIDGET_PRO_URL . '/includes/images/yelp-default-avatar.png';
 						?>
 
-						<div class="yelp-review yelper-avatar-<?php echo $reviewsImgSize; ?> clearfix ">
+						<div class="yelp-review yelper-avatar-<?php echo $reviewsImgSize; ?> clearfix">
 
 							<div class="yelp-review-avatar">
-								<img src="<?php echo $review->user->image_url; ?>" <?php
+
+								<img src="<?php echo $review_avatar; ?>" <?php
 								switch ( $reviewsImgSize ) {
 									case '100x100':
 										echo "width='100' height='100'";
@@ -82,17 +91,18 @@ $x = 0; ?>
 								</div>
 								<?php
 								//Read More Review
-								if ( $hideReadMore !== "1" ) {
+								if ( $hideReadMore !== '1' ) {
 									$reviewMoreText = ! empty( $customReadMore ) ? $customReadMore : __( 'Read Full Review', 'ywp' );
 									?>
-									<a href="<?php echo esc_url( $review->url ); ?>" class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?>><?php echo $reviewMoreText; ?></a>
+									<a href="<?php echo esc_url( $review->url ); ?>"
+									   class="ywp-review-read-more" <?php echo $targetBlank . $noFollow; ?>><?php echo $reviewMoreText; ?></a>
 								<?php } ?>
 
 							</div>
 
 						</div>
 
-					<?php } //end if review filter ?>
+					<?php endif; ?>
 				<?php } //end foreach ?>
 
 			<?php } //end if review_count > 0 ?>
