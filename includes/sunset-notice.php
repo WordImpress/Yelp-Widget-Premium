@@ -12,7 +12,7 @@ function ywp_sunset_admin_notice() {
 	// Check that the user hasn't already clicked to ignore the message
 	if (
 		( 'plugins.php' === $pagenow && empty( $ignored ) )
-		|| ( isset( $_GET['page'] ) && 'ywp' === $_GET['page'] )
+		|| ( isset( $_GET['page'] ) && 'yelp_widget' === $_GET['page'] )
 	) : ?>
 		<style>
 			div.updated.wpbr {
@@ -87,7 +87,7 @@ function ywp_sunset_admin_notice() {
 				color: #777;
 			}
 
-			.settings_page_facebook-reviews-pro a.dismiss {
+			.settings_page_yelp_widget a.dismiss {
 				display: none !important;
 			}
 
