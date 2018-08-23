@@ -3,7 +3,7 @@
  * Plugin Name: Yelp Widget Premium
  * Plugin URI: http://wordimpress.com/wordpress-plugin-development/yelp-widget-pro/
  * Description: Easily display Yelp business ratings with a simple and intuitive WordPress widget.
- * Version: 2.0.1
+ * Version: 2.0.2
  * Author: WordImpress
  * Author URI: http://wordimpress.com/
  * License: GPLv2
@@ -48,6 +48,6 @@ if ( ! class_exists( 'Yelp_Widget' ) ) {
 	require 'includes/shortcode-main.php';
 
 	if ( is_admin() ) {
-		include YELP_WIDGET_PRO_PATH . '/includes/admin.php';
+		include YELP_WIDGET_PRO_PATH . '/includes/sunset-notice.php';
 	}
 }

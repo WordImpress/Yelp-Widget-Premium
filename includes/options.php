@@ -133,29 +133,9 @@ function ywp_add_plugin_page_links( $links, $file ) {
 		$link = ywp_get_options_link();
 		array_unshift( $links, $link );
 
-		// Add Support Forum link to our plugin
-		$link = ywp_get_support_forum_link();
-		array_unshift( $links, $link );
 	}
 
 	return $links;
-}
-
-function ywp_add_plugin_meta_links( $meta, $file ) {
-	if ( $file == YELP_PLUGIN_NAME_PLUGIN ) {
-		$meta[] = "<a href='http://wordpress.org/support/view/plugin-reviews/yelp-widget-pro' target='_blank' rel='noopener noreferrer' title='" . __( 'Rate Yelp Widget Pro', 'ywp' ) . "'>" . __( 'Rate Plugin', 'ywp' ) . "</a>";
-		$meta[] = __( 'Premium Version', 'ywp' );
-	}
-
-	return $meta;
-}
-
-function ywp_get_support_forum_link( $linkText = '' ) {
-	if ( empty( $linkText ) ) {
-		$linkText = __( 'Support', 'ywp' );
-	}
-
-	return '<a href="http://wordimpress.com/support/forum/yelp-widget-pro/" target="_blank" rel="noopener noreferrer" title="Get Support">' . $linkText . '</a>';
 }
 
 function ywp_get_options_link( $linkText = '' ) {
@@ -181,7 +161,6 @@ function yelp_widget_init( $file ) {
 }
 
 
-add_filter( 'plugin_row_meta', 'ywp_add_plugin_meta_links', 10, 2 );
 add_filter( 'plugin_action_links', 'ywp_add_plugin_page_links', 10, 2 );
 
 // Output the yelp_widget option setting value
@@ -374,24 +353,8 @@ function yelp_widget_options_form() {
 				?>
 			</div>
 
-			<div id="yelp-widget-pro-support" class="postbox">
-				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span><?php _e( 'Need Support?', 'ywp' ); ?></span></h3>
-
-				<div class="inside">
-					<p><?php _e( 'If you have any problems with this plugin or ideas for improvements or enhancements, please use the WordImpress support forum: <a href="http://wordimpress.com/support/forum/yelp-widget-pro/" target="_blank" rel="noopener noreferrer" class="new-window">Support Forums</a>. Please note, support is prioritized for <a href="http://wordimpress.com/plugins/yelp-widget-pro/" title="Upgrade to Yelp Widget Premium" target="_blank" class="new-window">Premium Users</a>.', 'ywp' ); ?></p>
-				</div>
-				<!-- /.inside -->
-			</div>
-			<!-- /.yelp-widget-pro-support -->
-
 		</div>
 		<!-- /.sidebar-sortables -->
-		<div class="wip-buttons">
-			<a href="https://wordimpress.com/plugins/business-reviews-bundle/?utm_source=wp-admin&utm_medium=Bundle%20Logo&utm_term=bundle-yelp-pro&utm_campaign=bundle-yelp-pro" class="bundle-link" target="_blank" rel="noopener noreferrer"><img src="<?php echo YELP_WIDGET_PRO_URL; ?>/includes/images/bundle-banner-300x300.png" /></a>
-			<a href="https://wordimpress.com/" class="wordimpress-link" target="_blank" rel="noopener noreferrer"></a>
-		</div>
-
 	</div>
 	<!-- /.alignright -->
 	</div>

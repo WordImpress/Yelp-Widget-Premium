@@ -477,7 +477,7 @@ class Yelp_Widget extends WP_Widget {
 
 	}
 
-	/*
+	/**
 	 * Handle Yelp Error Messages
 	 */
 	public function handle_yelp_api_error( $response ) {
