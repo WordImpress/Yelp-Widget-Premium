@@ -105,7 +105,7 @@ function ywp_sunset_admin_notice() {
 		</style>
 		<div class="updated wpbr">
 			<header>
-				<img src="<?php echo FB_WIDGET_PRO_URL . '/assets/images/platform-icon-wpbr.png'; ?>"
+				<img src="<?php echo YELP_WIDGET_PRO_URL . '/includes/images/platform-icon-wpbr.png'; ?>"
 					 class="wpbr-logo"/>
 				<?php printf( __( '<a href="%1$s" class="dismiss"></a>', 'ywp' ), '?ywp_nag_ignore=1' ); ?>
 
